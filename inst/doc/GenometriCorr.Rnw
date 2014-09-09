@@ -193,8 +193,8 @@ if(!require("rtracklayer",quietly=TRUE))
 <<read_files>>=
 library('rtracklayer')
 #cpgis<-import("../extdata/UCSCcpgis_hg19.bed")
-refseq<-import(system.file("extdata", "UCSCrefseqgenes_hg19.bed", package = "GenometriCorr"),asRangedData=TRUE);
-cpgis<-import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr"),asRangedData=TRUE);
+refseq<-import(system.file("extdata", "UCSCrefseqgenes_hg19.bed", package = "GenometriCorr"));
+cpgis<-import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr"));
 #refseq <- import("../extdata/UCSCrefseqgenes_hg19.bed")
 @
 
@@ -330,8 +330,8 @@ The ChIPseq data are in .bed format; the expression data are also in .bed format
 
 <<read_files>>=
 library('rtracklayer')
-histones<-import(system.file("extdata", "chr18.H3K4me3.bed", package = "GenometriCorr"),asRangedData=TRUE);
-expr_genes<-import(system.file("extdata", "chr18.mRNAseq.bed", package = "GenometriCorr"),asRangedData=TRUE);
+histones<-import(system.file("extdata", "chr18.H3K4me3.bed", package = "GenometriCorr"));
+expr_genes<-import(system.file("extdata", "chr18.mRNAseq.bed", package = "GenometriCorr"));
 @
 
 And, finally, let's start the {\tt GenometriCorrelation} with this parameters:
