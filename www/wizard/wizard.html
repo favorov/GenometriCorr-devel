@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>
+Genometric Correlation Wizard 
+</title>
+<style type="text/css">
+<!--
+
+.content {
+	margin: 40px 40px 40px 40px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	line-height: 24px;
+	color: #000000;
+}
+
+.overview {
+	background-color: #FEF1B5;
+	padding: 10px;
+}
+
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 36px;
+	font-weight: bold;
+	line-height: 48px;
+	color: #8B5A00;
+}
+
+-->
+</style>
+<link rel="shortcut icon" href="../gc_logo.ico"/>
+</head>
+<body class="content">
+<h1>Genometric Correlation (GenometriCorr) Wizard</h1>
+<p class="overview">
+This wizard brings you the GenometriCorr functionality through a simple GUI that is started by a single line of code typed into an R command window.
+</p>
+<p>
+The package is based on the Tcl/Tk interface. To work with it, you need the Tcl/Tk interpreter installed along with R. If your system is Windows, you can use <a href=http://www.activestate.com/activetcl/downloads>the Active Tcl/Tk</a> distribution. For MAC users, the necessary distribution is at the <a href=http://cran.r-project.org/bin/macosx/tools/>R for Mac OS X</a> resource (do not use Active for Mac).   
+
+</p>
+<p>
+When you have Tcl/Tk installed, just run the wizard from your R command window:
+</p>
+<p>
+<tt>source('http://genometricorr.sourceforge.net/wizard/GenometriCorrWizard.R')</tt>
+</p>
+We put some example configureation files to <tt>exdata</tt> folder of the project package. To get to this directory with the wizard, say to R:
+<p>
+<pre>library('GenometriCorr')
+setwd(paste(path.package('GenometriCorr'),"extdata",sep="/"))
+source('http://genometricorr.sourceforge.net/wizard/GenometriCorrWizard.R')</pre>
+</p>
+
+</body>
+</html>
+
+

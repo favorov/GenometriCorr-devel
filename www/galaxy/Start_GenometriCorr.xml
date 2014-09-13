@@ -1,0 +1,23 @@
+<tool id="genometric_correlation" name="Genometric Correlation">
+  <description>between two files of genomic intervals</description>
+  <command interpreter="Rscript --vanilla">  Start_GenometriCorr.R $config $query $reference $output_options $output</command>
+  <inputs>
+    <param format="text" name="config" type="data" label="Configuration file"/>
+    <param format="text" name="query" type="data" label="Query intervals file"/>
+    <param format="text" name="reference" type="data" label="Reference intervals file"/>
+    <param name="output_options" type="select" label="Type of output">
+       <option value="plot">ECDF plots</option>
+       <option value="vis">Graphic visualization</option>
+       <option value="stats">Text output of statistics</option>
+       <option value="plot_vis">All</option>
+    </param>
+  </inputs>
+  <outputs>
+     <data name="output" format="pdf"/>
+  </outputs>
+
+  <help>
+This tool determines the statistical relationship (if any) between two sets of genomic intervals. Output can be text only, plot (ECDF curves), or a more colorful graphic.
+  </help>
+
+</tool>

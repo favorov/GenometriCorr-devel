@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>GenometriCorr Galaxy integration instructions</title>
+<style type="text/css">
+<!--
+
+a {
+	color: #000000;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a:hover {
+	color: #336699;
+}
+
+.content {
+        margin: 40px 40px 40px 40px;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        line-height: 17px;
+        color: #000000;
+	padding: 10px;
+}
+
+.overview {
+        background-color: #FEF1B5;
+        padding: 10px;
+}
+
+h1 {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 36px;
+        font-weight: bold;
+        color: #8B5A00;
+	line-height: 40px;
+	padding: 20px;
+}
+
+-->
+</style>
+<link rel="shortcut icon" href="../gc_logo.ico"/>
+</head>
+<body class="content">
+<h1>Integrating GenometriCorr with the Galaxy platform</h1>
+The <a href="http://galaxy.psu.edu/">Galaxy</a> genomic data analysis platform is a useful starting point for those who want to use the functionality of GenometriCorr within a GUI that has many additional data manipulation tools.<br>
+To use GenometriCorr within Galaxy, you will first have to install your own Galaxy instance. Follow the <a href="http://wiki.g2.bx.psu.edu/Admin/Get%20Galaxy">helpful instructions provided by the Galaxy team</a> to set up the server.<br>
+Now install the plugin. In the main Galaxy directory, add the following lines to the top of the tool_conf.xml file, within the <tt>&lt;toolbox&gt;</tt> section:<br><br>
+<tt>
+&lt;section name="MyTools" id="mTools"&gt;<br>
+&nbsp;&nbsp;&lt;tool file="myTools/Start_GenometriCorr.xml" &#47;&gt;<br>
+&lt;&#47;section&gt;
+</tt>
+<br>
+<br>
+Make a new directory, called myTools, inside the tools directory, and put both the <a href=./Start_GenometriCorr.R>Start_GenometriCorr.R</a> and the <a href=Start_GenometriCorr.xml>Start_GenometriCorr.xml</a> files in there. Go back to the main directory and start Galaxy by calling <tt>sh run.sh</tt>. If you are a Mac user, you can change the suffix to run.command and the resulting file will execute on a double click.<br>
+<br>
+
+Load in two .bed files of intervals using the Get Data link. At least some of the chromosomes must be present in both files for comparison to be possible. Also, provide a configuration file for the comparison (example file below). Possible output formats are "ECDF plots," a bare-bones output of statistics and simple curves depicting the strength and direction of the correlations, "Graphic visualization," a more comprehensive view of the relationships between the two intervals, "text output of statistics," which includes no plots, or "both," which includes both graphical formats. All output, even the statistics only output that lacks graphics, is in .pdf format.<br><br>
+
+<img src="galaxy.png" width=600px />
+
+<br><br>
+Sample files are here:<br>
+<a href="example.ini">config file</a><br>
+<a href="yeasttrna.bed">first (query) .bed file of intervals</a><br>
+<a href="insertionsty1.bed">second (reference) .bed file with comparison intervals</a><br>
+
+</body>
+</html>

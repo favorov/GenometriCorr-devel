@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>
+GenometriCorr installation
+</title>
+<style type="text/css">
+<!--
+
+.content {
+	margin: 40px 40px 40px 40px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	line-height: 24px;
+	color: #000000;
+}
+
+.overview {
+	background-color: #FEF1B5;
+	padding: 10px;
+}
+
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 36px;
+	font-weight: bold;
+	line-height: 48px;
+	color: #8B5A00;
+}
+
+-->
+</style>
+<link rel="shortcut icon" href="gc_logo.ico"/>
+</head>
+<body class="content">
+<h1>Genometric Correlation (GenometriCorr): installation procedure</h1>
+
+<p class="overview">
+We hope to see our package in Bioconductor eventually, so currently we keep the package in our own installation repository. 
+</p>
+
+<UL>
+
+<LI>First, install the <a href=http://bioconductor.org/packages/2.12/bioc/html/IRanges.html>IRanges</a> and <a href=http://www.bioconductor.org/packages/release/bioc/html/GenomicRanges.html>GenomicRanges</a> packages from <a href=http://www.bioconductor.org/>Bioconductor</a>.
+<pre>source("http://bioconductor.org/biocLite.R")
+biocLite("IRanges")
+biocLite("GenomicRanges")
+</pre>
+<p>
+<LI>
+Install gplots: <pre>install.packages('gplots')</pre> It is critical, intallation process can stuck otherwise.
+<p>
+<LI>To install the package itself, run this command in R:
+<pre>install.packages('GenometriCorr',repos='http://genometricorr.sourceforge.net/R/',type='source')</pre>
+<p>
+<LI>
+If you prefer GitHub, the following (experimental feature) will do the same:
+<pre>library(devtools)
+install_github('GenometriCorr','favorov')</pre>
+<p>
+<LI>In our examples, we use <a href=http://www.bioconductor.org/packages/2.12/bioc/html/rtracklayer.html> rtracklayer</a> package. Its import() function reads UCSC-style chromosome tracks to RangedData or GenomicRanges objects that we use as input for our procedures.
+<pre>biocLite("rtracklayer")</pre>
+The input data and annotations can be obtained from elsewhere as long as they are in a standard format.
+<p>
+<LI>Now, all the packages you need are installed in you R system. Each time you start a new R session going to use GenometriCorr , say:
+<pre>library('GenometriCorr')</pre>
+<p>
+<LI>If you want to use rtracklayer , e.g. to run our examples, also say: 
+<pre>library('rtracklayer')</pre>
+<p>
+
+<LI>Enjoy!
+</UL>
+</body>
+</html>
+
+
