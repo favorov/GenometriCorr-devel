@@ -9,3 +9,4 @@
 .*
 *.vim
 pkg.Rcheck
+./GenometriCorr_*.tar.gz
