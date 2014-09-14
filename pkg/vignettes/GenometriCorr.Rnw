@@ -193,8 +193,8 @@ if(!require("rtracklayer",quietly=TRUE))
 <<read_files>>=
 library('rtracklayer')
 #cpgis<-import("../extdata/UCSCcpgis_hg19.bed")
-refseq<-import(system.file("extdata", "UCSCrefseqgenes_hg19.bed", package = "GenometriCorr"));
-cpgis<-import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr"));
+refseq<-as(import(system.file("extdata", "UCSCrefseqgenes_hg19.bed", package = "GenometriCorr")),'RangedData');
+cpgis<-as(import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr")),'RangedData');
 #refseq <- import("../extdata/UCSCrefseqgenes_hg19.bed")
 @
 
