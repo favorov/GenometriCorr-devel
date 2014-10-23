@@ -4,8 +4,10 @@
 # VisualiseTwoIRanges is a function that visualise a pair of IRanges on a chromosome in two colors
 # $Id: visualiseTwoIRanges.R 1717 2012-04-18 19:29:15Z favorov $
 
+# HJ -- pdf and close.device arguments
 
-VisualiseTwoIRanges<-function(irA,irB,start=1,end=NA, nameA='RangesA',nameB='RangesB',chrom_length=NA,title=NA)
+VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB='RangesB',
+	chrom_length=NA, title=NA, pdf=NULL, close.device=TRUE)
 {
 	pixelizeIRange<-function(irange,start,end,max_pixels=10000)
 	{
@@ -132,6 +134,14 @@ VisualiseTwoIRanges<-function(irA,irB,start=1,end=NA, nameA='RangesA',nameB='Ran
 	else
 		image_blue<-
 			as.raster(array(c(maskB,maskB,rep(maxB,img_len)),c(1,img_len,3)),max=maxB)
+
+	# pdf
+	if (!is.null(pdf)) {
+		if (length(grep("\\.pdf$", pdf)) == 0)
+			pdf <- paste(pdf, ".pdf", sep="")
+		pdf(pdf)
+	}
+
 	par(yaxt='n')
 	plot(c(start,end), c(-1, 1), type = "n", xlab="", ylab="")
 	rasterImage(image_red, start, .05,end,.75)
@@ -141,4 +151,8 @@ VisualiseTwoIRanges<-function(irA,irB,start=1,end=NA, nameA='RangesA',nameB='Ran
 	{
 		title(main=title)
 	}
+
+	# close.device
+	if (close.device)
+		invisible(dev.off())
 }

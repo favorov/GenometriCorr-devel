@@ -178,7 +178,7 @@ library('GenometriCorr')
 
 \subsection{Let's load files}
 
-We will use the {\tt import} function from {\tt rtracklayer} package to read data for the query and reference intervals (the result will be used in later narration). The two files describe the coordinates of GpG islands and of RefSeq genes in human genome (v19). 
+We will use the {\tt import} function from {\tt rtracklayer} package to read data for the query and reference intervals (the result will be used in later narration). The two files describe the coordinates of CpG islands and of RefSeq genes in human genome (v19). 
 
 <<load_rtracklayer_package,echo=false>>=
 if(!require("rtracklayer",quietly=TRUE))
@@ -240,7 +240,7 @@ Let's look at the CpG islands and RefSeq genes on chromosomes 1 (hg19).
 
 \begin{centering}
 <<chr1_picture,fig=true,results=hide>>=
-VisualiseTwoIRanges(cpgis['chr1']$ranges,refseq['chr1']$ranges,nameA='CpG Islands',nameB='RefSeq Genes',chrom_length=human.chrom.length[['chr1']],title="CpGIslands and RefGenes on chr1 of Hg19")
+VisualiseTwoIRanges(cpgis['chr1']$ranges,refseq['chr1']$ranges,nameA='CpG Islands',nameB='RefSeq Genes',chrom_length=human.chrom.length[['chr1']],title="CpGIslands and RefGenes on chr1 of Hg19",close.device=FALSE)
 @
 \end{centering}
 

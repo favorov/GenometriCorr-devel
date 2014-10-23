@@ -161,7 +161,8 @@ setMethod('visualize',#'GenometriCorrResult',
 	signature(x='GenometriCorrResult'),
 	function(x, pdffile='',show.all=FALSE,show.chromosomes=c(), trustname=TRUE, make.new=TRUE, style="blue-white-red")
 	{
-		if (!require('gplots')) stop('GenometriCorr visualize requires gplots package\n')
+		# gplots is imported now
+		#if (!require('gplots')) stop('GenometriCorr visualize requires gplots package\n')
 		if (is.null(x@config$options$keep.distributions)) return()
 
 		if (!is.null(x@config$options$awhole.space.name))

@@ -16,10 +16,11 @@ VisualiseTwoIRanges is a function that displays the intervals within two IRanges
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-VisualiseTwoIRanges	(irA, irB,
+VisualiseTwoIRanges(irA, irB,
     start = 1, end = NA,
     nameA = "RangesA", nameB = "RangesB", 
-    chrom_length = NA, title = NA)
+    chrom_length = NA, title = NA,
+    pdf = NULL, close.device=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,6 +47,16 @@ VisualiseTwoIRanges	(irA, irB,
 	\item{title}{Title, printed at the top of the plot.
 	}
 
+   \item{pdf}{
+		Name of a file to which the image should be written.
+		The suffix ".pdf" will be appended if not included.
+	}
+   \item{close.device}{
+		Whether to close the plot device after writing the image.
+		A \code{FALSE} setting allows multiple images to be written
+		to the same \code{pdf} file, but then eventually closing the
+		device is up to the user.
+	}
 }
 %\details{
 %}
@@ -85,8 +96,11 @@ human.chrom.length<-c(249250621,243199373,198022430,191154276,180915260,17111506
 
 names(human.chrom.length)<-c('chr1','chr2','chr3','chr4','chr5','chr6','chr7','chr8','chr9','chr10','chr11','chr12','chr13','chr14','chr15','chr16','chr17','chr18','chr19','chr20','chr21','chr22','chrY','chrX')
 
-pdf('CpGi_vs_RefSeq_genes_chr1_hr19.pdf')
-VisualiseTwoIRanges(cpgis['chr1']$ranges,refseq['chr1']$ranges,nameA='CpG Islands',nameB='RefSeq Genes',chrom_length=human.chrom.length[['chr1']],title="CpGIslands and RefGenes on chr1, hg19")
-dev.off()
+VisualiseTwoIRanges(cpgis['chr1']$ranges, refseq['chr1']$ranges,
+	nameA='CpG Islands', nameB='RefSeq Genes',
+	chrom_length=human.chrom.length[['chr1']],
+	title="CpGIslands and RefGenes on chr1, hg19",
+	pdf='CpGi_vs_RefSeq_genes_chr1_hg19')
+
 }
 \keyword{ hplot }% __ONLY ONE__ keyword per line

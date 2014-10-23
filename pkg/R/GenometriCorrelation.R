@@ -119,7 +119,7 @@ GenometriCorrelation <- function(
 	#reference.representing.point.function=representing.point.function for reference
 	
 	nameQ<-"query"
-	nameR<-"referece"
+	nameR<-"reference"	# HJ fixed typo
 	if (!is.object(query))  
 		stop("The thing given as first (",nameQ,") range argument to\n  MarkupsIndependence is not an object!")
 	if (!is.object(reference))  
@@ -417,8 +417,9 @@ GenometriCorrelation <- function(
 	else 
 		do.awhole<-FALSE
 	
-	if ((showTkProgressBar) && !require("tcltk",quietly=TRUE))
-		showTkProgressBar=FALSE
+	# HJ -- tcltk now part of R; we can Depends it
+	#if ((showTkProgressBar) && !require("tcltk",quietly=TRUE))
+		#showTkProgressBar=FALSE
 
 	#if there is no loadable tcltk, switch showTkProgressBar off 
 
