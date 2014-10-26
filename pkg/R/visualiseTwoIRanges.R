@@ -7,67 +7,26 @@
 # HJ -- pdf and close.device arguments
 
 VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB='RangesB',
-	chrom_length=NA, title=NA, pdf=NULL, close.device=TRUE)
+	chrom_length=NA, title=NA, pdf=NULL, close.device=NULL)
 {
-	pixelizeIRange<-function(irange,start,end,max_pixels=10000)
+	pixelizeIRanges<-function(iranges,start,end,max.pixels=10000)
 	{
 		len=end-start+1
-		if (len>max_pixels)
-		{	
-			step=ceiling(len/max_pixels)
-			seqpos=seq(start,end,step)
-			#print(step)
-			#print (seqpos)
-			#slow way 1
-			#mask<-rep(0,length(seqpos))
-			#ipos=1
-			#for (pos in seqpos)
-			#{
-			#	su<-sum(coverage(irange,shift=1-pos,width=step))
-			#	mask[ipos]=su
-			#	ipos=ipos+1
-			#}
-			#slow way2
-			#mask<-sapply(
-			#			seqpos,
-			#			function(pos)
-			#			{
-			#				su=sum(coverage(irange,shift=1-pos,width=step));
-			#				#cat(c(pos," ",step," ",su,"\n"));
-			#				return (su)}
-			#			)
-			cover<-coverage(irange,shift=1-start,width=end)
-			rW<-width(cover)
-			rX<-start(cover)+start
-			rE<-end(cover)+start
-			N<-nrun(cover)
-			rV<-runValue(cover)
-			current<-1 #current run of RLE  object 'cover' 
-			mask<-rep(0,length(seqpos))
-			ipos=1
-			for (pos in seqpos)
-			{
-				pixel_weight<-0
-				while(rX[current]<=pos+step-1 && current<=N)
-				{
-					if (rE[current]>=pos) # they overlap
-					{
-						#just overlap of two ranges
-						overlap.length <- min(rE[current],pos+step-1) - max(rX[current],pos)
-						pixel_weight <- pixel_weight+overlap.length*rV[current]
-					}
-					current <- current+1
-				}
-				mask[ipos]=pixel_weight
-				ipos=ipos+1
-			}
-		}
-		else
+		if (len>max.pixels)
 		{
-			mask<-as.vector(coverage(irange,shift=1-start,width=len))
-			step<-1
+			#less than max_pixels*bin are to cover len
+			bin <- len %/% max.pixels	
+			if ((len %% max.pixels) > 0) bin<-bin+1
+			test.ranges<-IRanges(start=seq.int(from=1,by=bin,length.out=max.pixels),width=bin)
+			overrle<-findOverlaps(test.ranges,iranges)
+			masker<-tapply(width(iranges[subjectHits(overrle)]),queryHits(overrle),sum)
+			mask<-rep(0,max.pixels)
+			mask[as.integer(names(masker))]<-as.integer(masker)
+		} else
+		{
+			mask<-as.vector(coverage(iranges,shift=1-start,width=len))
+			bin<-1
 		}
-		#print (mask)
 		return(mask)
 	}
 
@@ -98,25 +57,41 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 		stop("End is less or equal than start.")
 
 	len<-end-start+1
-	maskA<-pixelizeIRange(irA,start,end)
-	
-	#print(maskA)
-	maskB<-pixelizeIRange(irB,start,end)
-	
-	#print(maskB)
+	# pdf
+	if (!is.null(pdf)) {
+		if (length(grep("\\.pdf$", pdf)) == 0)
+			pdf <- paste(pdf, ".pdf", sep="")
+		pdf(pdf)
+		if (is.null(close.device)) close.device=TRUE
+	} else
+	{
+		if (is.null(close.device)) close.device=FALSE
+	}
 
-	#maskA=sample(c(0,100,10000),10000,replace=T,c(8/10,1/10,1/10))
-	#maskB=sample(c(0,100,10000),10000,replace=T,c(8/10,1/10,1/10))
+	par(yaxt='n')
+	plot(c(start,end), c(-1, 1), type = "n", xlab="", ylab="")
 
-	#maxA <- max(maskA)
-	#maxB <- max(maskB)
-	#maskA <- maxA-maskA
-	#maskB <- maxB-maskB
-	maskA <- exp(-maskA) #to be better on view, now 0 is white and everuthing > 0 is a bit or more red 
-	maskB <- exp(-maskB) #to be better on view, now 0 is white and everuthing > 0 is a bit or more blue
+	#we are ready to think about what to plot.. \
+	#let's get the length af the raster we are to prepare
+
+	pixels<-as.integer(dev.size('px')[1]*(end-start+1)/xinch(dev.size('in')[1]))	
+
+	maskA<-pixelizeIRanges(irA,start,end,max.pixels=pixels)
+	
+	maskB<-pixelizeIRanges(irB,start,end,max.pixels=pixels)
+		
+	#to debug	
+	#maskA=sample(c(0,100,10000),pixels,replace=T,c(8/10,1/10,1/10))
+	#maskB=sample(c(0,100,10000),pixels,replace=T,c(8/10,1/10,1/10))
+
+	maskA <- 1-(maskA/max(maskA))
+	maskB <- 1-(maskB/max(maskB))
+	#maskA <- exp(-maskA) #to be better on view, now 0 is white and everything > 0 is a bit or more red 
+	#maskB <- exp(-maskB) #to be better on view, now 0 is white and everything > 0 is a bit or more blue
  
 	maxA<-max(maskA)
 	maxB<-max(maskB)
+	
 	img_len<-length(maskA)
 	if (img_len != length(maskB))
 	{
@@ -135,15 +110,6 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 		image_blue<-
 			as.raster(array(c(maskB,maskB,rep(maxB,img_len)),c(1,img_len,3)),max=maxB)
 
-	# pdf
-	if (!is.null(pdf)) {
-		if (length(grep("\\.pdf$", pdf)) == 0)
-			pdf <- paste(pdf, ".pdf", sep="")
-		pdf(pdf)
-	}
-
-	par(yaxt='n')
-	plot(c(start,end), c(-1, 1), type = "n", xlab="", ylab="")
 	rasterImage(image_red, start, .05,end,.75)
 	rasterImage(image_blue, start, -.75,end,-.05)
 	text(c(start+len/2,start+len/2),c(.9,-.9),c(nameA,nameB))
@@ -152,7 +118,6 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 		title(main=title)
 	}
 
-	# close.device
 	if (close.device)
 		invisible(dev.off())
 }
