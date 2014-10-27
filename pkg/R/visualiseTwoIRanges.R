@@ -84,31 +84,58 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	#maskA=sample(c(0,100,10000),pixels,replace=T,c(8/10,1/10,1/10))
 	#maskB=sample(c(0,100,10000),pixels,replace=T,c(8/10,1/10,1/10))
 
-	maskA <- 1-(maskA/max(maskA))
-	maskB <- 1-(maskB/max(maskB))
-	#maskA <- exp(-maskA) #to be better on view, now 0 is white and everything > 0 is a bit or more red 
-	#maskB <- exp(-maskB) #to be better on view, now 0 is white and everything > 0 is a bit or more blue
+	#
+	#when we convert the data to pixels, we inversely regulate the coplementary colors.
+	#So, (e.g. red channel) zero gives maximal level of the complement (see as.raster call below) 
+	#and the color will be white. 
+	#And, the maximal level of mask give zero to G and B channels, so we have pure red
+	#For blue, we regulate G and R; 
+	#For purple, only green is under regulation (Katya? is it correct?) 
  
+
 	maxA<-max(maskA)
+	if(maxA==0)
+	{
+		maxintenseA<-0
+	}
+	else
+	{
+		maskA <- 1-(maskA/maxA)
+		#too sharp: maskA <- exp(-maskA) 
+		maxintenseA<-max(maskA)
+	}
+
+
 	maxB<-max(maskB)
+	if(maxB==0)
+	{
+		maxintenseB<-0
+	}
+	else
+	{
+		maskB <- 1-(maskB/maxB)
+		#too sharp: maskB <- exp(-maskB) 
+		maxintenseB<-max(maskB)
+	}
+
 	
 	img_len<-length(maskA)
 	if (img_len != length(maskB))
 	{
 		stop("Image lengthes are different, something went wrong.");
 	}
-	if (maxA==0)  #not to divide by 0 in as.raster
+	if (maxintenseA==0)  #not to divide by 0 in as.raster
 		image_red<-
 			as.raster(array(c(rep(1,img_len),rep(1,img_len),rep(1,img_len)),c(1,img_len,3)),max=1)
 	else
 		image_red<-
-			as.raster(array(c(rep(maxA,img_len),maskA,maskA),c(1,img_len,3)),max=maxA)
+			as.raster(array(c(rep(maxintenseA,img_len),maskA,maskA),c(1,img_len,3)),max=maxintenseA)
 	if (maxB==0)  #not to divide by 0 in as.raster
 		image_blue<-
 			as.raster(array(c(rep(1,img_len),rep(1,img_len),rep(1,img_len)),c(1,img_len,3)),max=1)
 	else
 		image_blue<-
-			as.raster(array(c(maskB,maskB,rep(maxB,img_len)),c(1,img_len,3)),max=maxB)
+			as.raster(array(c(maskB,maskB,rep(maxintenseB,img_len)),c(1,img_len,3)),max=maxintenseB)
 
 	rasterImage(image_red, start, .05,end,.75)
 	rasterImage(image_blue, start, -.75,end,-.05)
