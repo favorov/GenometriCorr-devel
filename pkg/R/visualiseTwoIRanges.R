@@ -143,7 +143,6 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	else
 		image_red<-
 			as.raster(array(c(rep(maxintenseA,img_len),maskA,maskA),c(1,img_len,3)),max=maxintenseA)
-	a<-array(c(rep(maxintenseA,img_len),maskA,maskA),c(1,img_len,3))
   
   if (maxB==0)  #not to divide by 0 in as.raster
 		image_blue<-
