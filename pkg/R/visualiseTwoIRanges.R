@@ -29,7 +29,7 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 		}
 		return(mask)
 	}
-
+  
 	#require(grDevices)
 
 	if (!inherits(irA,"IRanges"))
@@ -70,6 +70,9 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 
 	par(yaxt='n')
 	plot(c(start,end), c(-1, 1), type = "n", xlab="", ylab="")
+  
+  #find intersection for IRanges
+  intersectionC<-intersect(irA, irB)
 
 	#we are ready to think about what to plot.. \
 	#let's get the length af the raster we are to prepare
@@ -79,6 +82,8 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	maskA<-pixelizeIRanges(irA,start,end,max.pixels=pixels)
 	
 	maskB<-pixelizeIRanges(irB,start,end,max.pixels=pixels)
+  
+	maskC<-pixelizeIRanges(intersectionC,start,end,max.pixels=pixels)
 		
 	#to debug	
 	#maskA=sample(c(0,100,10000),pixels,replace=T,c(8/10,1/10,1/10))
@@ -97,8 +102,7 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	if(maxA==0)
 	{
 		maxintenseA<-0
-	}
-	else
+	} else
 	{
 		maskA <- 1-(maskA/maxA)
 		#too sharp: maskA <- exp(-maskA) 
@@ -110,12 +114,21 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	if(maxB==0)
 	{
 		maxintenseB<-0
-	}
-	else
+	} else
 	{
 		maskB <- 1-(maskB/maxB)
 		#too sharp: maskB <- exp(-maskB) 
 		maxintenseB<-max(maskB)
+	}
+  
+	maxC<-max(maskC)
+	if(maxC==0)
+	{
+	  maxintenseC<-0
+	} else 
+    {
+	  maskC <- 1-(maskC/maxC) 
+	  maxintenseC<-max(maskC)
 	}
 
 	
@@ -130,15 +143,28 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	else
 		image_red<-
 			as.raster(array(c(rep(maxintenseA,img_len),maskA,maskA),c(1,img_len,3)),max=maxintenseA)
-	if (maxB==0)  #not to divide by 0 in as.raster
+	a<-array(c(rep(maxintenseA,img_len),maskA,maskA),c(1,img_len,3))
+  
+  if (maxB==0)  #not to divide by 0 in as.raster
 		image_blue<-
 			as.raster(array(c(rep(1,img_len),rep(1,img_len),rep(1,img_len)),c(1,img_len,3)),max=1)
 	else
 		image_blue<-
 			as.raster(array(c(maskB,maskB,rep(maxintenseB,img_len)),c(1,img_len,3)),max=maxintenseB)
-
-	rasterImage(image_red, start, .05,end,.75)
-	rasterImage(image_blue, start, -.75,end,-.05)
+  
+  if (maxC==0) #not to divide by 0 in as.raster
+    image_purple<-
+	    as.raster(array(c(rep(1,img_len),rep(1,img_len),rep(1,img_len)),c(1,img_len,3)),max=1)
+  else
+    image_purple<-
+	    as.raster(array(c(rep(1,img_len),maskC,rep(1,img_len)),c(1,img_len,3)),max=maxintenseC)
+	
+	#rasterImage(image_red, start, .05,end,.75)
+	#rasterImage(image_blue, start, -.75,end,-.05)
+	rasterImage(image_red, start, 0.20,end,0.75)
+	rasterImage(image_blue, start, -0.75,end,-0.20)
+	rasterImage(image_purple, start, 0.15,end,-0.15)
+  
 	text(c(start+len/2,start+len/2),c(.9,-.9),c(nameA,nameB))
 	if (!is.na(title))
 	{
