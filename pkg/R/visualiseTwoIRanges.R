@@ -121,16 +121,16 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 		maxintenseB<-max(maskB)
 	}
   
-	maxC<-max(maskC)
+	#maxC<-max(maskC)
+	maxC<-min(c(maxA,maxB))
 	if(maxC==0)
 	{
 	  maxintenseC<-0
 	} else 
-    {
+	{
 	  maskC <- 1-(maskC/maxC) 
 	  maxintenseC<-max(maskC)
 	}
-
 	
 	img_len<-length(maskA)
 	if (img_len != length(maskB))
@@ -165,10 +165,12 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	rasterImage(image_purple, start, 0.15,end,-0.15)
   
 	text(c(start+len/2,start+len/2),c(.9,-.9),c(nameA,nameB))
+	text(c(start-len/50,start+len+len/50),c(0,0),c('intersection','intersection'),srt=90)
 	if (!is.na(title))
 	{
 		title(main=title)
 	}
+	title(sub=paste0("Number of covered nucleotides per pixel that yeilds full color intensity:\n",maxA," for ",nameA,", ",maxB," for ",nameB,", ",maxC," for intersection"))
 
 	if (close.device)
 		invisible(dev.off())
