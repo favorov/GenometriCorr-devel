@@ -69,15 +69,20 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	}
 
 	par(yaxt='n')
-	plot(c(start,end), c(-1, 1), type = "n", xlab="", ylab="")
+	plot(c(start,end), c(-1, 1), type = "n", xlab="", ylab="", bty='n')
   
   #find intersection for IRanges
   intersectionC<-intersect(irA, irB)
 
 	#we are ready to think about what to plot.. \
-	#let's get the length af the raster we are to prepare
+	#let's get the length of the raster we are to prepare
 
 	pixels<-as.integer(dev.size('px')[1]*(end-start+1)/xinch(dev.size('in')[1]))	
+	#dev.size('px')[1] is how many pixels the thing will provide us with
+	#end+start-1 is real (in bp) length of our plot
+	#xinch is how many bp are there in argument inches
+	#so, xinch(dev.size('in')[1])/dev.size('px')[1] 
+	#is how many nucleotides are there in a pixel
 
 	maskA<-pixelizeIRanges(irA,start,end,max.pixels=pixels)
 	
@@ -165,12 +170,16 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	rasterImage(image_purple, start, 0.15,end,-0.15)
   
 	text(c(start+len/2,start+len/2),c(.9,-.9),c(nameA,nameB))
-	text(c(start-len/50,start+len+len/50),c(0,0),c('intersection','intersection'),srt=90)
+	text(c(start-len/50),c(0,0),c('intersection'),srt=90)
+	text(c(start+len+len/50),c(0.5),c(maxA),srt=90)
+	text(c(start+len+len/50),c(0),c(maxC),srt=90)
+	text(c(start+len+len/50),c(-0.5),c(maxB),srt=90)
+	text(c(start+len+len/50),c(-1),c('bP'))
 	if (!is.na(title))
 	{
 		title(main=title)
 	}
-	title(sub=paste0("Number of covered nucleotides per pixel that yeilds full color intensity:\n",maxA," for ",nameA,", ",maxB," for ",nameB,", ",maxC," for intersection"))
+	title(sub=paste0("On the right: number of covered nucleotides per pixel that yeilds full color intensity"))
 
 	if (close.device)
 		invisible(dev.off())
