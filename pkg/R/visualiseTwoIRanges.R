@@ -174,7 +174,7 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	text(c(start+len+len/50),c(0.5),c(maxA),srt=90)
 	text(c(start+len+len/50),c(0),c(maxC),srt=90)
 	text(c(start+len+len/50),c(-0.5),c(maxB),srt=90)
-	text(c(start+len+len/50),c(-1),c('bP'))
+	text(c(start+len/2),c(-1),c(paste0('Chromosome position: ',as.integer(xinch(dev.size('in')[1])/dev.size('px')[1]),' nucleotides per pixel')))
 	if (!is.na(title))
 	{
 		title(main=title)
