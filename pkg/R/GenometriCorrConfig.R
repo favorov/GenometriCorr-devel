@@ -1,10 +1,9 @@
-# GenometriCorrelation project evaluating two genometric annotations 
-#	correlation. Also provides some service IRanges-related procedures. 
-# (c) 2010-2011 Alexander Favorov, Leslie Cope, Yulia Medvedeva, 
-#              Loris Mularoni, Vsevolod Makeev, Sarah Wheelan.
+# GenometriCorrelation project evaluating two interval markups genomewide independence. 
+# (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+#               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
+#               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 #
 # configuration - works with ini file format  
-# $Id: GenometriCorrConfig.R 1893 2013-07-08 08:10:12Z favorov $
 
 #.Parse.INI part of code is by: 
 #Earl F. Glynn

@@ -1,10 +1,9 @@
-# GenometriCorrelation project evaluating two genometric annotations 
-#	correlation. Also provides some service IRanges-related procedures. 
-# (c) 2010-2011 Alexander Favorov, Leslie Cope, Yulia Medvedeva, 
-#               Loris Mularoni, Vsevolod Makeev, Sarah Wheelan.
+# GenometriCorrelation project evaluating two interval markups genomewide independence. 
+# (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+#               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
+#               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 #
 # permuteIRanges is a function that permute randomly an IRanges
-# $Id: permuteIRanges.R 1717 2012-04-18 19:29:15Z favorov $
 
 
 .permuteIRanges<-function(ir,chrom.length=NA)

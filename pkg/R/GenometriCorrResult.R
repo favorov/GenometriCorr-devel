@@ -1,10 +1,9 @@
-# GenometriCorrelation project evaluating two genometric annotations 
-#	correlation. Also provides some service IRanges-related procedures. 
-# (c) 2010-2011 Alexander Favorov, Leslie Cope, Yulia Medvedeva, 
-#              Loris Mularoni, Vsevolod Makeev, Sarah Wheelan.
+# GenometriCorrelation project evaluating two interval markups genomewide independence. 
+# (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+#               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
+#               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 #
 # result - result of GenometriCorrelation function - works with ini file format  
-# $Id: GenometriCorrResult.R 1946 2013-08-31 13:41:54Z favorov $
 
 #if (!require('methods')) stop('GenometriCorrResult requires methods package!\n')
 #if (!require('graphics')) stop('GenometriCorrResult requires graphics package!\n')

@@ -1,10 +1,9 @@
-# GenometriCorrelation project evaluating two genometric annotations 
-#	correlation. Also provides some service IRanges-related procedures. 
-# (c) 2010-2011 Alexander Favorov, Leslie Cope, Yulia Medvedeva, 
-#              Loris Mularoni, Vsevolod Makeev, Sarah Wheelan.
+# GenometriCorrelation project evaluating two interval markups genomewide independence. 
+# (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+#               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
+#               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 #
 # MarkupsIndependence is the main function of the package
-# $Id: GenometriCorrelation.R 1937 2013-08-22 02:04:42Z favorov $
 
 epsilon=1e-6
 integr_rel_tol=0.01
