@@ -40,14 +40,20 @@ We hope to see our package in Bioconductor eventually, so currently we keep the 
 
 <UL>
 
-<LI>First, install the <a href=http://bioconductor.org/packages/2.12/bioc/html/IRanges.html>IRanges</a> and <a href=http://www.bioconductor.org/packages/release/bioc/html/GenomicRanges.html>GenomicRanges</a> packages from <a href=http://www.bioconductor.org/>Bioconductor</a>.
+<LI>First, install the <a href=http://bioconductor.org/packages/release/bioc/html/IRanges.html>IRanges</a> and <a href=http://www.bioconductor.org/packages/release/bioc/html/GenomicRanges.html>GenomicRanges</a> and <a href=http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html>rtracklayer</a> packages from <a href=http://www.bioconductor.org/>Bioconductor</a>.
 <pre>source("http://bioconductor.org/biocLite.R")
 biocLite("IRanges")
 biocLite("GenomicRanges")
+biocLite("rtracklayer")
 </pre>
 <p>
 <LI>
-Install gplots: <pre>install.packages('gplots')</pre> It is critical, intallation process can stuck otherwise.
+Install gplots: 
+<pre>install.packages("gplots")</pre> 
+<pre>source("http://bioconductor.org/biocLite.R")
+biocLite("gplots")
+</pre>
+or, It is critical, intallation process can stuck otherwise.
 <p>
 <LI>To install the package itself, run this command in R:
 <pre>install.packages('GenometriCorr',repos='http://genometricorr.sourceforge.net/R/',type='source')</pre>
@@ -55,17 +61,10 @@ Install gplots: <pre>install.packages('gplots')</pre> It is critical, intallatio
 <LI>
 If you prefer GitHub, the following (experimental feature) will do the same:
 <pre>library(devtools)
-install_github('GenometriCorr','favorov')</pre>
-<p>
-<LI>In our examples, we use <a href=http://www.bioconductor.org/packages/2.12/bioc/html/rtracklayer.html> rtracklayer</a> package. Its import() function reads UCSC-style chromosome tracks to RangedData or GenomicRanges objects that we use as input for our procedures.
-<pre>biocLite("rtracklayer")</pre>
-The input data and annotations can be obtained from elsewhere as long as they are in a standard format.
+install_github('favorov/GenometriCorr')</pre>
 <p>
 <LI>Now, all the packages you need are installed in you R system. Each time you start a new R session going to use GenometriCorr , say:
 <pre>library('GenometriCorr')</pre>
-<p>
-<LI>If you want to use rtracklayer , e.g. to run our examples, also say: 
-<pre>library('rtracklayer')</pre>
 <p>
 
 <LI>Enjoy!
