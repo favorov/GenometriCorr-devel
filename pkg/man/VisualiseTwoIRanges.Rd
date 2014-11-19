@@ -1,10 +1,8 @@
-% GenometriCorrelation project evaluating two markups genomwide independence. 
-% (c) 2010-2011 Alexander Favorov, Loris Mularoni, Leslie Cope,  
-%              Yulia Medvedeva, Vsevolod Makeev, Sarah Wheelan.
+% GenometriCorrelation project evaluating two interval markups genomewide independence. 
+% (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+%               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
+%               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 %
-%$Id: VisualiseTwoIRanges.Rd 1894 2013-07-08 08:40:12Z favorov $
-
-
 \name{VisualiseTwoIRanges}
 \alias{VisualiseTwoIRanges}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -83,8 +81,6 @@ VisualiseTwoIRanges(irA, irB,
 \examples{
 
 library('GenometriCorr')
-
-library('rtracklayer')
 
 cpgis<-as(import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr")),'RangedData');
 

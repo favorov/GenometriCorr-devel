@@ -1,8 +1,8 @@
-% GenometriCorrelation project evaluating two markups genomwide independence. 
-% (c) 2010-2011 Alexander Favorov, Loris Mularoni, Leslie Cope,  
-%              Yulia Medvedeva, Vsevolod Makeev, Sarah Wheelan.
+% GenometriCorrelation project evaluating two interval markups genomewide independence. 
+% (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+%               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
+%               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 %
-%$Id: readTableToIRanges.Rd 1894 2013-07-08 08:40:12Z favorov $
 \name{readTableToIRanges}
 \alias{readTableToIRanges}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -85,7 +85,6 @@ The \code{readTableToIRanges} function is necessary when you work with nonstanda
 
 \examples{
 library("GenometriCorr")
-library("rtracklayer")
 
 cpgi_data<-system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr")
 

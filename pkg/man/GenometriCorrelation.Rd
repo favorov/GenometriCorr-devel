@@ -1,10 +1,8 @@
-% GenometriCorr (Genometric Correlation): an R package for spatial correlation of genome-wide interval datasets
-% (c) 2010-2011 Alexander Favorov, Loris Mularoni, Leslie M. Cope, Andrey A. Mironov  
-%              Yulia Medvedeva, Vsevolod J. Makeev, Sarah J. Wheelan
+% GenometriCorrelation project evaluating two interval markups genomewide independence. 
+% (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+%               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
+%               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 %
-% favorov@sensi.org
-
-% $Id: GenometriCorrelation.Rd 1939 2013-08-22 02:41:08Z favorov $
 \name{GenometriCorrelation}
 \alias{GenometriCorrelation}
 \alias{GenometricCorrelation}
@@ -181,8 +179,6 @@ The additional values that are returned if \code{keep.distrubutions=TRUE}
 \examples{
 
 library('GenometriCorr')
-
-library('rtracklayer')
 
 cpgis<-import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr"));
 

@@ -1,9 +1,8 @@
-% GenometriCorr (Genometric Correlation): an R package for spatial correlation of genome-wide interval datasets
-% (c) 2010-2012 Alexander Favorov, Loris Mularoni, Leslie M. Cope, Andrey A. Mironov  
-%              Yulia Medvedeva, Vsevolod J. Makeev, Sarah J. Wheelan
+% GenometriCorrelation project evaluating two interval markups genomewide independence. 
+% (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+%               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
+%               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 %
-% favorov@sensi.org
-%$Id: GenometriCorr.Rd 1939 2013-08-22 02:41:08Z favorov $
 \name{GenometriCorr}
 \alias{GenometriCorr}
 \alias{GenometriCorr-package}
@@ -54,17 +53,18 @@ The package also provides the \code{\link{VisualiseTwoIRanges}} function that cr
 \tabular{ll}{
 Package: \tab GenometriCorr\cr
 Type: \tab Package\cr
-Version: \tab 1.0.11\cr
-Date: \tab 2011-12-08\cr
+Title: \tab Genometric Correlation package \cr
+Version: \tab 1.1.11\cr
+Date: \tab 2014-11-19\cr
 License: \tab Artistic-2.0\cr
 LazyLoad: \tab yes\cr
-Depends: \tab R (>= 2.11.0), IRanges, GenomicRanges\cr
-Suggests: \tab rtracklayer,tcltk\cr
-biocViews: \tab Annotation, Genetics, Infrastructure, DataRepresentation \cr
+Depends: \tab R (>= 3.1.0), IRanges, GenomicRanges, methods, tcltk, S4Vectors\cr
+Imports: \tab grDevices, gplots, rtracklayer\cr
+biocViews: \tab Annotation, Genetics, Infrastructure, DataRepresentation, Bioinformatics\cr
 URL: \tab http://genometricorr.sourceforge.net/ \cr
-}
-}
-\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Leslie M. Cope, Andrey A. Mironov,  Yulia Medvedeva, Vsevolod J. Makeev, Sarah J. Wheelan}
+}}
+
+\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
 
 \references{
 \url{http://genometricorr.sourceforge.net/}
@@ -75,8 +75,6 @@ URL: \tab http://genometricorr.sourceforge.net/ \cr
 }
 \examples{
 library('GenometriCorr')
-
-library('rtracklayer')
 
 cpgis<-as(import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr")),'RangedData');
 
