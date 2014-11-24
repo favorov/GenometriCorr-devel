@@ -8,20 +8,6 @@
 
 
 
-if(!require("IRanges",quietly=TRUE))
-{
-	source("http://bioconductor.org/biocLite.R")
-	biocLite("IRanges")
-	require("IRanges")
-}
-
-if(!require("rtracklayer",quietly=TRUE))
-{
-	source("http://bioconductor.org/biocLite.R")
-	biocLite("rtracklayer")
-	require("rtracklayer")
-}
-
 if(!require("GenometriCorr",quietly=TRUE)
 	&& compareVersion( packageDescription("GenometriCorr")[["Version"]], "1.1.9" ) < 0 )
 {
