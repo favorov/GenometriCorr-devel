@@ -74,6 +74,7 @@ URL: \tab http://genometricorr.sourceforge.net/ \cr
 	The {../doc/GenometriCorr.pdf}{GenometriCorr package vingnette}.
 }
 \examples{
+library('rtracklayer')
 library('GenometriCorr')
 
 cpgis<-as(import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr")),'RangedData');

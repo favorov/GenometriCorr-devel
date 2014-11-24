@@ -178,7 +178,7 @@ The additional values that are returned if \code{keep.distrubutions=TRUE}
 }
 \examples{
 
-library('rtraclayer')
+library('rtracklayer')
 library('GenometriCorr')
 
 cpgis<-import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr"));

@@ -71,7 +71,7 @@ Returns an IRange or RangedData object. The type depends on parameters and the d
 
 \note{
 %%  ~~further notes~~
-If the data you have is standard UCSC-like .bed, do not use this fuction, use \code{import} from \code{rtraclayer}. \code{import} correctly accounts for the difference in base numbering: UCSC assumes 0-based interval starts and 1-based interval ends while IRanges assumes that all data are 1-based.
+If the data you have is standard UCSC-like .bed, do not use this fuction, use \code{import} from \code{rtracklayer}. \code{import} correctly accounts for the difference in base numbering: UCSC assumes 0-based interval starts and 1-based interval ends while IRanges assumes that all data are 1-based.
 The \code{readTableToIRanges} function is necessary when you work with nonstandard data in table form.
 }
 
@@ -84,7 +84,7 @@ The \code{readTableToIRanges} function is necessary when you work with nonstanda
 }
 
 \examples{
-library('rtraclayer')
+library('rtracklayer')
 library("GenometriCorr")
 
 cpgi_data<-system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr")
