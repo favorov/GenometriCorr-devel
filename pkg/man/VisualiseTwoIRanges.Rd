@@ -18,7 +18,7 @@ VisualiseTwoIRanges(irA, irB,
     start = 1, end = NA,
     nameA = "RangesA", nameB = "RangesB", 
     chrom_length = NA, title = NA,
-    pdf = NULL, close.device=TRUE)
+    pdf = NULL, close.device=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -38,7 +38,7 @@ VisualiseTwoIRanges(irA, irB,
 
 	}
   \item{nameB}{
-		The names of the IRanges data to use as the plot legend	}
+		The names of the IRanges data to use as the plot legend	and for the file name if \code{pdf=""} is given as parameter.}
   \item{chrom_length}{
 		The length of the chromosome spanned by the IRanges
 	}
@@ -47,13 +47,16 @@ VisualiseTwoIRanges(irA, irB,
 
    \item{pdf}{
 		Name of a file to which the image should be written.
+		If \code{pdf=""} the filename is constructed from \code{nameA} and \code{nameB}.
+		If \code{NULL}, no pdf is opened and an x11 window is raised up as by \code{plot}.
 		The suffix ".pdf" will be appended if not included.
 	}
    \item{close.device}{
 		Whether to close the plot device after writing the image.
 		A \code{FALSE} setting allows multiple images to be written
-		to the same \code{pdf} file, but then eventually closing the
+		to the same pdf file, but then eventually closing the
 		device is up to the user.
+		Default is \code{NULL} that means: close an x11, do npt close a pdf.
 	}
 }
 %\details{
