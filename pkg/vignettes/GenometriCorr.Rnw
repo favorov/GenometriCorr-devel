@@ -19,6 +19,7 @@
 \usepackage[font=small]{caption}
 \usepackage{color}
 \usepackage{Sweave}
+\usepackage{zi4}
 
 %\usepackage{graphicx}
 
