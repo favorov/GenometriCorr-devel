@@ -17,7 +17,7 @@ Description: The package computes correlations between two genome annotations (k
 License: Artistic-2.0
 LazyLoad: yes
 Depends: R (>= 3.1.0), IRanges, GenomicRanges, methods, tcltk, S4Vectors
-Imports: grDevices, gplots, rtracklayer
+Imports: grDevices, gplots, GenomeInfoDb, rtracklayer
 biocViews: Annotation, Genetics, Infrastructure, DataRepresentation,
         Bioinformatics
 URL: http://genometricorr.sourceforge.net/
