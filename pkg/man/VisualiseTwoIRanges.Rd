@@ -80,6 +80,7 @@ VisualiseTwoIRanges(irA, irB,
 % R documentation directory.
 \examples{
 
+library('rtraclayer')
 library('GenometriCorr')
 
 cpgis<-as(import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr")),'RangedData');

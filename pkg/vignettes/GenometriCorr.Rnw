@@ -180,15 +180,6 @@ library('GenometriCorr')
 
 We will use the {\tt import} function from {\tt rtracklayer} package to read data for the query and reference intervals (the result will be used in later narration). The two files describe the coordinates of CpG islands and of RefSeq genes in human genome (v19). 
 
-<<load_rtracklayer_package,echo=false>>=
-if(!require("rtracklayer",quietly=TRUE))
-{
-	source("http://bioconductor.org/biocLite.R")
-	biocLite("rtracklayer")
-	require("rtracklayer")
-}
-@
-
 
 <<read_files>>=
 library('rtracklayer')

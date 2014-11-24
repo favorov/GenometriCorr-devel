@@ -84,6 +84,7 @@ The \code{readTableToIRanges} function is necessary when you work with nonstanda
 }
 
 \examples{
+library('rtraclayer')
 library("GenometriCorr")
 
 cpgi_data<-system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr")
