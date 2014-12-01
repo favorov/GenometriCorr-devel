@@ -392,7 +392,7 @@ print(mapped_result)
 
 Mapping config example is {\tt mapping-config.ini}:
 
-<<simple_config_file>>=
+<<simple_mapping_config_file>>=
 mapconfig<-new("GenometriCorrConfig",system.file("extdata", "mapping-config.ini", package = "GenometriCorr"))
 print(mapconfig)
 @
