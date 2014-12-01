@@ -18,6 +18,6 @@ License: Artistic-2.0
 LazyLoad: yes
 Depends: R (>= 3.1.0), IRanges, GenomicRanges, methods, tcltk, S4Vectors
 Imports: grDevices, gplots, GenomeInfoDb, rtracklayer
-biocViews: Annotation, Genetics, Infrastructure, DataRepresentation, GenomeAnnotation
+biocViews: Annotation, Genetics, Infrastructure, DataRepresentation, GenomeAnnotation, StatisticalMethod
 URL: http://genometricorr.sourceforge.net/
 Packaged: 2014-10-16 19:55:48 UTC; hjaffee
