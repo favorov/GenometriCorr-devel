@@ -320,7 +320,7 @@ As a simple illustration of using the config file we will use sequencing data, i
 
 The ChIPseq data are in .bed format; the expression data are also in .bed format (we have assigned an expression cutoff to compare highly expressed genes with the ChIPseq data).
 
-<<read_files>>=
+<<read_more_files>>=
 library('rtracklayer')
 histones<-import(system.file("extdata", "chr18.H3K4me3.bed", package = "GenometriCorr"));
 expr_genes<-import(system.file("extdata", "chr18.mRNAseq.bed", package = "GenometriCorr"));
