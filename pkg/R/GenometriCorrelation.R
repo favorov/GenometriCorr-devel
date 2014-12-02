@@ -958,8 +958,8 @@ GenometriCorrelation <- function(
 				mean_min_sum<-query_to_ref_min_absolute_distance_sum(
 					sample,ref,
 					map.to.half,
-					is_query_sorted=F,
-					is_ref_sorted=T,
+					is_query_sorted=FALSE,
+					is_ref_sorted=TRUE,
 				chrom_length=chr_length)
 				scaled_mean_min_sum<-mean_min_sum*(length(ref)/chr_length)
 				result[[space]][['scaled.absolute.min.distance.sum.null.list']]<-

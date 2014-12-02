@@ -430,7 +430,7 @@ setMethod('visualize',#'GenometriCorrResult',
 		mybreaks <- newbreaks-0.5
 	}
 	par(mar=c(3,3,1,1))
-	hist(seq(1:(length(allcols)-1)), breaks=mybreaks[mybreaks<=(length(allcols))], col=allcols, border=allcols, axes=F, labels=F, main=plottitle, xlab="", ylab="", cex.main=1.2)
+	hist(seq(1:(length(allcols)-1)), breaks=mybreaks[mybreaks<=(length(allcols))], col=allcols, border=allcols, axes=FALSE, labels=FALSE, main=plottitle, xlab="", ylab="", cex.main=1.2)
 	par(new=TRUE)
 	par(mar=c(3,3,1,1))
 	uprange <- max(densities)/sum(densities)

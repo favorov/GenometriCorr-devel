@@ -13,7 +13,7 @@
 		stop("The IRanges given for permutation has a range in the that sticks out given chromosome lentgh.
   Not sure what to do.\n")		
 	widths<-width(ir)
-	result<-IRanges(start=sample(chrom.length, length(ir), replace=T),width=widths) #permutting
+	result<-IRanges(start=sample(chrom.length, length(ir), replace=TRUE),width=widths) #permutting
 	#from here until sort and return, we just care to cyclify the ranges that sticks out from chrom.length
 	overlist<-end(result)>chrom.length 
 	add_res<-IRanges()

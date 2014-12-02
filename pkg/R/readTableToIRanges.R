@@ -71,7 +71,7 @@ readTableToIRanges <- function(file=NA, space=NA, start=NA, end=NA, width=NA, se
 	}
 	else
 	{
-		columns_accounted<-rep(F,num_col)
+		columns_accounted<-rep(FALSE,num_col)
 	}
 	
 	space_names<-c('Chromosome','Chr','Space')
@@ -241,7 +241,7 @@ readTableToIRanges <- function(file=NA, space=NA, start=NA, end=NA, width=NA, se
 			arglist[a]<-col
 			read_array <- c(read_array,col)
 			names(read_array)[length(read_array)] <- a
-			columns_accounted[col]=T
+			columns_accounted[col]=TRUE
 		}
 		else
 		{
