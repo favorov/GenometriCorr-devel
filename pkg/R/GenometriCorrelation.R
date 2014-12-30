@@ -1446,9 +1446,9 @@ query.to.ref.projection.statistics<-function(query,ref,is_query_sorted=F,chrom_l
 	#now, we revert our q to IRanges. If qu[i] in integer then IRange has lentgh 1 and its start and end are q[i]
 	#if q[i] is integer+0.5 we assign it to [integer,integer+1] interval
 
-	ir_qu<-IRanges(start=as.integer(qu),width=ifelse(qu %% 1 == 0,1,2))
+	ir_query<-IRanges(start=as.integer(query),width=ifelse(query %% 1 == 0,1,2))
 
-	projection_data[['query.hits']]<-sum(overlapsAny(ir_qu,ref))
+	projection_data[['query.hits']]<-sum(overlapsAny(ir_query,ref))
 
 	return(projection_data)
 } #query.to.ref.projection.statistics<-function(query,ref,is_query_sorted=F,chrom_length=NA)
