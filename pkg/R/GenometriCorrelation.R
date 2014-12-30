@@ -677,12 +677,14 @@ GenometriCorrelation <- function(
 			result[[space]][['relative.distances.ecdf.deviation.area.null.list']]<-c()
 		}
 
-		relative.ecdf.area<-
-			integrate(
-					ecdf(result[[space]]$relative.distances.data),
-					lower=0,upper=rel.dist.top,
-					subdivisions=length(result[[space]]$relative.distances.data)*100,
-					rel.tol=integr_rel_tol)$value
+		relative.ecdf.area<-rel.dist.top-mean(result[[space]]$relative.distances.data)
+			#rel.dist.top is integral(1) over (0..rel.dist.top)
+			
+			#integrate(
+			#		ecdf(result[[space]]$relative.distances.data),
+			#		lower=0,upper=rel.dist.top,
+			#		subdivisions=length(result[[space]]$relative.distances.data)*100,
+			#		rel.tol=integr_rel_tol)$value
 		indep_area=rel.dist.top/2
 		result[[space]][['relative.distances.ecdf.area.correlation']]=(relative.ecdf.area-indep_area)/indep_area
 		#it is Exp(dist)
@@ -837,12 +839,14 @@ GenometriCorrelation <- function(
 				result[[space]][['relative.distances.ecdf.deviation.area.null.list']]<-c()
 			}
 
-			relative.ecdf.area<-
-				integrate(
-						ecdf(result[[space]]$relative.distances.data),
-						lower=0,upper=rel.dist.top,
-						subdivisions=length(result[[space]]$relative.distances.data)*100,
-						rel.tol=integr_rel_tol)$value
+			relative.ecdf.area<-rel.dist.top-mean(result[[space]]$relative.distances.data)
+				#rel.dist.top is integral(1) over (0..rel.dist.top)
+				
+				#integrate(
+				#		ecdf(result[[space]]$relative.distances.data),
+				#		lower=0,upper=rel.dist.top,
+				#		subdivisions=length(result[[space]]$relative.distances.data)*100,
+				#		rel.tol=integr_rel_tol)$value
 			indep_area=rel.dist.top/2
 
 			result[[space]][['relative.distances.ecdf.area.correlation']]=(relative.ecdf.area-indep_area)/indep_area
