@@ -50,14 +50,15 @@ We assume here that all of the ranges are 1-based and end-inclusive (end is 1-ba
 \value{
 The result is a \code{GRanges} object.  Each space in the output is an interval from \code{where.to.map}. The ranges of the value are those from \code{what.to.map} with their coordinates mapped to the new spaces.
 
-The value contains all those ranges from \code{what.to.map} that fall into an interval from \code{where.to.map} with their coords relative to \code{where.to.map} the interval start; the space (chromosome) names are now like \code{chr1_1000} that means that the range is mapped on the \code{where.to.map} interval that strats at position 1000 of chromosome chr1.
+The value contains all those ranges from \code{what.to.map} that fall into an interval from \code{where.to.map} with their coordinates relative to \code{where.to.map} the interval start; the space (chromosome) names are now like \code{chr1_1000} that means that the range is mapped on the \code{where.to.map} interval that starts at position 1000 of chromosome chr1.
 }
 
 \references{
 %% ~put references to the literature/web site here ~
 \url{http://genometricorr.sourceforge.net/}
 }
-\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Leslie M. Cope, Andrey A. Mironov,  Yulia Medvedeva, Vsevolod J. Makeev, Sarah J. Wheelan}
+\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
+
 %\note{
 %}
 

@@ -78,7 +78,7 @@ Toggle the Tk progress bar. If it is \code{TRUE} but the Tcl/Tk is not loadable 
 A vector of lengths of the chromosomes to be tested; each chromosome is given a name and a numerical length. The order of the chromosomes does not matter.
 }
 	\item{supress.evaluated.length.warning}{
-If there is a chromosome that is included in the evaluation but its length is not given in \code{chromosome.length}, the length of the chromosome is calculated as the maximal position mentioned in the data. If this parameter is \code{FALSE}, this will generate a warning, which is suppressed when thie parameter is \code{TRUE}. The default is \code{FALSE}.
+If there is a chromosome that is included in the evaluation but its length is not given in \code{chromosome.length}, the length of the chromosome is calculated as the maximal position mentioned in the data. If this parameter is \code{FALSE}, this will generate a warning, which is suppressed when the parameter is \code{TRUE}. The default is \code{FALSE}.
 }
 	\item{cut.all.over.length}{If the chromosome is shorter than a position given in the interval data, an error is posted, except if this argument is \code{TRUE}, in which case the position is replaced by the length of the chromosome, or removed altogether. The default is \code{FALSE}.
 }
@@ -125,10 +125,9 @@ parameters in its \code{\link{GenometriCorrResult-class}} \code{@config} slot an
 \code{\linkS4class{namedList}}
 list (created originally with a \code{list()} call with the results of the run.
 Each element of the list is also a list that describes results for a space (chromosome); one of
-them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole,
-all others are named the same as the chromosomes and describe the chromosomwise statistics.
-The elements of the 'awhole' and chromosomewide lists are statistical measures and some datasets.
-The statistical measures are desribed in the \code{\link{GenometriCorr}} package help.
+them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole, all others are named the same as the chromosomes and describe the chromosomewise statistics.
+The elements of the 'awhole' and chromosomewise lists are statistical measures and some datasets.
+The statistical measures are described in the \code{\link{GenometriCorr}} package help.
 For further explanation, see the MarkupsIndependence vignette. 
 
 Below is the description of the values of the list returned for each chromosome. 
@@ -150,14 +149,14 @@ Below is the description of the values of the list returned for each chromosome.
 
 The additional values that are returned if \code{keep.distributions=TRUE}
 \item{relative.distances.data}{The original relative distances}
-\item{relative.distances.ecdf.deviation.area}{The real value of the ECDF deviation area to be compared with the permutatoin to obtain the p-value}
+\item{relative.distances.ecdf.deviation.area}{The real value of the ECDF deviation area to be compared with the permutation to obtain the p-value}
 \item{relative.distances.ecdf.deviation.area.null.list}{The null distribution}
 \item{projection.test}{List of three values: \code{reference.length} is length of a chromosome; \code{reference.coverage} is length of that chromosome covered by reference intervale, and \code{query.hits} is the number of query points that fall into the reference intervals.}
 \item{absolute.min.distance.data}{The distribution of query-reference distances}
 \item{absolute.inter.reference.distance.data}{The distribution of reference-reference distances}
 \item{scaled.absolute.min.distance.sum}{The value of the sum (i.e. mean) of scaled absolute distances}
 \item{scaled.absolute.min.distance.sum.null.list}{The null distribution for the scaled absolute distances}
-\item{jaccard.measure.null.list}{The null distribution of Jaccard maesures in permutations}
+\item{jaccard.measure.null.list}{The null distribution of Jaccard measures in permutations}
 
 }
 \references{
@@ -165,7 +164,7 @@ The additional values that are returned if \code{keep.distributions=TRUE}
 \url{http://genometricorr.sourceforge.net/}
 }
 
-\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Leslie M. Cope, Andrey A. Mironov,  Yulia Medvedeva, Vsevolod J. Makeev, Sarah J. Wheelan}
+\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
 
 %\note{
 %%  ~~further notes~~
