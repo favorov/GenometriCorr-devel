@@ -71,7 +71,7 @@ URL: \tab http://genometricorr.sourceforge.net/ \cr
 }
 \keyword{ package }
 \seealso{
-	The {../doc/GenometriCorr.pdf}{GenometriCorr package vingnette}.
+	The {../doc/GenometriCorr.pdf}{GenometriCorr package vignette}.
 }
 \examples{
 library('rtracklayer')
@@ -116,7 +116,7 @@ rref<-RangedData(ranges=IRanges(start=runif(population,1000000,2000000-10),width
 
 unmapped_result<-GenometriCorrelation(rquery,rref,chromosomes.length=chromo.length,ecdf.area.permut.number=pn.area,mean.distance.permut.number=pn.dist,jaccard.measure.permut.number=pn.jacc,keep.distributions=FALSE,showProgressBar=FALSE)
 
-#correlate them on the whole cromosome: 1...3 000 000
+#correlate them on the whole chromosome: 1...3 000 000
 
 cat('Unmapped result:\n')
 print(unmapped_result)

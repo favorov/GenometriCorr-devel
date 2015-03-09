@@ -118,7 +118,7 @@ jaccard.measure.permut.number=100
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-	The \code{\link{GenometriCorrResult-class}} class; the \code{\link{GenometriCorr}} documentation and the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vingnette}.
+	The \code{\link{GenometriCorrResult-class}} class; the \code{\link{GenometriCorr}} documentation and the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vignette}.
 }
 
 \keyword{classes}

@@ -10,7 +10,7 @@
 MapRangesToGenomicIntervals
 }
 \description{
-MapRangesToGenomicIntervals is a function that maps a set of ranges represented by an \code{RangedData} or by \code{GRanges} object into a set of intervals (subgenome) (e.g. RefSeq) that is also represented by an \code{RandedData} or \code{GRanges}.
+MapRangesToGenomicIntervals is a function that maps a set of ranges represented by an \code{RangedData} or by \code{GRanges} object into a set of intervals (subgenome) (e.g. RefSeq) that is also represented by an \code{RangedData} or \code{GRanges}.
 
 The result is a \code{GRanges}. Each space in the output value corresponds to an interval from \code{where.to.map}, and the items in \code{what.to.map} have been transferred to the new coordinate system in each interval.
 
@@ -64,7 +64,7 @@ The value contains all those ranges from \code{what.to.map} that fall into an in
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-	The \code{\link{GenometriCorr}} documentation and the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vingnette}.
+	The \code{\link{GenometriCorr}} documentation and the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vignette}.
 }
 %\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~

@@ -263,7 +263,7 @@ GenometriCorrelation <- function(
 
 	wrong_diff<-setdiff(chromosomes.to.proceed,list.of.spaces)
 	if (length(wrong_diff)>0)
-		warning("Some spaces are in chromosomes.to.proceed but the they are not in the input data.\n They are:\n",paste(wrong_diff,collapse="\n"),"\n")
+		warning("Some spaces are in chromosomes.to.proceed but they are not in the input data.\n They are:\n",paste(wrong_diff,collapse="\n"),"\n")
 
 	#if the include list is empty, it is set to whole list
 	if(length(chromosomes.to.include.in.awhole)==0) chromosomes.to.include.in.awhole<-list.of.spaces
@@ -304,7 +304,7 @@ GenometriCorrelation <- function(
 		reference<-as(reference,'RangedData')
 	}
 	
-	# we do not intereasted in lengthes of those chromosomes that are
+	# we do not intereasted in lengths of those chromosomes that are
 	# not in intersection of spacesA and spacesB;
 	# if we have information in chromosomes.length, we do not care
 	# about what was given in seqlengths of A and B
@@ -457,7 +457,7 @@ GenometriCorrelation <- function(
 	#	setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 	#}
 	
-	#we need to know all the chrom lengthes or at least to mark it as NA
+	#we need to know all the chrom lengths or at least to mark it as NA
 	for ( space in list.of.spaces )
 	{
 		if (! space %in% names(chromosomes.length))
@@ -1443,7 +1443,7 @@ query.to.ref.projection.statistics<-function(query,ref,is_query_sorted=F,chrom_l
 	projection_data[['reference.length']]<-chrom_length
 	projection_data[['reference.coverage']]<-0
 	
-	#now, we revert our q to IRanges. If qu[i] in integer then IRange has lentgh 1 and its start and end are q[i]
+	#now, we revert our q to IRanges. If qu[i] in integer then the range has lentgh 1 and its start and end are q[i]
 	#if q[i] is integer+0.5 we assign it to [integer,integer+1] interval
 
 	ir_query<-IRanges(start=as.integer(query),width=ifelse(query %% 1 == 0,1,2))

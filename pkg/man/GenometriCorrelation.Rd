@@ -50,7 +50,7 @@ The \code{IRanges} or \code{RangedData} or \code{GRanges} object that contains t
 The \code{IRanges} or \code{RangedData} or \code{GRanges} object that contains the reference interval set coordinates and spaces. The \code{GenometriCorrelation} function tests whether \code{query} is positioned independently relative to \code{reference}.
 }
   \item{chromosomes.to.proceed}{
-This vector of strings contains the names of spaces (chromosomes) to analyze. If both \code{query} and \code{reference} are \code{RangedData} or \code{GRanges} if the parameter is not given (its default is c()), the initial list of spaces to proceed is the intersection of the the space lists of query and reference names, if \code{chromosomes.to.proceed} is given, it restricts the list so that only those names from the intersection that are in \code{chromosomes.to.proceed} are analyzed. If one or both of the  \code{query} and \code{reference} is an IRange, only the first element of \code{chromosomes.to.proceed} is used. It actually overrides the \code{space} argument (see below for explanation). If both \code{chromosomes.to.proceed} and \code{space} are given and \code{space != chromosomes.to.proceed[1]}, an error is generated. If after parsing all arguments, less than \code{2} chromosomes are included in the analysis, the overall (awhole) statistics will not be produced.
+This vector of strings contains the names of spaces (chromosomes) to analyze. If both \code{query} and \code{reference} are \code{RangedData} or \code{GRanges} if the parameter is not given (its default is c()), the initial list of spaces to proceed is the intersection of the space lists of query and reference names, if \code{chromosomes.to.proceed} is given, it restricts the list so that only those names from the intersection that are in \code{chromosomes.to.proceed} are analyzed. If one or both of the  \code{query} and \code{reference} is an IRange, only the first element of \code{chromosomes.to.proceed} is used. It actually overrides the \code{space} argument (see below for explanation). If both \code{chromosomes.to.proceed} and \code{space} are given and \code{space != chromosomes.to.proceed[1]}, an error is generated. If after parsing all arguments, less than \code{2} chromosomes are included in the analysis, the overall (awhole) statistics will not be produced.
 }
   \item{chromosomes.to.include.in.awhole}{
 This vector of strings contains the names of spaces to be included in the overall (awhole) statistics. Its default is c(), meaning that all the analysed genes are included.}
@@ -148,7 +148,7 @@ Below is the description of the values of the list returned for each chromosome.
 \item{jaccard.measure.lower.tail}{If \code{TRUE}, then Jaccard measure is lower that the expectation (overlap less than expected)}
 
 
-The additional values that are returned if \code{keep.distrubutions=TRUE}
+The additional values that are returned if \code{keep.distributions=TRUE}
 \item{relative.distances.data}{The original relative distances}
 \item{relative.distances.ecdf.deviation.area}{The real value of the ECDF deviation area to be compared with the permutatoin to obtain the p-value}
 \item{relative.distances.ecdf.deviation.area.null.list}{The null distribution}
@@ -174,7 +174,7 @@ The additional values that are returned if \code{keep.distrubutions=TRUE}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-	The \code{\link{GenometriCorr}} documentation and the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vingnette}.
+	The \code{\link{GenometriCorr}} documentation and the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vignette}.
 }
 \examples{
 
