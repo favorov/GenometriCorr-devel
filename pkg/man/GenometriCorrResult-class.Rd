@@ -83,7 +83,7 @@ config$tests$jaccard.measure.permut.number=10
 #sets all permutation numbers to 10
 
 config$options$showTkProgressBar=FALSE
-#supresss the Tk progress bar
+#suppresss the Tk progress bar
 
 print(config)
 #printing the changed file back, just to see it 

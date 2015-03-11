@@ -24,7 +24,7 @@ The \code{run.config} function runs on a \code{"\linkS4class{GenometriCorrConfig
 		\code{[chromosomes.length]}\tab \code{name=length} \tab this length will be passed in the \code{chromosomes.length} parameter in the \code{['name']} element\cr
 		\code{[options]} \tab \code{add.chr.as.prefix} \tab \code{add.chr.as.prefix}\cr
 		\code{[options]} \tab \code{awhole.only} \tab \code{awhole.only}\cr
-		\code{[options]} \tab \code{supress.evaluated.length.warning} \tab \code{supress.evaluated.length.warning}\cr
+		\code{[options]} \tab \code{suppress.evaluated.length.warning} \tab \code{suppress.evaluated.length.warning}\cr
 		\code{[options]} \tab \code{cut.all.over.length} \tab \code{cut.all.over.length}\cr
 		\code{[options]} \tab \code{keep.distributions} \tab \code{keep.distributions}\cr
 		\code{[options]} \tab \code{showTkProgressBar} \tab \code{showTkProgressBar}\cr

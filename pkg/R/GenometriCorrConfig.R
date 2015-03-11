@@ -421,8 +421,15 @@ setMethod('run.config', signature(conf='GenometriCorrConfig'),
 		if (length(chr.len) != 0) 
 			todo<-paste(todo,',chromosomes.length=chr.len',sep='')
 
+		if (!is.null(conf$options$suppress.evaluated.length.warning))
+			todo<-paste(todo,',suppress.evaluated.length.warning=',conf$options$suppress.evaluated.length.warning,sep='')
+
 		if (!is.null(conf$options$supress.evaluated.length.warning))
-			todo<-paste(todo,',supress.evaluated.length.warning=',conf$options$supress.evaluated.length.warning,sep='')
+		{
+			todo<-paste(todo,',suppress.evaluated.length.warning=',conf$options$suppress.evaluated.length.warning,sep='')
+			warning("Please use \'suppress.evaluated.length.warning\' instead of \'supress.evaluated.length.warning\'")
+			#the typo was in old versions
+		}
 
 		if (!is.null(conf$options$cut.all.over.length))
 			todo<-paste(todo,',cut.all.over.length=',conf$options$cut.all.over.length,sep='')

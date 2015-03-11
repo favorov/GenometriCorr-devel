@@ -27,7 +27,8 @@ readTableToIRanges is not exported any more.
 It is available as GenometriCorr:::readTableToIRanges
 1.0.10
 Three options are added to GenometricCorrelation: 
-add.chr.as.prefix to treat say '34' and 'chr34' as synonyms; supress.evaluated.length.warning to supress the warning; 
+add.chr.as.prefix to treat say '34' and 'chr34' as synonyms; supress.evaluated.length.warning to suppress the warning;
+suppress.evaluated.length.warning replaced the typo supress.evaluated.length.warning in 1.1.13
 cut.all.over.length to remove overlegnth data rather that to generate error. 
 Some bugs fixed.
 1.0.11
@@ -101,5 +102,5 @@ vignettes are move to vignettes
 A lot of changes to be compliant with Bioconductor
 R CMD CHECK passes with no warnings
 We use seqlenthgs of TxDb.Hsapiens.UCSC.hg19.knownGene in the examples
-1.1.11
+1.1.12
 Strange cycles are replaced with findOverlaps. ~10 times faster.

@@ -207,7 +207,7 @@ seqinfo(cpgis)<-seqinfo(TxDb.Hsapiens.UCSC.hg19.knownGene)[seqnames(seqinfo(cpgi
 
 The information about lengths and names of chromosomes is coded in {\tt seqinfo} provided by {\tt TxDb.Hsapiens.UCSC.hg19.knownGene}. The {\tt refseq} object contains it; the {\tt cpgis} is read from a {\tt bed} file and thus we set the {\tt seqinfo}. If both the query and reference objects do not carry {\tt seqinfo}, the information can be passed via {\tt chromosomes.length} parameter that is organized exactly as {\tt seqlenghts(GenomicRanges)} result. It is, a numeric vector with names, which are chromosome names.
 
-If the chromosome lengths are not either given explicitly or coded in reference or in query, they are taken to be the maximum of the reference and query coordinates provided, per chromosome, and a warning is generated. You can suppress the warning with {\tt supress.evaluated.length.warning=TRUE}.
+If the chromosome lengths are not either given explicitly or coded in reference or in query, they are taken to be the maximum of the reference and query coordinates provided, per chromosome, and a warning is generated. You can suppress the warning with {\tt suppress.evaluated.length.warning=TRUE}.
 
 \subsection{Visualize the query and reference intervals}
 

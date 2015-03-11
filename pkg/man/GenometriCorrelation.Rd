@@ -28,7 +28,7 @@ The GenometriCorrelation function compares two interval annotations on a chromos
 		showProgressBar=TRUE,
 		showTkProgressBar=FALSE,
 		chromosomes.length=c(),
-		supress.evaluated.length.warning=FALSE,
+		suppress.evaluated.length.warning=FALSE,
 		cut.all.over.length=FALSE,
 		ecdf.area.permut.number=100,
 		mean.distance.permut.number=100,
@@ -77,7 +77,7 @@ Toggle the Tk progress bar. If it is \code{TRUE} but the Tcl/Tk is not loadable 
   \item{chromosomes.length}{
 A vector of lengths of the chromosomes to be tested; each chromosome is given a name and a numerical length. The order of the chromosomes does not matter.
 }
-	\item{supress.evaluated.length.warning}{
+	\item{suppress.evaluated.length.warning}{
 If there is a chromosome that is included in the evaluation but its length is not given in \code{chromosome.length}, the length of the chromosome is calculated as the maximal position mentioned in the data. If this parameter is \code{FALSE}, this will generate a warning, which is suppressed when the parameter is \code{TRUE}. The default is \code{FALSE}.
 }
 	\item{cut.all.over.length}{If the chromosome is shorter than a position given in the interval data, an error is posted, except if this argument is \code{TRUE}, in which case the position is replaced by the length of the chromosome, or removed altogether. The default is \code{FALSE}.

@@ -79,7 +79,7 @@ GenometriCorrelation <- function(
 	showProgressBar=TRUE,
 	showTkProgressBar=FALSE,
 	chromosomes.length=c(),
-	supress.evaluated.length.warning=FALSE,
+	suppress.evaluated.length.warning=FALSE,
 	cut.all.over.length=FALSE,
 	ecdf.area.permut.number=100,
 	mean.distance.permut.number=100,
@@ -89,7 +89,8 @@ GenometriCorrelation <- function(
 	keep.distributions=FALSE,
 	representing.point.function=mitl,
 	query.representing.point.function=representing.point.function,
-	reference.representing.point.function=representing.point.function
+	reference.representing.point.function=representing.point.function,
+	supress.evaluated.length.warning
 	)
 {
 	#query and reference are two data sets that are under analysis
@@ -106,7 +107,7 @@ GenometriCorrelation <- function(
 	#showTkProgressBar whether to show a Tk progress indicator; work only if tcltk is loaded
 	#chromosomes.length is an array of length of chromosomes, names are the names of chromosomes
 	#cut.all.over.length if the length is given and there is any interval coord that is higher than the lenght, the default behavoiur (when cut.all.over.length is FALSE) is to show an error and stop. If it is TRUE, the interval will be just truncated.
-	#	supress.evaluated.length.warning supresses the warning that a chromosome lenght is eveluated rather then given. The evaluation is just the rightmost coord in all the intervals, it is used is the length is NA.
+	#suppress.evaluated.length.warning suppresses the warning that a chromosome lenght is eveluated rather then given. The evaluation is just the rightmost coord in all the intervals, it is used is the length is NA.
 	#ecdf.area.permut.number is number of permutations for ecdf area method
 	#mean.distance.permut.number is the same thing about the mean ref-to-query distance
 	#awhole.space.name is the space name for this operation
@@ -116,7 +117,18 @@ GenometriCorrelation <- function(
 	#the function is to look like mitl<-function(start,end,chromosome.length,space); the additional parameters that do not depend on chrom, etc are in ..
 	#query.representing.point.function=representing.point.function for query
 	#reference.representing.point.function=representing.point.function for reference
-	
+	#supress.evaluated.length.warning is a historical typo
+
+	#fixing typo
+	if('supress.evaluated.length.warning' %in% names(as.list(match.call())))
+	{
+		warning("Please use \'suppress.evaluated.length.warning\' instead of \'supress.evaluated.length.warning\'")
+		if(supress.evaluated.length.warning==TRUE) 
+		{
+			suppress.evaluated.length.warning=TRUE
+		}
+	}
+	#
 	nameQ<-"query"
 	nameR<-"reference"	# HJ fixed typo
 	if (!is.object(query))  
@@ -335,7 +347,7 @@ GenometriCorrelation <- function(
 			showProgressBar=showProgressBar,
 			showTkProgressBar=showTkProgressBar,
 			chromosomes.length=chromosomes.length,
-			supress.evaluated.length.warning=supress.evaluated.length.warning,
+			suppress.evaluated.length.warning=suppress.evaluated.length.warning,
 			cut.all.over.length=cut.all.over.length,
 			ecdf.area.permut.number=ecdf.area.permut.number,
 			mean.distance.permut.number=mean.distance.permut.number,
@@ -361,7 +373,7 @@ GenometriCorrelation <- function(
 	result@config$options$showProgressBar=showProgressBar
 	result@config$options$showTkProgressBar=showTkProgressBar
 	result@config$chromosomes.length=as.list(chromosomes.length)
-	result@config$options$supress.evaluated.length.warning=supress.evaluated.length.warning
+	result@config$options$suppress.evaluated.length.warning=suppress.evaluated.length.warning
 	result@config$options$cut.all.over.length=cut.all.over.length
 	result@config$tests=list()
 	result@config$tests$ecdf.area.permut.number=ecdf.area.permut.number
@@ -383,7 +395,7 @@ GenometriCorrelation <- function(
 	showProgressBar=TRUE,
 	showTkProgressBar=FALSE,
 	chromosomes.length=c(),
-	supress.evaluated.length.warning=FALSE,
+	suppress.evaluated.length.warning=FALSE,
 	cut.all.over.length=FALSE,
 	ecdf.area.permut.number=100,
 	mean.distance.permut.number=100,
@@ -465,7 +477,7 @@ GenometriCorrelation <- function(
 		if ( is.na(chromosomes.length[space]) ) #if it was absent, now it is NA as well as if it was NA
 		{
 			chromosomes.length[space]=chromosomes.length.eval(rd_query,rd_reference)
-			if (! (supress.evaluated.length.warning))
+			if (! (suppress.evaluated.length.warning))
 				warning(paste("Length for chromosome",space,"is evaluated rather than pre-given."))
 		}
 		else
