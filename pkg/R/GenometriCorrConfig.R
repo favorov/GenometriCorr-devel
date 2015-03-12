@@ -29,6 +29,7 @@
   d <- read.table(connection, as.is = TRUE, sep = "=", fill = TRUE)
   close(connection)
 
+	d<-gdata::trim(d) ## removing head/trail spaces, it is in gdata
 	
 	L <- d$V1 == ""                    # location of section breaks
   
