@@ -96,7 +96,7 @@ the same in Wizard and in Galaxy integration fixed: we called plot() instead of 
 graphical.report test whether keep.distributions is defined rather than to start an error
 Wizard is consistent with current dir structure
 1.1.10
-The rtraclayer's import now returns GRanges only, so a lot of things were changed
+The rtracklayer's import now returns GRanges only, so a lot of things were changed
 vignettes are move to vignettes
 1.1.11
 A lot of changes to be compliant with Bioconductor
@@ -104,3 +104,7 @@ R CMD CHECK passes with no warnings
 We use seqlenthgs of TxDb.Hsapiens.UCSC.hg19.knownGene in the examples
 1.1.12
 Strange cycles are replaced with findOverlaps. ~10 times faster.
+1.1.13
+A lot of typos in documentation fixed.
+Starting and trailing spaces are now trimmed 
+in configuration file values and tags. Thank to Ruth McCole from Harvard.
