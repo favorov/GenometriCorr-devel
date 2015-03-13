@@ -570,7 +570,8 @@ GenometriCorrelation <- function(
 			result[[awhole.space.name]][['scaled.absolute.min.distance.sum.null.list']]<-c()
 		}
 		# we initialise relative.distances.ecdf.deviation.area.null.list 
-		# and jaccard.measure.null.list later, in the do_awhole after main chromwise cycle 
+		# and jaccard.measure.null.list and jaccard.intersection.null.list later, 
+		# in the do_awhole after main chromwise cycle 
 		result[[awhole.space.name]][['relative.distances.data']]<-c()
 
 		if (keep.distributions) # we need it only if we want distribution
@@ -720,8 +721,11 @@ GenometriCorrelation <- function(
 		else
 			result[[space]][['jaccard.measure']]<-0
 
-		if (jaccard.measure.permut.number>0) result[[space]][['jaccard.measure.null.list']]<-c()
-
+		if (jaccard.measure.permut.number>0) 
+		{
+			result[[space]][['jaccard.measure.null.list']]<-c()
+			result[[space]][['jaccard.intersection.null.list']]<-c()
+		}
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
 		if (showTkProgressBar)
@@ -894,7 +898,11 @@ GenometriCorrelation <- function(
 			else
 				result[[space]][['jaccard.measure']]<-0
 
-			if (jaccard.measure.permut.number>0) result[[space]][['jaccard.measure.null.list']]<-c()
+			if (jaccard.measure.permut.number>0)
+			{
+				result[[space]][['jaccard.measure.null.list']]<-c()
+				result[[space]][['jaccard.intersection.null.list']]<-c()
+			}
 
 		}
 
@@ -1034,8 +1042,11 @@ GenometriCorrelation <- function(
 					space.jaccard.measure<-0
 
 				result[[space]][['jaccard.measure.null.list']]<-
-					c(result[[space]][['jaccard.measure.null.list']],space.jaccard.measure) #save the result
+					c(result[[space]][['jaccard.measure.null.list']],space.jaccard.measure)
 
+				result[[space]][['jaccard.intersection.null.list']]<-
+					c(result[[space]][['jaccard.intersection.null.list']],space.intersection) 
+				
 				if (space %in% awhole.chromosomes)
 				{
 					awhole.union<-awhole.union+space.union
@@ -1058,7 +1069,9 @@ GenometriCorrelation <- function(
 				awhole.jaccard.measure<-0
 			space<-awhole.space.name
 			result[[space]][['jaccard.measure.null.list']]<-
-				c(result[[space]][['jaccard.measure.null.list']],awhole.jaccard.measure) #save the result
+				c(result[[space]][['jaccard.measure.null.list']],awhole.jaccard.measure)
+			result[[space]][['jaccard.intersection.null.list']]<-
+				c(result[[space]][['jaccard.intersection.null.list']],awhole.intersection) 
 			if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 			if (showTkProgressBar)
 			{
@@ -1162,6 +1175,7 @@ GenometriCorrelation <- function(
 			result[[space]][['absolute.min.distance.data']]<-NULL
 			result[[space]][['absolute.inter.reference.distance.data']]<-NULL
 			result[[space]][['jaccard.measure.null.list']]<-NULL
+			result[[space]][['jaccard.intersection.null.list']]<-NULL
 		}
 	}
 	
