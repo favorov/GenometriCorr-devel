@@ -88,8 +88,8 @@ visualize now use red-white-blue color scheme, the old one can be called by styl
 graphical.report format improved
 graphical.report default file name creation improved
 GenometricCorrelation help error (awhole.only options were swapped) fixed.
-graphical.report error tried to refere to obsoleted reference.middles in GenometriCorrResult - fixed
-thanks to Mike Parfenov from Harvard and to Youri Kravatsky from IMB RAS
+graphical.report error tried to refer to obsoleted reference.middles in GenometriCorrResult - fixed
+Thanks to Mike Parfenov from Harvard and to Youri Kravatsky from IMB RAS
 relative.ecdf.deviation.area returned to list of obligatory values
 help for package now reflects classes
 the same in Wizard and in Galaxy integration fixed: we called plot() instead of graphical.report()
@@ -106,5 +106,8 @@ We use seqlenthgs of TxDb.Hsapiens.UCSC.hg19.knownGene in the examples
 Strange cycles are replaced with findOverlaps. ~10 times faster.
 1.1.13
 A lot of typos in documentation fixed.
-Starting and trailing spaces are now trimmed 
-in configuration file values and tags. Thank to Ruth McCole from Harvard.
+Starting and trailing spaces are now trimmed in configuration file values and tags.
+MapRangesToGenomicIntervals rewritten. Two more bugs removed. 
+Thanks to Ruth McCole from Harvard.
+$jaccard.intersection.null.list added to the result is keep.distribution=TRUE. 
+Thanks to Promita Bose from Memorial Sloan Kettering 
