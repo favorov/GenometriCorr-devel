@@ -179,7 +179,7 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	{
 		title(main=title)
 	}
-	title(sub=paste0("On the right: number of covered nucleotides per pixel that yeilds full color intensity"))
+	title(sub=paste0("On the right: number of covered nucleotides/pixel that yields full color intensity"))
 
 	if (close.device)
 		invisible(dev.off())
