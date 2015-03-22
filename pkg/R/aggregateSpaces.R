@@ -34,11 +34,11 @@
 #
 #projection.test.p.value	
 #p-value for chromosome-scale independence obtained by the projection test.
-####
+###
 #
 #projection.test.lower.tail	
 #If TRUE, projection test shows negative correlation, real overlap is less than the expectation.
-####
+###
 #
 #scaled.absolute.min.distance.sum.p.value	
 #p-value for chromosome-scale null hypothesis as obtained by the permutations of the query points and the mean of the distances to the two closest reference points.
@@ -103,9 +103,18 @@
 #The null distribution for the scaled absolute distances
 #?????
 #
+#jaccard.intersection.null.list
+#The null distribution for intersection of reference and query 
+#*each list element is summed over all spaces to be aggregated
+#
+#jaccard.union.null.list
+#The null distribution for intersection of reference and query 
+#*each list element is summed over all spaces to be aggregated
+#
 #jaccard.measure.null.list	
+#The null distribution for union of reference and query 
 #The null distribution of Jaccard measures in permutations
-#?????
+###
 	
 	
 	
