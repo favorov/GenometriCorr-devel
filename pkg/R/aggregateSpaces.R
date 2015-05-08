@@ -2,7 +2,7 @@
 # (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
 #               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
 #               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
-# .aggregateSpaces is finction that arregate spacein GenometriCorrResult
+# .aggregateSpaces is function that arregate spaces in GenometriCorrResult
 # it has two parameters: space.correspondence and data. 
 #space.correspondence is a character array of (N,2) and data 
 #
@@ -77,7 +77,8 @@
 #
 #relative.distances.ecdf.deviation.area	
 #The real value of the ECDF deviation area to be compared with the permutation to obtain the p-value
-##
+### Calculated from the relative.distance.data distribution and the null list (calculated)
+### In this setup, the null distribition for 'awhole' is gathered and calculated independently from chromosomal distributions
 #
 #relative.distances.ecdf.deviation.area.null.list	
 #The null distribution
@@ -116,13 +117,9 @@
 #The null distribution of Jaccard measures in permutations
 ###
 	
+.aggregateSpaces<-function(correspondence,result)
+{
 	
-	
-	awhole.space.name="awhole",
-	#awhole.space.name is the space name for this operation
-			awhole.space.name=awhole.space.name,
-	if (awhole.space.name!="awhole") result@config$options$awhole.space.name=awhole.space.name
-	awhole.space.name="awhole",
 	#awhole.space.name is the space name for this operation
 		result[[awhole.space.name]]<-list()
 		result[[awhole.space.name]][['query.population']]<-0
@@ -171,3 +168,4 @@
 		#result[[awhole.space.name]] as a list()
 			result[[awhole.space.name]]<-list();
 			result[[awhole.space.name]][[name]]<-result.awhole[[name]]
+}

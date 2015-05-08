@@ -108,7 +108,7 @@ If the reference and query intervals are independent, the query points are posit
 	\caption{Area between \textcolor{blue}{uniform ECDF for unrelated feature sets (blue)} and \textcolor{black}{experimental ECDF for related feature sets (black)} is a measure of correlation of the query and reference feature sets.}
 \end{figure*}
 
-The Kolmogorov-Smirnov test \(K-S test\) is accompanied by permutation tests to determine the level and direction of deviation from the null expectation. The ECDF (Empirical Distribution Cumulative Function) of the relative distances $d_i$ is a straight line between $(0,0)$ and $(0.5,1)$ if the query and reference points are perfectly independent, so we compare our data to this line.
+The Kolmogorov-Smirnov test (K-S test) is accompanied by permutation tests to determine the level and direction of deviation from the null expectation. The ECDF (Empirical Distribution Cumulative Function) of the relative distances $d_i$ is a straight line between $(0,0)$ and $(0.5,1)$ if the query and reference points are perfectly independent, so we compare our data to this line.
 
 The area between the ECDF for the reference and query points and the ideal straight line \[S=\displaystyle\int_0^{0.5} \! \left| ECDF(d)-ECDF_{ideal}(d) \right| \, dd \] is a measure of the correlation between the query and reference. So, by drawing $N$ sets of values that model uniform distribution of $d_i$ we get $N$ outcomes of a null distribution for $S$ and thus we can evaluate the $p-value$ for S.   
 
