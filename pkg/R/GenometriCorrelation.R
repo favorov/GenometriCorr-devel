@@ -762,21 +762,22 @@ GenometriCorrelation <- function(
 			setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 		}
 
+		result[[space]][['absolute.min.distance.data']]<-
+			query_to_ref_min_absolute_distances(
+				qu,ref,map.to.half,is_query_sorted=T,is_ref_sorted=T,chrom_length=chromosomes.length[space]
+		)
+		result[[space]][['scaled.absolute.min.distance.sum']]<-
+			sum(result[[space]][['absolute.min.distance.data']])*length(ref)/(chromosomes.length[[space]])
+
 		if(mean.distance.permut.number>0 || keep.distributions) 
 		# makes sense only if permutation test on absolute distances test is ordered or if we want to keep
 		# the distribution of absolute min distances 
 		{
-
-			result[[space]][['absolute.min.distance.data']]<-
-				query_to_ref_min_absolute_distances(qu,ref,map.to.half,is_query_sorted=T,is_ref_sorted=T,chrom_length=chromosomes.length[space])
-
 			result[[space]][['absolute.inter.reference.distance.data']]<-ref[2:length(ref)]-ref[1:length(ref)-1]
 			#collect all ref-ref distances
 			result[[space]][['absolute.inter.reference.distance.data']]<-c(result[[space]][['absolute.inter.reference.distance.data']],chromosomes.length[[space]]+ref[1]-ref[length(ref)])	
 			#add the circilar one	
 
-			result[[space]][['scaled.absolute.min.distance.sum']]<-sum(result[[space]][['absolute.min.distance.data']])*length(ref)/
-				(chromosomes.length[[space]])
 			#makes no sense if no (mean.distance.permut==0) absolute distance permutations done
 			
 			if (mean.distance.permut.number>0) 
