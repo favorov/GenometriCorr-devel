@@ -1,10 +1,10 @@
 .PHONY: all clean try_clean_all clean_all 
 
-cache="no"
+NO_CACHE="yes"
 #default
 
 ifdef CACHE
-cache="yes"
+undefine NO_CACHE
 endif
 
 # we have started from R
@@ -38,7 +38,7 @@ GenometriCorr.pdf: \
 	pdflatex GenometriCorr && pdflatex GenometriCorr && pdflatex GenometriCorr 
 
 GenometriCorr.tex: GenometriCorr.Rnw
-ifeq ($(cache),"yes")
+ifdef CACHE
 	echo "library(weaver); Sweave('GenometriCorr.Rnw', driver=weaver())" | $(R_CMD) --no-save --no-restore
 else
 	echo "Sweave('GenometriCorr.Rnw')" | $(R_CMD) --no-save --no-restore
