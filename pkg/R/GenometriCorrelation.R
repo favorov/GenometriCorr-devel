@@ -753,6 +753,8 @@ GenometriCorrelation <- function(
 			result[[space]][['projection.test.lower.tail']] <- FALSE
 		}
 
+		result[[space]][['projection.test.obs.to.exp']]<- (result[[space]][['projection.test']][['query.hits']]* result[[space]][['projection.test']][['reference.length']]) / ( result[[space]][['query.population']]*result[[space]][['projection.test']][['reference.coverage']])
+
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
 		if (showTkProgressBar)

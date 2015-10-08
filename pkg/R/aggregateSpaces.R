@@ -40,6 +40,10 @@
 #If TRUE, projection test shows negative correlation, real overlap is less than the expectation.
 ###
 #
+#projection.test.obs.to.exp	
+#p-value for chromosome-scale independence obtained by the projection test.
+###
+#
 #scaled.absolute.min.distance.sum.p.value	
 #p-value for chromosome-scale null hypothesis as obtained by the permutations of the query points and the mean of the distances to the two closest reference points.
 #
