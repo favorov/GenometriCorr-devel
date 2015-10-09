@@ -755,11 +755,6 @@ GenometriCorrelation <- function(
 
 		result[[space]][['projection.test.obs.to.exp']]<- (result[[space]][['projection.test']][['query.hits']]* result[[space]][['projection.test']][['space.length']]) / ( result[[space]][['query.population']]*result[[space]][['projection.test']][['reference.coverage']])
 
-		print('$')
-		print(result[[space]][['projection.test']])
-		result[[space]][['query.population']]
-		print('$')
-
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
 		if (showTkProgressBar)
@@ -900,10 +895,6 @@ GenometriCorrelation <- function(
 		}
 
 		result[[space]][['projection.test.obs.to.exp']]<- (result[[space]][['projection.test']][['query.hits']]* result[[space]][['projection.test']][['space.length']]) / ( result[[space]][['query.population']]*result[[space]][['projection.test']][['reference.coverage']])
-		print('%')
-		print(result[[space]][['projection.test']])
-		result[[space]][['query.population']]
-		print('%')
 		
 		if ('query.reference.union' %in% the.names && 'query.reference.intersection' %in% the.names)
 		{
