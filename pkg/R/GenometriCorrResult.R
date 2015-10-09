@@ -136,7 +136,7 @@ setMethod('graphical.report',
 			if('projection.test.lower.tail'%in% names(data))
 				mtext(paste("Projection test lower tail :", data$projection.test.lower.tail, sep=" "), line=-14, cex=0.7)
 			if('projection.test.obs.to.exp'%in% names(data))
-				mtext(paste("Projection test observed to expecte ratio :", sprintf(formstring_g,data$projection.test.p.value), sep=" "), line=-15, cex=0.7)
+				mtext(paste("Projection test observed to expected ratio :", sprintf(formstring_g,data$projection.test.p.value), sep=" "), line=-15, cex=0.7)
 
 			if (! is.null(x@config$options$keep.distributions) && x@config$options$keep.distributions)
 			{
