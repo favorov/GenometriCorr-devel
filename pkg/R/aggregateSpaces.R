@@ -89,7 +89,7 @@
 #?????
 #
 #projection.test	
-#List of three values: reference.length is length of a chromosome; reference.coverage is length of that chromosome covered by reference intervale, and query.hits is the number of query points that fall into the reference intervals.
+#List of three values: space.length is length of a chromosome; reference.coverage is length of that chromosome covered by reference intervale, and query.hits is the number of query points that fall into the reference intervals.
 #*sum each value over spaces
 #
 #absolute.min.distance.data	
@@ -129,16 +129,16 @@
 		result[[awhole.space.name]][['query.population']]<-0
 		result[[awhole.space.name]][['reference.population']]<-0
 		result[[awhole.space.name]][['projection.test']]<-c()
-		result[[awhole.space.name]][['projection.test']][['reference.length']]<-0
+		result[[awhole.space.name]][['projection.test']][['space.length']]<-0
 		result[[awhole.space.name]][['projection.test']][['reference.coverage']]<-0
 		result[[awhole.space.name]][['projection.test']][['query.hits']]<-0
 		result[[awhole.space.name]][['query.reference.intersection']]<-0
 		result[[awhole.space.name]][['query.reference.union']]<-0
-			result[[awhole.space.name]][['scaled.absolute.min.distance.sum']]<-0
-			result[[awhole.space.name]][['scaled.absolute.min.distance.sum.null.list']]<-c()
+		result[[awhole.space.name]][['scaled.absolute.min.distance.sum']]<-0
+		result[[awhole.space.name]][['scaled.absolute.min.distance.sum.null.list']]<-c()
 		result[[awhole.space.name]][['relative.distances.data']]<-c()
-			result[[awhole.space.name]][['absolute.min.distance.data']]<-c()
-	 		result[[awhole.space.name]][['absolute.inter.reference.distance.data']]<-c()
+		result[[awhole.space.name]][['absolute.min.distance.data']]<-c()
+	 	result[[awhole.space.name]][['absolute.inter.reference.distance.data']]<-c()
 		awhole.space.name<-c()
 			result[[awhole.space.name]][['relative.distances.data']]<-
 						c(result[[awhole.space.name]][['relative.distances.data']],result[[space]][['relative.distances.data']])

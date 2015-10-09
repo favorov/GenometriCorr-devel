@@ -156,7 +156,7 @@ The additional values that are returned if \code{keep.distributions=TRUE}
 \item{relative.distances.data}{The original relative distances}
 \item{relative.distances.ecdf.deviation.area}{The real value of the ECDF deviation area to be compared with the permutation to obtain the p-value}
 \item{relative.distances.ecdf.deviation.area.null.list}{The null distribution}
-\item{projection.test}{List of three values: \code{reference.length} is length of a chromosome; \code{reference.coverage} is length of that chromosome covered by reference intervale, and \code{query.hits} is the number of query points that fall into the reference intervals.}
+\item{projection.test}{List of three values: \code{space.length} is length of a chromosome; \code{reference.coverage} is length of that chromosome covered by reference intervale, and \code{query.hits} is the number of query points that fall into the reference intervals.}
 \item{absolute.min.distance.data}{The distribution of query-reference distances}
 \item{absolute.inter.reference.distance.data}{The distribution of reference-reference distances}
 \item{scaled.absolute.min.distance.sum}{The value of the sum (i.e. mean) of scaled absolute distances}
