@@ -656,9 +656,9 @@ GenometriCorrelation <- function(
 
 		result[[space]][['reference.population']]<-length(ref)
 
-	  result[[space]][['query.coverage']]<-sum(width(reduce(qu)))
+	  result[[space]][['query.coverage']]<-sum(width(reduce(rd_query[space]$ranges)))
 
-		result[[space]][['reference.coverage']]<-sum(width(reduce(ref)))
+		result[[space]][['reference.coverage']]<-sum(width(reduce(rd_reference[space]$ranges)))
 		
 		result[[space]][['relative.distances.data']]<-
 			query_to_ref_relative_distances(qu,ref,map.to.half,is_query_sorted=T,is_ref_sorted=T,chrom_length=chromosomes.length[space])
