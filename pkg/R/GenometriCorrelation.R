@@ -556,6 +556,8 @@ GenometriCorrelation <- function(
 
 		result[[awhole.space.name]][['query.population']]<-0
 		result[[awhole.space.name]][['reference.population']]<-0
+		result[[awhole.space.name]][['query.coverage']]<-0
+		result[[awhole.space.name]][['reference.coverage']]<-0
 		result[[awhole.space.name]][['projection.test']]<-c()
 		result[[awhole.space.name]][['projection.test']][['space.length']]<-0
 		result[[awhole.space.name]][['projection.test']][['reference.coverage']]<-0
@@ -654,6 +656,10 @@ GenometriCorrelation <- function(
 
 		result[[space]][['reference.population']]<-length(ref)
 
+	  result[[space]][['query.coverage']]<-sum(width(reduce(qu)))
+
+		result[[space]][['reference.coverage']]<-sum(width(reduce(ref)))
+		
 		result[[space]][['relative.distances.data']]<-
 			query_to_ref_relative_distances(qu,ref,map.to.half,is_query_sorted=T,is_ref_sorted=T,chrom_length=chromosomes.length[space])
 
@@ -824,6 +830,8 @@ GenometriCorrelation <- function(
 			result[[awhole.space.name]][['query.population']]<-result[[awhole.space.name]][['query.population']]+result[[space]][['query.population']]
 			result[[awhole.space.name]][['reference.population']]<-result[[awhole.space.name]][['reference.population']]+result[[space]][['reference.population']]
 
+			result[[awhole.space.name]][['query.coverage']]<-result[[awhole.space.name]][['query.coverage']]+result[[space]][['query.coverage']]
+			result[[awhole.space.name]][['reference.coverage']]<-result[[awhole.space.name]][['reference.coverage']]+result[[space]][['reference.coverage']]
 			#makes sense even if no (mean.distance.permut==0) absolute distance permutations done
 			#if(mean.distance.permut.number>0) 
 			#{
