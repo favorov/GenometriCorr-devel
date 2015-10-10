@@ -20,6 +20,14 @@
 #Reference points used in the comparisons.
 #*sum over spaces
 #
+#query.coverage	
+#Query nucleotides used in the comparisons.
+#*sum over spaces
+#
+#reference.coverage	
+#Reference nucleotides used in the comparisons.
+#*sum over spaces
+#
 #relative.distances.ks.p.value	
 #p-value for local independence obtained by the Kolmogorov-Smirnov test for relative distances.
 ###
