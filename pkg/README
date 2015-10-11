@@ -117,3 +117,4 @@ We add the 'scaled.absolute.min.distance.sum' to the result even if there is no 
 Thanks to mikhail.dozmorov from Virginia Commonwealth University
 1.1.15
 Bug in projection test fixed
+added query.coverage and reference.coverage to the GenometriCorrResult
