@@ -1,5 +1,5 @@
 # GenometriCorrelation project evaluating two interval markups genomewide independence. 
-# (c) 2010-2014 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
+# (c) 2010-2016 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
 #               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
 #               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 #
@@ -26,7 +26,7 @@ setMethod('show','GenometriCorrResult',function(object)
 				'jaccard.measure.null.list',
 				'jaccard.intersection.null.list',
 				'projection.test')
-				#'scaled.absolute.min.distance.sum'
+				#scaled.absolute.min.distance.sum
 		#we remove the do_not_show list from namelist
 		namelist<-setdiff(namelist,do_not_show)
 		print(sapply(object,function(x){
@@ -127,22 +127,24 @@ setMethod('graphical.report',
 				mtext(paste("Relative ecdf deviation area p-value :", sprintf(formstring_s,data$relative.distances.ecdf.deviation.area.p.value), sep=" "), line=-9, cex=0.7)
 			if('scaled.absolute.min.distance.sum.p.value' %in% names(data))
 				mtext(paste("Scaled Absolute min. distance p-value :", sprintf(formstring_s,data$scaled.absolute.min.distance.sum.p.value), sep=" "), line=-10, cex=0.7)
+				mtext(paste("Scaled Absolute min. lower tail :", data$scaled.absolute.min.distance.sum.lower.tail, sep=" "), line=-11, cex=0.7)
 			if('jaccard.measure.p.value'%in% names(data))
-				mtext(paste("Jaccard Measure p-value :", sprintf(formstring_s,data$jaccard.measure.p.value), sep=" "), line=-11, cex=0.7)
+				mtext(paste("Jaccard Measure p-value :", sprintf(formstring_s,data$jaccard.measure.p.value), sep=" "), line=-12, cex=0.7)
 			if('jaccard.measure.lower.tail'%in% names(data))
-				mtext(paste("Jaccard Measure lower tail :", data$jaccard.measure.lower.tail, sep=" "), line=-12, cex=0.7)
+				mtext(paste("Jaccard Measure lower tail :", data$jaccard.measure.lower.tail, sep=" "), line=-13, cex=0.7)
 			if('projection.test.p.value'%in% names(data))
-				mtext(paste("Projection test p-value :", sprintf(formstring_g,data$projection.test.p.value), sep=" "), line=-13, cex=0.7)
+				mtext(paste("Projection test p-value :", sprintf(formstring_g,data$projection.test.p.value), sep=" "), line=-14, cex=0.7)
 			if('projection.test.lower.tail'%in% names(data))
-				mtext(paste("Projection test lower tail :", data$projection.test.lower.tail, sep=" "), line=-14, cex=0.7)
+				mtext(paste("Projection test lower tail :", data$projection.test.lower.tail, sep=" "), line=-15, cex=0.7)
 			if('projection.test.obs.to.exp'%in% names(data))
-				mtext(paste("Projection test observed to expected ratio :", sprintf(formstring_g,data$projection.test.p.value), sep=" "), line=-15, cex=0.7)
+				mtext(paste("Projection test observed to expected ratio :", sprintf(formstring_g,data$projection.test.obs.to.exp), sep=" "), line=-16, cex=0.7)
 
 			if (! is.null(x@config$options$keep.distributions) && x@config$options$keep.distributions)
 			{
 				twotimes<-function(x){2*x}
-				plot(ecdf(data$absolute.inter.reference.distance.data), col="blue", main="Absolute distances", xlab="Distance (bp)", ylab="Cumulative fraction")
-				lines(ecdf(data$absolute.min.distance.data))
+				plot(ecdf(data$absolute.inter.reference.distance.data), col="green", main="Absolute distances", xlab="Distance (bp)", ylab="Cumulative fraction")
+				lines(ecdf(data$absolute.inter.reference.distance.data*runif(min=0,max=.5,n = length(data$absolute.inter.reference.distance.data))), col="blue")
+				lines(ecdf(data$absolute.min.distance.data),col="black")
 				plot(twotimes, xlim=c(0,0.5), col="blue", main="Relative distances", xlab="Fractional distance", ylab="Cumulative fraction")
 				lines(ecdf(data$relative.distances.data))
 			}
