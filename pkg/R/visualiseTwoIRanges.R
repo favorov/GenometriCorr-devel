@@ -273,7 +273,6 @@ VisualiseTwoGRanges<-function(grA, grB, nameA='RangesA', nameB='RangesB', title=
 		if (is.null(close.device)) close.device=FALSE
 	}
 	for (chn in 1:length(sqinf))
-	{
 		VisualiseTwoIRanges(
 			ranges(grA[start(seqnames(grA))[chn]:end(seqnames(grA))[chn]]),
 			ranges(grB[start(seqnames(grB))[chn]:end(seqnames(grB))[chn]]),
@@ -283,6 +282,6 @@ VisualiseTwoGRanges<-function(grA, grB, nameA='RangesA', nameB='RangesB', title=
 			pdf=NULL,
 			title=ifelse(is.na(title),seqnames(sqinf)[chn],paste0(title,", ",seqnames(sqinf)[chn]))
 		)
-	}
-	if (close.device) dev.off()
+	if (close.device) 
+		invisible(dev.off())
 }
