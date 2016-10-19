@@ -76,10 +76,10 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 	#require(grDevices)
 
 	if (!inherits(irA,"IRanges"))
-		stop("The first parameter for TwoIRangesIndependence is to be IRange.")
+		stop("The first parameter for TwoIRangesIndependence is to be IRanges.")
 	
 	if (!inherits(irB,"IRanges"))
-		stop("The second parameter for TwoIRangesIndependence is to be IRange.")
+		stop("The second parameter for TwoIRangesIndependence is to be IRanges.")
 
 	if (is.na(chrom_length))
 	{
@@ -247,7 +247,42 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 #'@seealso The \code{\link{GenometriCorr}} documentation and vignette.
 #'@family GenometriCorr 2-range visualisations
 #'@keywords hplot
+
 VisualiseTwoGRanges<-function(grA, grB, nameA='RangesA', nameB='RangesB', title=NA, pdf=NULL, close.device=NULL)
 {
-	#VisualiseTwoIRanges(ranges(cnv[start(seqnames(cnv))[ch]:end(seqnames(cnv))[ch]]),ranges(l1[start(seqnames(l1))[ch]:end(seqnames(l1))[ch]]),chrom_length = chrom.len[ch],pdf=NULL)
+	if (!inherits(grA,"GRanges"))
+		stop("The first parameter for TwoGRangesIndependence is to be GRanges.")
+	
+	if (!inherits(grB,"GRanges"))
+		stop("The second parameter for TwoGRangesIndependence is to be GRanges.")
+
+	sqinf<-seqinfo(grA)
+	if(!all.equal(seqinfo(grB),sqinf))
+		stop("The seqinfo() grA and grB is supposed to return exactly the same.")
+	
+	# pdf
+	if (!is.null(pdf)) {
+		if (length(grep("\\.pdf$", pdf)) == 0)
+			pdf <- paste(pdf, ".pdf", sep="")
+		if(pdf==".pdf")
+			pdf<-paste0(nameA,"_",nameB,pdf)
+		pdf(pdf)
+		if (is.null(close.device)) close.device=TRUE
+	} else
+	{
+		if (is.null(close.device)) close.device=FALSE
+	}
+	for (chn in 1:length(sqinf))
+	{
+		VisualiseTwoIRanges(
+			ranges(grA[start(seqnames(grA))[chn]:end(seqnames(grA))[chn]]),
+			ranges(grB[start(seqnames(grB))[chn]:end(seqnames(grB))[chn]]),
+			chrom_length = seqlengths(sqinf)[chn],
+			nameA=nameA,
+			nameB=nameB,
+			pdf=NULL,
+			title=ifelse(is.na(title),seqnames(sqinf)[chn],paste0(title,", ",seqnames(sqinf)[chn]))
+		)
+	}
+	if (close.device) dev.off()
 }
