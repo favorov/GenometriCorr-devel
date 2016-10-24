@@ -1,6 +1,6 @@
 import('IRanges', 'GenomicRanges', 'GenomicFeatures', 'methods','TxDb.Hsapiens.UCSC.hg19.knownGene')
 importFrom('rtracklayer', 'import')
-importMethodsFrom('S4Vectors','subjectHits','queryHits')
+importFrom('S4Vectors','subjectHits','queryHits')
 importFrom('grDevices', 'as.raster', 'rainbow')
 importFrom('gplots', 'colorpanel')
 importFrom('tcltk', 'tkProgressBar', 'setTkProgressBar', 'getTkProgressBar')
