@@ -27,14 +27,15 @@ Description: The package computes correlations between two genome annotations
 License: Artistic-2.0
 LazyLoad: yes
 Depends:
-    R (>= 3.1.0),
     IRanges,
     GenomicFeatures,
     GenomicRanges,
     methods,
     tcltk,
-    TxDb.Hsapiens.UCSC.hg19.knownGene
+	S4Vectors,
+    R (>= 3.1.0)
 Imports:
+    TxDb.Hsapiens.UCSC.hg19.knownGene,
     grDevices,
     gplots,
     GenomeInfoDb,

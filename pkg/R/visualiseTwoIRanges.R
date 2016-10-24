@@ -62,7 +62,7 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 			if ((len %% max.pixels) > 0) bin<-bin+1
 			test.ranges<-IRanges(start=seq.int(from=1,by=bin,length.out=max.pixels),width=bin)
 			overrle<-findOverlaps(test.ranges,iranges)
-			masker<-tapply(width(iranges[subjectHits(overrle)]),queryHits(overrle),sum)
+			masker<-tapply(width(iranges[S4Vectors::subjectHits(overrle)]),S4Vectors::queryHits(overrle),sum)
 			mask<-rep(0,max.pixels)
 			mask[as.integer(names(masker))]<-as.integer(masker)
 		} else

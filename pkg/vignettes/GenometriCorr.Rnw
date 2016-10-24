@@ -231,6 +231,7 @@ VisualiseTwoIRanges(ranges(cpgis[seqnames(cpgis)=='chr1']),ranges(refseq[seqname
 @
 \end{centering}
 
+Actually, we can look at all the choromomes, one per page, in a milti-page pdf the is created by {\tt VisualiseTwoGRanges} function.
 
 \subsection{The main procedure}
 {\tt GenometriCorrelation} tests the null hypothesis that the query and reference intervals are spatially independent; that is, that they have no significant relationship in terms of genomic coordinates.
