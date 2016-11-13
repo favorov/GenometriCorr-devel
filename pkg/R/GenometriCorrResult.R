@@ -143,7 +143,8 @@ setMethod('graphical.report',
 			{
 				twotimes<-function(x){2*x}
 				plot(ecdf(data$absolute.inter.reference.distance.data), col="grey",lty='solid',lwd=2, main="Absolute distances", xlab="Distance (bp)", ylab="Cumulative fraction")
-				lines(ecdf(data$absolute.inter.reference.distance.data*runif(min=0,max=.5,n = length(data$absolute.inter.reference.distance.data))), col="blue")
+				#lines(ecdf(data$absolute.inter.reference.distance.data*runif(min=0,max=.5,n = length(data$absolute.inter.reference.distance.data))), col="blue")
+				lines(ecdf(data$absolute.inter.reference.distance.data*1/4), col="blue")
 				lines(ecdf(data$absolute.min.distance.data),col="black")
 				plot(twotimes, xlim=c(0,0.5), col="blue", main="Relative distances", xlab="Fractional distance", ylab="Cumulative fraction")
 				lines(ecdf(data$relative.distances.data))
