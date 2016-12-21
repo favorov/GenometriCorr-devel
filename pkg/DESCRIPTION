@@ -44,5 +44,5 @@ Imports:
 biocViews: Annotation, Genetics, Infrastructure, DataRepresentation,
     GenomeAnnotation, StatisticalMethod
 URL: http://genometricorr.sourceforge.net/
-Packaged: 2016-10-09 19:55:48 UTC; favorov
+Packaged: 2016-12-09 19:55:48 UTC; favorov
 RoxygenNote: 5.0.1

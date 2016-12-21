@@ -19,7 +19,6 @@ setMethod('show','GenometriCorrResult',function(object)
 			c(
 				'relative.distances.data',
 				'absolute.min.distance.data',
-				'absolute.min.distance.data',
 				'absolute.inter.reference.distance.data',
 				'relative.distances.ecdf.deviation.area.null.list',
 				'scaled.absolute.min.distance.sum.null.list',
@@ -45,7 +44,6 @@ setMethod('graphical.report',
 	function(x, pdffile='',show.all=FALSE,show.chromosomes=c(),trustname=TRUE,make.new=TRUE)
 	# if show.all == TRUE, show all of them
 	# if show.all == FALSE, show only awhole+show.chromosomes; if it leads to showing nothing, show.all turns back to TRUE
-
 	{
 		if (!is.null(x@config$options$awhole.space.name))
 			awhole.space.name=x@config$options$awhole.space.name
@@ -142,10 +140,19 @@ setMethod('graphical.report',
 			if (! is.null(x@config$options$keep.distributions) && x@config$options$keep.distributions)
 			{
 				twotimes<-function(x){2*x}
-				plot(ecdf(data$absolute.inter.reference.distance.data), col="grey",lty='solid',lwd=2, main="Absolute distances", xlab="Distance (bp)", ylab="Cumulative fraction")
-				#lines(ecdf(data$absolute.inter.reference.distance.data*runif(min=0,max=.5,n = length(data$absolute.inter.reference.distance.data))), col="blue")
-				lines(ecdf(data$absolute.inter.reference.distance.data*1/4), col="blue")
-				lines(ecdf(data$absolute.min.distance.data),col="black")
+				plot(ecdf(data$absolute.min.distance.data),col="black",lty='solid',lwd=2, main="Absolute distances", xlab="Distance (bp)", ylab="Cumulative fraction")
+				#plot(ecdf(data$absolute.inter.reference.distance.data), col="grey",lty='solid',lwd=2, main="Absolute distances", xlab="Distance (bp)", ylab="Cumulative fraction")
+				#plot abs.data? no sense :)
+				#create the null-hypothesis cdf function for absolute.min.distance.data
+				cdf.x<-sort(data$absolute.inter.reference.distance.data)/2
+				cdf.y<-cdf.x #to init
+				L.half<-sum(cdf.x) #just to remember it is half-sum 
+				for(i in 1:length(cdf.x)) #it is sorted, a=x_i=r/2; after the loop, we will 2/L
+					cdf.y[i]<-sum(cdf.x[1:i])+ # x is r/2 and sum is L/2
+						(length(cdf.x)-i)*cdf.x[i]
+				cdf.y<-cdf.y/L.half
+				lines(cdf.x,cdf.y,col="blue") #plot expetation with blue
+				#ok. start plot 2 with expetation
 				plot(twotimes, xlim=c(0,0.5), col="blue", main="Relative distances", xlab="Fractional distance", ylab="Cumulative fraction")
 				lines(ecdf(data$relative.distances.data))
 			}
@@ -161,8 +168,7 @@ setMethod('graphical.report',
 setGeneric('visualize',function(x,pdffile='',show.all=TRUE,show.chromosomes=c(), trustname=TRUE, make.new=TRUE, style="blue-white-red")
                                 standardGeneric('visualize'))
 
-setMethod('visualize',#'GenometriCorrResult',
-#signature(x='GenometriCorrResult',pdffile='',show.all='logical',show.chromosomes='logical',trustname='logical'),
+setMethod('visualize',
 	signature(x='GenometriCorrResult'),
 	function(x, pdffile='',show.all=FALSE,show.chromosomes=c(), trustname=TRUE, make.new=TRUE, style="blue-white-red")
 	{

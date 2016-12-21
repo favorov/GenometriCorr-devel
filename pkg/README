@@ -124,3 +124,5 @@ thanks to Tyler Funnell from BCCRC, Vancouver
 1.1.17
 graphical.report() bug fixed, 
 thanks to Meharji Arumilli from Helsinki University, Finland
+the correct expected curve for absolute.disdances added to graphical.report() 
+the documentation updated
