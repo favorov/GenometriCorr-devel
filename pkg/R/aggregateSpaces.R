@@ -6,7 +6,10 @@
 # it has two parameters: space.correspondence and data. 
 #space.correspondence is a character array of (N,2) and data 
 #
-
+#from and to is a pair of vector of strings of the same lentghts;
+#they describe what spaces and where to aggregate; 
+#length(result) is 
+#
 #This is list of fields copied from docs as of Mar 21 2015
 # fields with #% are hints for gather
 #the line starting with #* is what we do in aggregate function
@@ -126,10 +129,11 @@
 ### the first null is concat of all firts for different spaces
 ###
 	
-.aggregateSpaces<-function(correspondence,result)
+.aggregateSpaces<-function(from,to,result.to.aggregate)
 {
-	
+	result<-list()
 	#awhole.space.name is the space name for this operation
+
 		result[[awhole.space.name]]<-list()
 		result[[awhole.space.name]][['query.population']]<-0
 		result[[awhole.space.name]][['reference.population']]<-0
@@ -177,4 +181,6 @@
 		#result[[awhole.space.name]] as a list()
 			result[[awhole.space.name]]<-list();
 			result[[awhole.space.name]][[name]]<-result.awhole[[name]]
+	
+	return(new('GenometriCorrResult',.Data=result))
 }
