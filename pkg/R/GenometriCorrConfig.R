@@ -384,13 +384,11 @@ setMethod('run.config', signature(conf='GenometriCorrConfig'),
 				MapRangesToGenomicIntervals(
 					where.to.map=mapping,
 					what.to.map=query,
-					unmapped.chromosome.warning=FALSE,
 					chromosomes.to.proceed=chrom)
 			reference<-
 				MapRangesToGenomicIntervals(
 					where.to.map=mapping,
 					what.to.map=reference,
-					unmapped.chromosome.warning=FALSE,
 					chromosomes.to.proceed=chrom)
 		}
 		else
