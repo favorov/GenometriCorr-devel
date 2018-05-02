@@ -81,7 +81,7 @@ The \code{readTableToIRanges} function is necessary when you work with nonstanda
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 	The \code{\link{GenometriCorr}} documentation and the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vignette}.
-	Import function from \code{rtracklayer}: {\code{\link[rtracklayer]{import}}} 
+	\code{\link[rtracklayer:export]{Import}} import function from \code{rtracklayer} 
 }
 
 \examples{
