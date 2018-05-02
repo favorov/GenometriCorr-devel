@@ -126,3 +126,8 @@ graphical.report() bug fixed,
 thanks to Meharji Arumilli from Helsinki University, Finland
 the correct expected curve for absolute.disdances added to graphical.report() 
 the documentation updated
+1.1.18
+if map space is not normalized, the mapping code normalizes it and warns instead of error
+Thanks to Alla and Vanja from VIGG
+Doc links fixed
+ 
