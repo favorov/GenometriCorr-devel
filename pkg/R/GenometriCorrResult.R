@@ -22,7 +22,8 @@ setMethod('show','GenometriCorrResult',function(object)
 		cat("\n")
 		cat(length(a)==0)
 		cat("\n")
-		if (length(a) == 0) { return }
+		if (length(a) == 0) cat("nol....\n")
+		if (length(a) == 0) return()
 		cat("did not return....\n")
 		namelist<-names(object[[1]])
 		#possible operations with namelist here
