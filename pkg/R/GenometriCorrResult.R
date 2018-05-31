@@ -8,11 +8,22 @@
 #if (!require('methods')) stop('GenometriCorrResult requires methods package!\n')
 #if (!require('graphics')) stop('GenometriCorrResult requires graphics package!\n')
 
-setClass('GenometriCorrResult',contains='namedList',representation(config="GenometriCorrConfig"))
+setClass('GenometriCorrResult',contains='list',representation(config="GenometriCorrConfig"))
 
 setMethod('show','GenometriCorrResult',function(object)
 	{
-		if (length(object) == 0) return;
+		cat("Showing GenometriCorrResult\n")
+		cat(class(object))
+		cat("\n")
+		a<-as(object,"list",strict=TRUE)
+		cat(class(a))
+		cat("\n")
+		cat(length(a))
+		cat("\n")
+		cat(length(a)==0)
+		cat("\n")
+		if (length(a) == 0) { return }
+		cat("did not return....\n")
 		namelist<-names(object[[1]])
 		#possible operations with namelist here
 		do_not_show<-
