@@ -130,4 +130,4 @@ the documentation updated
 if map space is not normalized, the mapping code normalizes it and warns instead of error
 Thanks to Alla and Vanja from VIGG
 Doc links fixed
- 
+empty GenometriCorrResult produce error on show(), fixed
