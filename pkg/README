@@ -131,3 +131,4 @@ if map space is not normalized, the mapping code normalizes it and warns instead
 Thanks to Alla and Vanja from VIGG
 Doc links fixed
 empty GenometriCorrResult produce error on show(), fixed
+do.awhole=TRUE is it is not set explicitely and mapping is on
