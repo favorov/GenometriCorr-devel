@@ -12,8 +12,8 @@ setClass('GenometriCorrResult',contains='namedList',representation(config="Genom
 
 setMethod('show','GenometriCorrResult',function(object)
 	{
-		if (length(a) == 0) {
-			cat("Empty GenometriCorrResult..")
+		if (length(object) == 0) {
+			cat("It is an empty GenometriCorrResult.")
 			return()
 		}
 		namelist<-names(object[[1]])
