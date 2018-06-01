@@ -410,7 +410,9 @@ setMethod('run.config', signature(conf='GenometriCorrConfig'),
 
 		if (!is.null(conf$options$awhole.only))
 			todo<-paste(todo,',awhole.only=',conf$options$awhole.only,sep='')
-		
+		else if (!is.null(conf$data$do.mapping) && conf$data$do.mapping) #mapping
+			todo<-paste(todo,',awhole.only=TRUE',sep='')
+
 		if (!is.null(conf$options$showProgressBar))
 			todo<-paste(todo,',showProgressBar=',conf$options$showProgressBar,sep='')
 
