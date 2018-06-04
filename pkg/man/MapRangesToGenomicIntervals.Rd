@@ -46,6 +46,7 @@ MapRangesToGenomicIntervals(
 	}
 	\item{nonnormalised.mapping.warning}{
 		If the input mapping space is not normalised (e.g. contains overlapping intervals), it is normalised before the mapping. A warning is generated if \code{nonnormalised.mapping.warning} is \code{TRUE}. The default is \code{TRUE}.  
+	}
 }
 \details{
 We assume here that all of the ranges are 1-based and end-inclusive (end is 1-based, too).
