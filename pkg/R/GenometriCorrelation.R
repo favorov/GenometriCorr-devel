@@ -110,7 +110,7 @@ GenometriCorrelation <- function(
 	#cut.all.over.length if the length is given and there is any interval coord that is higher than the lenght, the default behavoiur (when cut.all.over.length is FALSE) is to show an error and stop. If it is TRUE, the interval will be just truncated.
 	#suppress.evaluated.length.warning suppresses the warning that a chromosome lenght is eveluated rather then given. The evaluation is just the rightmost coord in all the intervals, it is used is the length is NA.
 	#ecdf.area.permut.number is number of permutations for ecdf area method
-	#permut.number is tje common default for all the permutation parameters
+	#permut.number is the common default for all the permutation parameters
 	#mean.distance.permut.number is the same thing about the mean ref-to-query distance
 	#jaccard.measure.permut.number is the same for Jaccard measure,
 	#awhole.space.name is the space name for this operation
