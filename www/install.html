@@ -40,30 +40,40 @@ We hope to see our package in Bioconductor eventually, so currently we keep the 
 
 <UL>
 
-<LI>First, install the <a href=http://bioconductor.org/packages/release/bioc/html/IRanges.html>IRanges</a> and <a href=http://www.bioconductor.org/packages/release/bioc/html/GenomicRanges.html>GenomicRanges</a>, <a href=http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html>rtracklayer</a> and <a href=http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html>TxDb.Hsapiens.UCSC.hg19.knownGene.html</a> packages from <a href=http://www.bioconductor.org/>Bioconductor</a>.
-<pre>source("http://bioconductor.org/biocLite.R")
-biocLite("IRanges")
-biocLite("GenomicRanges")
-biocLite("rtracklayer")
-biocLite("TxDb.Hsapiens.UCSC.hg19.knownGene")
+<LI>First, install <a href=https://www.bioconductor.org>Bioconductor</a>
+<pre>
+if (!requireNamespace("BiocManager"))
+    install.packages("BiocManager")
+BiocManager::install()
+</pre>
+Then, use Bioconductor's BiocManager to install <a href=http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html>rtracklayer</a> and <a href=http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html>TxDb.Hsapiens.UCSC.hg19.knownGene.html</a> packages from Bioconductor.</a>.
+<pre>
+if( ! require('rtracklayer') ) BiocManager::install("rtracklayer")
+if( ! require('TxDb.Hsapiens.UCSC.hg19.knownGene') ) BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene")
 </pre>
 <p>
 <LI>Install gplots: 
-<pre>install.packages("gplots")</pre> 
+<pre>
+if(!require('gplots')) install.packages("gplots")
+</pre> 
 or, 
-<pre>source("http://bioconductor.org/biocLite.R")
-biocLite("gplots")
+<pre>
+if(!require('gplots')) BiocManager::install("gplots")
 </pre>
 <LI>Install RCurl:
-<pre>install.packages("RCurl")</pre> 
+<pre>if(!require('RCurl')) install.packages("RCurl")
+</pre> 
 or, 
-<pre>source("http://bioconductor.org/biocLite.R")
-biocLite("RCurl")</pre>
+<pre>
+if(!require('RCurl')) BiocManager::install("RCurl")
+</pre>
 It is critical, intallation process can stuck otherwise.
+Usually, the most of the packages are already installed.
 <p>
-<LI>To install the package itself, run this command in R:
+<LI>To install the GenometriCorr package itself, run this command in R:
 <pre>install.packages('GenometriCorr',repos='http://genometricorr.sourceforge.net/R/',type='source')</pre>
-<LI>If you prefer GitHub, the following will do the same:
+
+<LI>If you prefer GitHub+devtools, the following will do the same:
 <pre>library(devtools)
 install_github('favorov/GenometriCorr')</pre>
 <LI>Now, all the packages you need are installed in you R system. Each time you start a new R session going to use GenometriCorr , say:
