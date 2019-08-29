@@ -1,10 +1,9 @@
 # GenometricCorrelation project evaluating two genometric annotations 
 #	correlation. Also provides some service IRanges-related procedures. 
-# (c) 2010-2011 Alexander Favorov, Leslie Cope, Yulia Medvedeva, 
+# (c) 2010-2019 Alexander Favorov, Leslie Cope, Yulia Medvedeva, 
 #              Loris Mularoni, Vsevolod Makeev, Sarah Wheelan.
 #
 # usage example
-#$Id: GenometriCorrWizard.R 1701 2012-03-10 00:21:56Z favorov $
 
 
 
