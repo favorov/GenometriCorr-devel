@@ -40,7 +40,7 @@ Imports:
     gplots,
     gdata
 Suggests:
-    TxDb.Hsapiens.UCSC.hg19.knownGene,
+    TxDb.Hsapiens.UCSC.hg19.knownGene
 biocViews: Annotation, Genetics, Infrastructure, DataRepresentation,
     GenomeAnnotation, StatisticalMethod
 URL: http://genometricorr.sourceforge.net/

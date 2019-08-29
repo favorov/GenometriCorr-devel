@@ -9,6 +9,8 @@
 #if (!require('graphics')) stop('GenometriCorrResult requires graphics package!\n')
 
 #'@importFrom grDevices as.raster rainbow
+#'@importFrom grDevices colorRamp dev.off dev.size pdf rgb 
+#'@importFrom graphics axis hist layout lines mtext par plot plot.new rasterImage text xinch 
 
 #'@export
 setClass('GenometriCorrResult',contains='namedList',representation(config="GenometriCorrConfig"))

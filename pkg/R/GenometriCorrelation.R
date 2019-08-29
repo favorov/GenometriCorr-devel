@@ -7,6 +7,9 @@
 
 #'@import IRanges GenomicRanges GenomicFeatures methods 
 #'@importFrom tcltk tkProgressBar setTkProgressBar getTkProgressBar
+#'@importFrom GenomeInfoDb seqlevels seqlevels<- seqlengths
+#'@importFrom stats ecdf integrate ks.test pbinom punif runif 
+#'@importFrom utils getTxtProgressBar head packageDescription read.table setTxtProgressBar tail txtProgressBar 
 
 epsilon=1e-6
 integr_rel_tol=0.01
