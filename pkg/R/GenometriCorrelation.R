@@ -102,7 +102,9 @@ GenometriCorrelation <- function(
 {
 	#' @export
 	#query and reference are two data sets that are under analysis
-	#each og them is IRanges or RangedData
+	#each of them is IRanges or GRanges or RangedData (going to be deprecated)
+	#If the lists of chromosomes in the query an in the reference differ,
+	#we procced only the intersection
 	#list.of.spaces is list of spaces to work with
 	#chromosomes.to.proceed is list of chromosomes to proceed
 	#chromosomes.to.include.in.awhole is a list of chromosomes to include in 'whole genome', default is all chromosomes.to.proceed()
@@ -154,7 +156,7 @@ GenometriCorrelation <- function(
 	if (!(irR=inherits(reference,"IRanges")) && !(rdR=inherits(reference,"RangedData")) && !(grR=inherits(reference,"GenomicRanges")))
 		stop("The thing given as second (",nameR,") range argument to GenomertiCorrelation is\n  nor an IRanges nor a RangedData nor a GRanges object!")
 
-	#they both are IRanges or RangedData if we are here
+	#they both are IRanges or RangedData or GRanges if we are here
 
 	#space is an old thing; currently, chromosomes.to.proceed is preferrable
 
@@ -534,22 +536,23 @@ GenometriCorrelation <- function(
 		rd_query<-RangedData(dA)
 		rd_reference<-RangedData(dB)
 	}
+	
+	#the code romoves all the chromosomes with empty r and empty q
 
 	good_space=rep(TRUE,length(list.of.spaces))
 
 	for (space_no in 1:length(list.of.spaces)) #calculate everything nonpermutted for each chromosomes
 	{
 		space<-list.of.spaces[space_no]
-		if (length(start(ranges(rd_query)[[space]]))==0)
+		if (length(start(ranges(rd_query)[[space]]))==0 &&
+			length(start(ranges(rd_reference)[[space]]))==0)
+		{
 			good_space[space_no]=FALSE
-		if (length(start(ranges(rd_reference)[[space]]))==0)
-			good_space[space_no]=FALSE
-		if (!good_space[space_no])
 			warning("The space: ",space, " is not populated, we omit it.")
+		}
 	}
 
 	list.of.spaces<-list.of.spaces[good_space];
-
 	#filtered....
 
 	#initialise it all
@@ -666,7 +669,7 @@ GenometriCorrelation <- function(
 
 		result[[space]][['reference.population']]<-length(ref)
 
-	  result[[space]][['query.coverage']]<-sum(width(reduce(rd_query[space]$ranges)))
+		result[[space]][['query.coverage']]<-sum(width(reduce(rd_query[space]$ranges)))
 
 		result[[space]][['reference.coverage']]<-sum(width(reduce(rd_reference[space]$ranges)))
 		
