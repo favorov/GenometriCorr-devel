@@ -675,6 +675,8 @@ GenometriCorrelation <- function(
 		
 		result[[space]][['relative.distances.data']]<-
 			query_to_ref_relative_distances(qu,ref,map.to.half,is_query_sorted=T,is_ref_sorted=T,chrom_length=chromosomes.length[space])
+		
+		nonempty_relative_data<- length(result[[space]]$relative.distances.data) > 0
 
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
@@ -684,7 +686,7 @@ GenometriCorrelation <- function(
 			done_info <- sprintf('chromosome: %s ; %i of %i done',space,done,pb_capacity)
 			setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 		}
-		if (length(result[[space]]$relative.distances.data) > 0) {
+		if (nonempty_relative_data) {
 			result[[space]][['relative.distances.ks.p.value']]<-
 				ks.test(untie(result[[space]]$relative.distances.data),
 					punif,min=0,max=rel.dist.top)$p.value
@@ -701,12 +703,19 @@ GenometriCorrelation <- function(
 			setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 		}
 		
-		result[[space]][['relative.distances.ecdf.deviation.area']]<-
-			integrate(
-					function(x){return(abs((ecdf(result[[space]]$relative.distances.data))(x)-x/rel.dist.top))},
+		if (nonempty_relative_data) {
+			result[[space]][['relative.distances.ecdf.deviation.area']]<-
+				integrate(
+					function(x){
+						return(abs((ecdf(result[[space]]$relative.distances.data))(x)-
+						x/rel.dist.top))
+					},
 					lower=0,upper=rel.dist.top,
 					subdivisions=length(result[[space]]$relative.distances.data)*100,
 					rel.tol=integr_rel_tol)$value
+		} else {
+			result[[space]][['relative.distances.ecdf.deviation.area']]<-0
+		}
 		#makes no sense if no (ecdf.area.permut.number==0) relative distance permutations done
 		if (ecdf.area.permut.number>0) 
 		{
