@@ -684,9 +684,11 @@ GenometriCorrelation <- function(
 			done_info <- sprintf('chromosome: %s ; %i of %i done',space,done,pb_capacity)
 			setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 		}
-
-		result[[space]][['relative.distances.ks.p.value']]<-
-			ks.test(untie(result[[space]]$relative.distances.data),punif,min=0,max=rel.dist.top)$p.value
+		if (length(result[[space]]$relative.distances.data) > 0) {
+			result[[space]][['relative.distances.ks.p.value']]<-
+				ks.test(untie(result[[space]]$relative.distances.data),
+					punif,min=0,max=rel.dist.top)$p.value
+		} else result[[space]][['relative.distances.ks.p.value'] <- 1 #empty distribution
 
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
