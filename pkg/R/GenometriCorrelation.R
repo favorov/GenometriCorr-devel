@@ -548,7 +548,7 @@ GenometriCorrelation <- function(
 			length(start(ranges(rd_reference)[[space]]))==0)
 		{
 			good_space[space_no]=FALSE
-			warning("The space: ",space, " is not populated, we omit it.")
+			warning("The space: ",space, " is not populated nor in query neither in reference, we omit it.")
 		}
 	}
 
