@@ -1310,14 +1310,13 @@ query_to_ref_relative_distances<-function(query,ref,map.to.half,is_query_sorted=
 		query<-query[order(query)]
 	if (!is_ref_sorted) 
 		ref<-ref[order(ref)]
-	rel_data<-list()
+	rel_data<-c()
 
 	#if chrom_length==0, we will loose all probes that fall out ref range, 
 	#otherwise we provide the chrom length and so circle the reference
 	refindex<-1
 	firstref<-ref[1]
 	lastref<-ref[length(ref)]
-	rel_data<-c()
 	for (quindex in 1:length(query))
 	#we like to calcilate wheb current ref < current query <= next ref
 	{
@@ -1374,12 +1373,14 @@ query_to_ref_relative_distances<-function(query,ref,map.to.half,is_query_sorted=
 query_to_ref_min_absolute_distances<-function(query,ref,map.to.half,is_query_sorted=F,is_ref_sorted=F,chrom_length=NA)
 #calculate distances for a pair of positions (points)  vectors: query, ref
 {
+	if (length(query)==0 || length(ref)==0) {
+		return (c())
+	}
 
 	if (!is_query_sorted) 
 		query<-query[order(query)]
 	if (!is_ref_sorted) 
 		ref<-ref[order(ref)]
-	rel_data<-list()
 
 	#if chrom_length==0, we will loose all probes that fall out ref range, 
 	#otherwise we provide the chrom length and so circle the reference
