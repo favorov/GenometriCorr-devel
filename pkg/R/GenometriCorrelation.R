@@ -1448,11 +1448,14 @@ query_to_ref_min_absolute_distance_sum<-function(query,ref,map.to.half,is_query_
 #calculate distances for a pair of positions (points)  vectors: query, ref
 {
 
+	if (length(query)==0 || length(ref)==0) {
+		return (0)
+	}
+
 	if (!is_query_sorted) 
 		query<-query[order(query)]
 	if (!is_ref_sorted) 
 		ref<-ref[order(ref)]
-	rel_data<-list()
 
 	#if chrom_length==0, we will loose all probes that fall out ref range, 
 	#otherwise we provide the chrom length and so circle the reference
