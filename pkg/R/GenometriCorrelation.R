@@ -1290,7 +1290,9 @@ chromosomes.length.eval<-function(rd_query_space,rd_reference_space)
 query_to_ref_relative_distances<-function(query,ref,map.to.half,is_query_sorted=F,is_ref_sorted=F,chrom_length=NA)
 #calculate distances for a pair of positions (points)  vectors: query, ref
 {
-
+	if (length(query)==0 || length(ref)) {
+		return (c())
+	}
 	if (!is_query_sorted) 
 		query<-query[order(query)]
 	if (!is_ref_sorted) 
