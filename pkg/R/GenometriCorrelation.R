@@ -672,12 +672,21 @@ GenometriCorrelation <- function(
 		result[[space]][['query.coverage']]<-sum(width(reduce(rd_query[space]$ranges)))
 
 		result[[space]][['reference.coverage']]<-sum(width(reduce(rd_reference[space]$ranges)))
-		
-		result[[space]][['relative.distances.data']]<-
-			query_to_ref_relative_distances(qu,ref,map.to.half,is_query_sorted=T,is_ref_sorted=T,chrom_length=chromosomes.length[space])
-		
-		nonempty_relative_data<- length(result[[space]]$relative.distances.data) > 0
 
+		qu_or_ref_is_empty<-(length(qu)==0 || length(ref)==0)
+		
+		if (!qu_or_ref_is_empty) {
+			result[[space]][['relative.distances.data']]<-
+				query_to_ref_relative_distances(
+						qu,ref,map.to.half,
+						is_query_sorted=T,
+						is_ref_sorted=T,
+						chrom_length=chromosomes.length[space]
+				)
+		} else {
+			result[[space]][['relative.distances.data']]<-c()
+		}
+		
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
 		if (showTkProgressBar)
@@ -686,7 +695,7 @@ GenometriCorrelation <- function(
 			done_info <- sprintf('chromosome: %s ; %i of %i done',space,done,pb_capacity)
 			setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 		}
-		if (nonempty_relative_data) {
+		if (!qu_or_ref_is_empty) {
 			result[[space]][['relative.distances.ks.p.value']]<-
 				ks.test(untie(result[[space]]$relative.distances.data),
 					punif,min=0,max=rel.dist.top)$p.value
@@ -703,7 +712,7 @@ GenometriCorrelation <- function(
 			setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 		}
 		
-		if (nonempty_relative_data) {
+		if (!qu_or_ref_is_empty) {
 			result[[space]][['relative.distances.ecdf.deviation.area']]<-
 				integrate(
 					function(x){
@@ -743,7 +752,6 @@ GenometriCorrelation <- function(
 			setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 		}
 
-		result[[space]][['projection.test']]<-query.to.ref.projection.statistics(qu,rd_reference[space]$ranges,TRUE,chromosomes.length[space])	
 
 		result[[space]][['query.reference.intersection']]<-sum(width(reduce(intersect(rd_query[space]$ranges,rd_reference[space]$ranges))))
 		result[[space]][['query.reference.union']]<-sum(width(reduce(union(rd_query[space]$ranges,rd_reference[space]$ranges))))
@@ -766,36 +774,46 @@ GenometriCorrelation <- function(
 			done_info <- sprintf('chromosome: %s ; %i of %i done',space,done,pb_capacity)
 			setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 		}
+		
+		result[[space]][['projection.test']]<-
+				  query.to.ref.projection.statistics(qu,rd_reference[space]$ranges,TRUE,chromosomes.length[space])	
+				  
+		if(!qu_or_ref_is_empty) {	
+				  proj.p.value<-
+					  pbinom(
+						  result[[space]][['projection.test']][['query.hits']],
+						  result[[space]][['query.population']],
+						  result[[space]][['projection.test']][['reference.coverage']]/
+									 	result[[space]][['projection.test']][['space.length']]
+					  )
 
-		proj.p.value<-
-			pbinom(
-				result[[space]][['projection.test']][['query.hits']],
-				result[[space]][['query.population']],
-				result[[space]][['projection.test']][['reference.coverage']]/result[[space]][['projection.test']][['space.length']]
-			)
+				  if (proj.p.value<.5) # one-sided test
+				  {
+					  result[[space]][['projection.test.p.value']]<-proj.p.value
+					  result[[space]][['projection.test.lower.tail']] <- TRUE
+				  }
+				  else
+				  {
+					  result[[space]][['projection.test.p.value']]<- 1.-proj.p.value
+					  result[[space]][['projection.test.lower.tail']] <- FALSE
+				  }
 
-		if (proj.p.value<.5) # one-sided test
-		{
-			result[[space]][['projection.test.p.value']]<-proj.p.value
-			result[[space]][['projection.test.lower.tail']] <- TRUE
-		}
-		else
-		{
-			result[[space]][['projection.test.p.value']]<- 1.-proj.p.value
+				  result[[space]][['projection.test.obs.to.exp']]<- 
+					  (	
+						  result[[space]][['projection.test']][['query.hits']]
+						  /
+						  result[[space]][['query.population']]
+					  )*
+					  (
+						  result[[space]][['projection.test']][['space.length']] 
+						  / 
+						  result[[space]][['projection.test']][['reference.coverage']]
+					  )
+		} else {
+			result[[space]][['projection.test.p.value']] <- 1.
 			result[[space]][['projection.test.lower.tail']] <- FALSE
+			result[[space]][['projection.test.obs.to.exp']] <- 1.
 		}
-
-		result[[space]][['projection.test.obs.to.exp']]<- 
-			(	
-				result[[space]][['projection.test']][['query.hits']]
-				/
-				result[[space]][['query.population']]
-			)*
-			(
-				result[[space]][['projection.test']][['space.length']] 
-				/ 
-				result[[space]][['projection.test']][['reference.coverage']]
-			)
 		
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
@@ -1157,10 +1175,15 @@ GenometriCorrelation <- function(
 	{
 		for (space in c(list.of.spaces,awhole.space.name))
 		{
-			p.value<-
-				1-(ecdf(result[[space]][['relative.distances.ecdf.deviation.area.null.list']]))(result[[space]][['relative.distances.ecdf.deviation.area']]) #we treat only right side
-			if (p.value==0) 
-				p.value = paste("<",toString(1/ecdf.area.permut.number),sep='')
+			if ((length(rd_query[space]$ranges)==0 || length(rd_reference[space]$ranges)==0)) {p.value<-1.}
+			else {
+				p.value<-
+					1-(ecdf(result[[space]][['relative.distances.ecdf.deviation.area.null.list']]))(
+						result[[space]][['relative.distances.ecdf.deviation.area']]
+					) #we treat only right side
+				if (p.value==0) 
+					p.value = paste("<",toString(1/ecdf.area.permut.number),sep='')
+			}
 			result[[space]][['relative.distances.ecdf.deviation.area.p.value']]<-p.value
 		}
 	}
@@ -1176,20 +1199,24 @@ GenometriCorrelation <- function(
 	{
 		for (space in c(list.of.spaces,awhole.space.name))
 		{
-			p.value<-
-				(ecdf(result[[space]][['scaled.absolute.min.distance.sum.null.list']]))(result[[space]][['scaled.absolute.min.distance.sum']]) #we treat only right side
-			
-			if(p.value<=0.5)
-				lower.tail<-TRUE
-			else
-			{
-				lower.tail <- FALSE
-				p.value<-1-p.value
+			if ((length(rd_query[space]$ranges)==0 || length(rd_reference[space]$ranges)==0)) {
+				p.value<-1.
+				lower.tail<-FALSE
+			} else {
+				p.value<-
+					(ecdf(result[[space]][['scaled.absolute.min.distance.sum.null.list']]))(result[[space]][['scaled.absolute.min.distance.sum']]) #we treat only right side
+				
+				if(p.value<=0.5)
+					lower.tail<-TRUE
+				else
+				{
+					lower.tail <- FALSE
+					p.value<-1-p.value
+				}
+
+				if (p.value==0) 
+					p.value = paste("<",toString(1/mean.distance.permut.number),sep='')
 			}
-
-			if (p.value==0) 
-				p.value = paste("<",toString(1/mean.distance.permut.number),sep='')
-
 			result[[space]][['scaled.absolute.min.distance.sum.p.value']]<-p.value
 			result[[space]][['scaled.absolute.min.distance.sum.lower.tail']] <- lower.tail 
 		}
@@ -1199,20 +1226,26 @@ GenometriCorrelation <- function(
 	{
 		for (space in c(list.of.spaces,awhole.space.name))
 		{
-			p.value<-
-				(ecdf(result[[space]][['jaccard.measure.null.list']]))(result[[space]][['jaccard.measure']]) #we treat only right side
+			if ((length(rd_query[space]$ranges)==0 || length(rd_reference[space]$ranges)==0)) {
+				p.value<-1.
+				lower.tail<-FALSE
+			} else {
+				p.value<-
+				(ecdf(result[[space]][['jaccard.measure.null.list']]))(
+						result[[space]][['jaccard.measure']]
+				) #we treat only right side
 			
-			if(p.value<=0.5)
-				lower.tail<-TRUE
-			else
-			{
-				lower.tail <- FALSE
-				p.value<-1-p.value
+				if(p.value<=0.5)
+					lower.tail<-TRUE
+				else
+				{
+					lower.tail <- FALSE
+					p.value<-1-p.value
+				}
+
+				if (p.value==0) 
+					p.value = paste("<",toString(1/jaccard.measure.permut.number),sep='')
 			}
-
-			if (p.value==0) 
-				p.value = paste("<",toString(1/jaccard.measure.permut.number),sep='')
-
 			result[[space]][['jaccard.measure.p.value']]<-p.value
 			result[[space]][['jaccard.measure.lower.tail']] <- lower.tail 
 		}
