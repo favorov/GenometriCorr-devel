@@ -985,12 +985,16 @@ GenometriCorrelation <- function(
 				#each choromosome
 				sample_size<-length(rd_query[space]$ranges)
 				sample<-runif(sample_size,0,rel.dist.top) #sample
+				if (length(sample)>0) {
 				dev_area<-
 					integrate(
 							function(x){return(abs((ecdf(sample)(x))-x/rel.dist.top))},
 							lower=0,upper=rel.dist.top,
 							subdivisions=sample_size*100,
 							rel.tol=integr_rel_tol)$value
+				} else {dev_area<-0}
+				#so if query is empty it returns 0
+				#if the reference is - we do not care here
 
 				result[[space]][['relative.distances.ecdf.deviation.area.null.list']]<-
 					c(result[[space]][['relative.distances.ecdf.deviation.area.null.list']],dev_area) #save the result
