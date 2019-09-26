@@ -688,7 +688,9 @@ GenometriCorrelation <- function(
 			result[[space]][['relative.distances.ks.p.value']]<-
 				ks.test(untie(result[[space]]$relative.distances.data),
 					punif,min=0,max=rel.dist.top)$p.value
-		} else result[[space]][['relative.distances.ks.p.value'] <- 1 #empty distribution
+		} else {
+			result[[space]][['relative.distances.ks.p.value']] <- 1.
+		} #empty distribution
 
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
