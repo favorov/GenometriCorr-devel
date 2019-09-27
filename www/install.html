@@ -38,48 +38,23 @@ h1 {
 We hope to see our package in Bioconductor eventually, so currently we keep the package in our own installation repository. 
 </p>
 
-<UL>
+GenonetriCorr requires <tt>gplots</tt>, <tt>RCurl</tt>, <tt>tcltk</tt> from CRAN, <tt>rtracklayer</tt>, and <tt>TxDb.Hsapiens.UCSC.hg19.knownGene</tt> from <a href=https://www.bioconductor.org>Bioconductor</a>. They all can be installed using <a href=https://www.bioconductor.org>Bioconductor</a>.
+</p>
 
-<LI>First, install <a href=https://www.bioconductor.org>Bioconductor</a>
-<pre>
-if (!requireNamespace("BiocManager"))
-    install.packages("BiocManager")
-BiocManager::install()
-</pre>
-Then, use Bioconductor's BiocManager to install <a href=http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html>rtracklayer</a> and <a href=http://bioconductor.org/packages/release/data/annotation/html/TxDb.Hsapiens.UCSC.hg19.knownGene.html>TxDb.Hsapiens.UCSC.hg19.knownGene.html</a> packages from Bioconductor.</a>.
-<pre>
-if( ! require('rtracklayer') ) BiocManager::install("rtracklayer")
-if( ! require('TxDb.Hsapiens.UCSC.hg19.knownGene') ) BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene")
-</pre>
-<p>
-<LI>Install gplots: 
-<pre>
-if(!require('gplots')) install.packages("gplots")
-</pre> 
-or, 
-<pre>
-if(!require('gplots')) BiocManager::install("gplots")
-</pre>
-<LI>Install RCurl:
-<pre>if(!require('RCurl')) install.packages("RCurl")
-</pre> 
-or, 
-<pre>
-if(!require('RCurl')) BiocManager::install("RCurl")
-</pre>
-It is critical, intallation process can stuck otherwise.
-Usually, the most of the packages are already installed.
-<p>
-<LI>To install the GenometriCorr package itself, run this command in R:
-<pre>install.packages('GenometriCorr',repos='http://genometricorr.sourceforge.net/R/',type='source')</pre>
+After you have then installed, we can install GenometriCorr. We did not put it on CRAN because we hope to put it in <a href=https://www.bioconductor.org>Bioconductor</a> somewhen.
 
-<LI>If you prefer GitHub+devtools, the following will do the same:
+
+To install the GenometriCorr package grom github (we like this way), install <tt>devtools</tt> and run these commands:
+
 <pre>library(devtools)
 install_github('favorov/GenometriCorr')</pre>
-<LI>Now, all the packages you need are installed in you R system. Each time you start a new R session going to use GenometriCorr , say:
-<pre>library('GenometriCorr')</pre>
-<LI>Enjoy!
-</UL>
+
+You can also install it in oldschool R manner:
+
+<pre>install.packages('GenometriCorr',repos='http://genometricorr.sourceforge.net/R/',type='source')</pre>
+
+Enjoy!
+
 </body>
 </html>
 
