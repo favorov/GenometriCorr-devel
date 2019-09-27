@@ -1098,7 +1098,6 @@ GenometriCorrelation <- function(
 		result[[space]][['reference.middles']]<-NULL
 		#we do need it any more
 	}
-	
 	#jaccard.measure permutation gathering
 	if (jaccard.measure.permut.number>0 )
 		for (permutaion.number in 1:jaccard.measure.permut.number)
@@ -1175,8 +1174,9 @@ GenometriCorrelation <- function(
 	{
 		for (space in c(list.of.spaces,awhole.space.name))
 		{
-			if ((length(rd_query[space]$ranges)==0 || length(rd_reference[space]$ranges)==0)) {p.value<-1.}
-			else {
+			if ( result[[space]][['query.population']]==0 || result[[space]][['reference.population']]==0) {
+				p.value<-1.
+			} else {
 				p.value<-
 					1-(ecdf(result[[space]][['relative.distances.ecdf.deviation.area.null.list']]))(
 						result[[space]][['relative.distances.ecdf.deviation.area']]
@@ -1194,12 +1194,14 @@ GenometriCorrelation <- function(
 		done_info <- sprintf('gathering results; %i of %i done',done,pb_capacity)
 		setTkProgressBar(tk_pb,value=done,title=paste('GenometriCorrelation:',done_info),label=done_info)
 	}
+	
+	
 	#min distance sum p-values
 	if (mean.distance.permut.number>0)
 	{
 		for (space in c(list.of.spaces,awhole.space.name))
 		{
-			if ((length(rd_query[space]$ranges)==0 || length(rd_reference[space]$ranges)==0)) {
+			if ( result[[space]][['query.population']]==0 || result[[space]][['reference.population']]==0) {
 				p.value<-1.
 				lower.tail<-FALSE
 			} else {
@@ -1221,12 +1223,13 @@ GenometriCorrelation <- function(
 			result[[space]][['scaled.absolute.min.distance.sum.lower.tail']] <- lower.tail 
 		}
 	}
+	
 	#jaccard distance sum p-values
 	if (jaccard.measure.permut.number>0)
 	{
 		for (space in c(list.of.spaces,awhole.space.name))
 		{
-			if ((length(rd_query[space]$ranges)==0 || length(rd_reference[space]$ranges)==0)) {
+			if ( result[[space]][['query.population']]==0 || result[[space]][['reference.population']]==0) {
 				p.value<-1.
 				lower.tail<-FALSE
 			} else {
