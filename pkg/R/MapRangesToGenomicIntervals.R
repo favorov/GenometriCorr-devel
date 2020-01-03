@@ -18,38 +18,22 @@ MapRangesToGenomicIntervals<-function(
 #in the second case, we test the lenthg equivalence
 {
 	is.where.gr<-inherits(where.to.map,"GRanges")
-	is.where.rd<-inherits(where.to.map,"RangedData")
-	if (!is.where.rd && !is.where.gr)
-		stop("where.to.map is not RangedData and it is not GRanges. It's all lost!\n")	
+	if (!is.where.gr)
+		stop("where.to.map is not GRanges. It's all lost!\n")	
 	chromosome.names.where<-NA
-	if (is.where.gr)
-	{
-		chromosome.names.where<-as.character(unique(seqnames(where.to.map)))
-		where.to.map<-as(where.to.map,'RangedData')
-	}
-	else #is.where.rd
-	{
-		chromosome.names.where<-as.character(unique(space(where.to.map)))
-	}
+	chromosome.names.where<-as.character(unique(seqnames(where.to.map)))
+	where.to.map<-as(where.to.map,'RangedData')
 
 	is.what.gr<-inherits(what.to.map,"GRanges")
-	is.what.rd<-inherits(what.to.map,"RangedData")
-	if (!is.what.rd && !is.what.gr)
-		stop("what.to.map is not RangedData and it is not GRanges. It's all lost!\n")	
-	chromosome.names.what<-NA
 	if (is.what.gr)
-	{
-		chromosome.names.what<-as.character(unique(seqnames(what.to.map)))
-		what.to.map<-as(what.to.map,'RangedData')
-	}
-	else #is.what.rd
-	{
-		chromosome.names.what<-as.character(unique(space(what.to.map)))
-	}
-	seqnames<-c()
-	seqleninfo<-c()
-	start=c()
-	end=c()
+		stop("what.to.map is not GRanges. It's all lost!\n")	
+	chromosome.names.what<-NA
+	chromosome.names.what<-as.character(unique(seqnames(what.to.map)))
+	what.to.map<-as(what.to.map,'RangedData')
+	#seqnames<-c()
+	#seqleninfo<-c()
+	#start=c()
+	#end=c()
 	for (chr in chromosome.names.what)
 	{
 		if (!is.na(chromosomes.to.proceed) && ! chr %in% chromosomes.to.proceed) next;
@@ -69,25 +53,25 @@ MapRangesToGenomicIntervals<-function(
 		}
 	
 		whatranges<-sort(ranges(what.to.map)[[chr]])
+		# 1.22 code
+		#mapping.mat<-as.matrix(findOverlaps(whatranges,whereranges))
 		
-		mapping.mat<-as.matrix(findOverlaps(whatranges,whereranges))
-		
-		map.result<-apply(mapping.mat,1,
-			function(hit){
-				ind.what<-hit[1]
-				ind.where<-hit[2]
-				start<-max(1,start(whatranges)[ind.what]-start(whereranges)[ind.where]+1)
-				end<-min(end(whatranges)[ind.what]-start(whereranges)[ind.where]+1,width(whereranges)[ind.where])
-				seqnames<-paste0(chr,':',start(whereranges)[ind.where],'-',end(whereranges)[ind.where])
-				c(seqnames=seqnames,end=end,start=start)
-			}
-		)
+		#map.result<-apply(mapping.mat,1,
+		#	function(hit){
+		#		ind.what<-hit[1]
+		#		ind.where<-hit[2]
+		#		start<-max(1,start(whatranges)[ind.what]-start(whereranges)[ind.where]+1)
+		#		end<-min(end(whatranges)[ind.what]-start(whereranges)[ind.where]+1,width(whereranges)[ind.where])
+		#		seqnames<-paste0(chr,':',start(whereranges)[ind.where],'-',end(whereranges)[ind.where])
+		#		c(seqnames=seqnames,end=end,start=start)
+		#	}
+		#)
 	
-		seqnames<-c(seqnames,map.result['seqnames',])
-		start<-c(start,as.integer(map.result['start',]))
-		end<-c(end,as.integer(map.result['end',]))
+		#seqnames<-c(seqnames,map.result['seqnames',])
+		#start<-c(start,as.integer(map.result['start',]))
+		#end<-c(end,as.integer(map.result['end',]))
 	}
-	if(unmapped.range.warning && ( length(space(what.to.map)) > length(start) ))
+	if(unmapped.range.warning && ( length(space(what.to.map)) > length(result) ))
 		warning("Some ranges remained unmapped.\n")
 	if (length(seqnames)==0)
 	{
