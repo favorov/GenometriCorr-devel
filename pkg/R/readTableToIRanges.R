@@ -2,7 +2,7 @@
 # (c) 2010-2019 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
 #               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
 #               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
-# readTableToIRanges.R reads a variety of GFF- or BED-like  formats to an IRanges or a RangedData object
+# readTableToIRanges.R reads a variety of GFF- or BED-like  formats to an IRanges or a GRanges object
 
 
 ## file is the name of file to read
@@ -11,7 +11,7 @@
 ## if header is TRUE, each column is named by the its label in the header raw
 ##
 ## space is the number (1-based) or the name in the header of the column containing the 
-##			chromosome name in the RangedData notation, it is 'space'. 
+##			chromosome name in the old RangedData notation, it is 'space' For Granges, it is seqnames
 ##      If space is NA or is not given, the data is read to IRanges object
 ##			unless any additional features (see below) are claimed to be read in the object
 ##
@@ -74,13 +74,13 @@ readTableToIRanges <- function(file=NA, space=NA, start=NA, end=NA, width=NA, se
 		columns_accounted<-rep(FALSE,num_col)
 	}
 	
-	space_names<-c('Chromosome','Chr','Space')
+	seqnames_names<-c('Chromosome','Chr','Space','Seqnames','seqnames')
 
 	if (is.na(space))
 	{
 		if (header)
 		{
-			for (name in space_names)
+			for (name in seqnames_names)
 			{
 				li<-grep(name,the_names,ignore.case=T)
 				if (length(li)<1) next

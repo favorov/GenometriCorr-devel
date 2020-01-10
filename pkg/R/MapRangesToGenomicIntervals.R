@@ -96,3 +96,7 @@ MapRangesToGenomicIntervals<-function(
 	)
 }
 
+
+#'@export
+WriteChainFromGRanges<-function(where.to.mao,chainfile) {
+}
