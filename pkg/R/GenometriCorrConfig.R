@@ -220,8 +220,6 @@ setMethod('run.config', signature(conf='GenometriCorrConfig'),
 			if (is.null(conf$data$query.format)) 
 				#query<-rtracklayer::import(conf$data$query)
 				query<-import(conf$data$query)
-			else if (conf$data$query.format=='bed.like.with.header')
-				query<-readTableToIRanges(conf$data$query,header=TRUE)
 			#else query<-rtracklayer::import(conf$data$query,format=conf$data$query.format)
 			else query<-import(conf$data$query,format=conf$data$query.format)
 		}
@@ -288,8 +286,6 @@ setMethod('run.config', signature(conf='GenometriCorrConfig'),
 
 			#if (is.null(conf$data$reference.format)) reference<-rtracklayer::import(conf$data$reference)
 			if (is.null(conf$data$reference.format)) reference<-import(conf$data$reference)
-			else if (conf$data$reference.format=='bed.like.with.header')
-				reference<-readTableToIRanges(conf$data$reference,header=TRUE)
 			#else reference<-rtracklayer::import(conf$data$reference,format=conf$data$reference.format)
 			else reference<-import(conf$data$reference,format=conf$data$reference.format)
 		}
@@ -375,8 +371,6 @@ setMethod('run.config', signature(conf='GenometriCorrConfig'),
 
 				#if (is.null(conf$data$mapping.format)) mapping<-rtracklayer::import(conf$data$mapping)
 				if (is.null(conf$data$mapping.format)) mapping<-import(conf$data$mapping)
-				else if (conf$data$mapping.format=='bed.like.with.header')
-					mapping<-readTableToIRanges(conf$data$mapping,header=TRUE)
 				#else mapping<-rtracklayer::import(conf$data$mapping,format=conf$data$mapping.format)
 				else mapping<-import(conf$data$mapping,format=conf$data$mapping.format)
 			}
