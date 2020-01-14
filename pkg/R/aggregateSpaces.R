@@ -130,6 +130,7 @@
 ### Null distribition for aggregates is gathered and calculated independently for spaces and then it is conctenated:
 ### the first null is concat of all firts for different spaces
 ###
+#it is initial draft for futher versions, it is not supposed tpo work now 
 	
 .aggregateSpaces<-function(from,to,result.to.aggregate)
 {
