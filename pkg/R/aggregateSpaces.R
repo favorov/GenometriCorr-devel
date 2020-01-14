@@ -1,7 +1,9 @@
 # GenometriCorrelation project evaluating two interval markups genomewide independence. 
-# (c) 2010-2020 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
-#               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
-#               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
+# (c) 2010-2020 Alexander Favorov, Loris Mularoni, 
+#               Yulia Medvedeva, Harris A. Jaffee, 
+#               Ekaterina V. Zhuravleva, Veronica Busa,
+#               Leslie M. Cope, Andrey A. Mironov, 
+#               Vsevolod J. Makeev, Sarah J. Wheelan.
 # .aggregateSpaces is function that arregate spaces in GenometriCorrResult
 # it has two parameters: space.correspondence and data. 
 #space.correspondence is a character array of (N,2) and data 

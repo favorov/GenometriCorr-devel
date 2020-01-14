@@ -1,7 +1,10 @@
 # GenometricCorrelation project evaluating two genometric annotations 
 #	correlation. Also provides some service IRanges-related procedures. 
-# (c) 2010-2019 Alexander Favorov, Leslie Cope, Yulia Medvedeva, 
-#              Loris Mularoni, Vsevolod Makeev, Sarah Wheelan.
+# (c) 2010-2020 Alexander Favorov, Loris Mularoni, 
+#               Yulia Medvedeva, Harris A. Jaffee, 
+#               Ekaterina V. Zhuravleva, Veronica Busa,
+#               Leslie M. Cope, Andrey A. Mironov, 
+#               Vsevolod J. Makeev, Sarah J. Wheelan.
 #
 # usage example
 
