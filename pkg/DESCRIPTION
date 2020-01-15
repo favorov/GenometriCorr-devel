@@ -46,4 +46,4 @@ biocViews: Annotation, Genetics, Infrastructure, DataRepresentation,
 URL: http://genometricorr.sourceforge.net/
 Packaged: 2019-09-28 6:00:00 GMT; favorov
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

@@ -37,11 +37,6 @@ add.chr.prefix.to.names<-function(namelist)
 #adds 'chr' prefix to all names if they are not 'chr'-prefixed already;
 #lowercases the 'CHR','ChR', etc prefixes if any instead of adding 'chr'
 {
-	if (inherits(namelist,"RangedData"))# if it is RangedData 
-	{
-		names(namelist)<-add.chr.prefix.to.names(names(namelist))
-		return(namelist)
-	}
 	if (inherits(namelist,"GRanges"))
 	{
 		seqlevels(namelist)<-add.chr.prefix.to.names(seqlevels(namelist))
@@ -104,7 +99,7 @@ GenometriCorrelation <- function(
 {
 	#' @export
 	#query and reference are two data sets that are under analysis
-	#each of them is IRanges or GRanges or RangedData (going to be deprecated)
+	#each of them is IRanges or GRanges 
 	#If the lists of chromosomes in the query an in the reference differ,
 	#we procced only the intersection
 	#list.of.spaces is list of spaces to work with
@@ -151,14 +146,14 @@ GenometriCorrelation <- function(
 		stop("The thing given as second (",nameR,") range argument to\n  GenomertiCorrelation is not an object!")
 	#they are both objects if we are here
 
-	irQ<-irR<-rdQ<-rdR<-grQ<-grR<-FALSE #initialise
+	irQ<-irR<-grQ<-grR<-FALSE #initialise
 
-	if (!(irQ=inherits(query,"IRanges")) && !(rdQ=inherits(query,"RangedData")) && !(grQ=inherits(query,"GenomicRanges")))
-		stop("The thing given as first (",nameQ,") range argument to GenomertiCorrelation is\n  nor an IRanges nor a RangedData nor a GRanges object!")
-	if (!(irR=inherits(reference,"IRanges")) && !(rdR=inherits(reference,"RangedData")) && !(grR=inherits(reference,"GenomicRanges")))
-		stop("The thing given as second (",nameR,") range argument to GenomertiCorrelation is\n  nor an IRanges nor a RangedData nor a GRanges object!")
+	if (!(irQ=inherits(query,"IRanges")) && !(grQ=inherits(query,"GenomicRanges")))
+		stop("The thing given as first (",nameQ,") range argument to GenomertiCorrelation is\n  nor an IRanges nor a GRanges object!")
+	if (!(irR=inherits(reference,"IRanges")) && !(grR=inherits(reference,"GenomicRanges")))
+		stop("The thing given as second (",nameR,") range argument to GenomertiCorrelation is\n  nor an IRanges nor a GRanges object!")
 
-	#they both are IRanges or RangedData or GRanges if we are here
+	#they both are IRanges or GRanges if we are here
 
 	#space is an old thing; currently, chromosomes.to.proceed is preferrable
 
@@ -198,9 +193,9 @@ GenometriCorrelation <- function(
 		chromosomes.to.exclude.from.awhole<-add.chr.prefix.to.names(chromosomes.to.exclude.from.awhole)
 		chromosomes.to.include.in.awhole<-add.chr.prefix.to.names(chromosomes.to.include.in.awhole)
 		names(chromosomes.length)<-add.chr.prefix.to.names(names(chromosomes.length))
-		if(rdQ || grQ)
+		if(grQ)
 			query<-add.chr.prefix.to.names(query)
-		if(rdR || grR)
+		if(grR)
 			reference<-add.chr.prefix.to.names(reference)
 	}
 
@@ -209,9 +204,7 @@ GenometriCorrelation <- function(
 	spacesA<-c()
 	spacesB<-c()
 
-	if (rdQ) spacesA<-names(query)
 	if (grQ) spacesA<-seqlevels(query)
-	if (rdR) spacesB<-names(reference)
 	if (grR) spacesB<-seqlevels(reference)
 	#list of space names as character vector
 
@@ -223,15 +216,15 @@ GenometriCorrelation <- function(
 			{
 				space<-spacesB[1]
 				chromosomes.to.proceed[1]<-space
-				query<-RangedData(space=c(space),ranges=query)
+				query<-GRanges(ranges=query,seqnames=space)
 			}
 			else
 				stop("The first (",nameQ,") range argument is IRanges.\n",
-				"  The second (",nameR,") range argument is RangedData with more than one chromosome (space).\n  The space argument is not defined.\n It's all lost!")
+				"  The second (",nameR,") range argument is GRanges with more than one chromosome (space).\n  The space argument is not defined.\n It's all lost!")
 		}
 		else
-			query<-RangedData(space=c(space),ranges=query)
-		spacesA<-spacesB<-c(space)
+			query<-GRanges(ranges=query,seqnames=space)
+			spacesA<-spacesB<-c(space)
 	}
 
 	if (!irQ && irR)
@@ -242,26 +235,26 @@ GenometriCorrelation <- function(
 			{
 				space<-spacesA[1]
 				chromosomes.to.proceed<-space
-				reference<-RangedData(space=c(space),ranges=reference)
+				reference<-GRanges(ranges=reference,seqnames=space)
 			}
 			else
-				stop("The first (",nameQ,") range argument is RangeData with more than one chromosome (space).\n",
+				stop("The first (",nameQ,") range argument is GRanges with more than one chromosome (space).\n",
 				"  The second (",nameR,") range argument is IRanges.\n  The space argument is not defined.\n  It's all lost!")
 		}
 		else
-			reference<-RangedData(space=c(space),ranges=reference)
-		spacesA<-spacesB<-c(space)
+			reference<-GRanges(ranges=reference,seqnames=space)
+			spacesA<-spacesB<-c(space)
 	}
 	
 	if (irR && irQ)
 	{
 		if (space=="")	space<-"the_space"
-		reference<-RangedData(space=c(space),ranges=reference)
-		query<-RangedData(space=c(space),ranges=query)
+		query<-GRanges(ranges=query,seqnames=space)
+		reference<-GRanges(ranges=reference,seqnames=space)
 		spacesA<-spacesB<-c(space)
 	}
 
-	# here, all the data is RangedData's
+	# here, all the data is GRanges's
 
 	list.of.spaces<-intersect(spacesA,spacesB)
 	
