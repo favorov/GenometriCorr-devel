@@ -384,7 +384,7 @@ GenometriCorrelation <- function(
 
 
 .GRangesGenometricsCorrelation<-function(
-	rd_query,rd_reference,
+	gr_query,gr_reference,
 	list.of.spaces,
 	map.to.half=TRUE,
 	showProgressBar=TRUE,
@@ -407,7 +407,7 @@ GenometriCorrelation <- function(
 
 	#the thing actually calculates everything
 	#it is to called from GenomertiCorrelation
-	#rd_query,rd_reference are two RangedDatas that are under analysis
+	#rg_query,rg_reference are two GRanges that are under analysis
 	#list.of.spaces is list of spaces to work with
 	#map.to.half is whether to calculate relative distances in [0,0.5] or in [0,1]
 	#showProgressBar whether to show a progress indicator
@@ -467,6 +467,8 @@ GenometriCorrelation <- function(
 	#we need to know all the chrom lengths or at least to mark it as NA
 	for ( space in list.of.spaces )
 	{
+		que_ranges<-ranges(gr_query %>% filter(seqname==space))
+		ref_ranges<-ranges(gr_reference %>% filter(seqname==space))
 		if (! space %in% names(chromosomes.length))
 			chromosomes.length[space]=NA
 		if ( is.na(chromosomes.length[space]) ) #if it was absent, now it is NA as well as if it was NA
