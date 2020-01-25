@@ -473,26 +473,26 @@ GenometriCorrelation <- function(
 			chromosomes.length[space]=NA
 		if ( is.na(chromosomes.length[space]) ) #if it was absent, now it is NA as well as if it was NA
 		{	
-			chromosomes.length[space]=chromosomes.length.eval(rd_query[space],rd_reference[space])
+			chromosomes.length[space]=chromosomes.length.eval(que_ranges,ref_ranges)
 			if (! (suppress.evaluated.length.warning))
 				warning(paste0("Length for chromosome ",space," is evaluated as ",as.character(chromosomes.length[space])," rather than pre-given."))
 		}
 		else
 		{
-			if (sum(end( (ranges(rd_query))[[space]] ) > chromosomes.length[space]))
+			if (sum(end( que_ranges ) > chromosomes.length[space]))
 			{
 				if (!cut.all.over.length)
 				{
-					coord=end( (ranges(rd_query))[[space]] )[(end( (ranges(rd_query))[[space]] ) > chromosomes.length[space])][[1]]
+					coord=end( que_ranges )[(end( que_ranges ) > chromosomes.length[space])][[1]]
 					stop('There is a query range (it ends at ',coord,') in chromosome ',space,' that spans out of the chromosome' )
 				}
 
 			}
-			if (sum(end( (ranges(rd_reference))[[space]] ) > chromosomes.length[space]))
+			if (sum(end( ref_ranges ) > chromosomes.length[space]))
 			{
 				if (!cut.all.over.length)
 				{
-					coord=end( (ranges(rd_reference))[[space]] )[(end( (ranges(rd_reference))[[space]] ) > chromosomes.length[space])][[1]]
+					coord=end( ref_ranges )[(end( ref_ranges ) > chromosomes.length[space])][[1]]
 					stop('There is a query range (it ends at ',coord,') in chromosome ',space,' that spans out of the chromosome' )
 				}
 			}
