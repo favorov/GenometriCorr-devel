@@ -467,8 +467,8 @@ GenometriCorrelation <- function(
 	#we need to know all the chrom lengths or at least to mark it as NA
 	for ( space in list.of.spaces )
 	{
-		que_ranges<-ranges(gr_query %>% filter(seqname==space))
-		ref_ranges<-ranges(gr_reference %>% filter(seqname==space))
+		que_ranges<-ranges(gr_query %>% filter(seqnames==space))
+		ref_ranges<-ranges(gr_reference %>% filter(seqnames==space))
 		if (! space %in% names(chromosomes.length))
 			chromosomes.length[space]=NA
 		if ( is.na(chromosomes.length[space]) ) #if it was absent, now it is NA as well as if it was NA
@@ -478,22 +478,22 @@ GenometriCorrelation <- function(
 				warning(paste0("Length for chromosome ",space," is evaluated as ",as.character(chromosomes.length[space])," rather than pre-given."))
 		}
 		else
-		{
-			if (sum(end( que_ranges ) > chromosomes.length[space]))
+		{	
+			outliers<-que_ranges %>% filter(end > chromosomes.length[space])
+			if (length(outliers) >0)
 			{
 				if (!cut.all.over.length)
 				{
-					coord=end( que_ranges )[(end( que_ranges ) > chromosomes.length[space])][[1]]
-					stop('There is a query range (it ends at ',coord,') in chromosome ',space,' that spans out of the chromosome' )
+					stop('There is a query range (it ends at ',end(outliers)[1],') in chromosome ',space,' that spans out of the chromosome' )
 				}
 
 			}
-			if (sum(end( ref_ranges ) > chromosomes.length[space]))
+			outliers<-ref_ranges %>% filter(end > chromosomes.length[space])
+			if (length(outliers) >0)
 			{
 				if (!cut.all.over.length)
 				{
-					coord=end( ref_ranges )[(end( ref_ranges ) > chromosomes.length[space])][[1]]
-					stop('There is a query range (it ends at ',coord,') in chromosome ',space,' that spans out of the chromosome' )
+					stop('There is a reference range (it ends at ',end(outliers)[1],') in chromosome ',space,' that spans out of the chromosome' )
 				}
 			}
 		}
