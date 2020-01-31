@@ -497,12 +497,13 @@ GenometriCorrelation <- function(
 				}
 			}
 		}
-	}
+		
+		if (cut.all.over.length)
+		{
+			que_ranges<-que_ranges %>% transform(end,pmin(end,chromosomes.length[space]))
+			ref_ranges<-ref_ranges %>% transform(end,pmin(end,chromosomes.length[space]))
+		}
 	
-	if (cut.all.over.length)
-	{
-		que_ranges<-que_ranges %>% transform(end,pmin(end,chromosomes.length[space]))
-		ref_ranges<-ref_ranges %>% transform(end,pmin(end,chromosomes.length[space]))
 	}
 	
 	#the code romoves all the chromosomes with empty r and empty q
