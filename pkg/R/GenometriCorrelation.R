@@ -501,25 +501,8 @@ GenometriCorrelation <- function(
 	
 	if (cut.all.over.length)
 	{
-		dA<-as.data.frame(rd_query)
-		dB<-as.data.frame(rd_reference)
-		#converted to dataframe
-		used_names<-names(chromosomes.length)
-		dA<-dA[as.character(dA[,'space']) %in% used_names,]
-		dB<-dB[as.character(dB[,'space']) %in% used_names,]
-		#removed all the spaces that ar not in names(chromosomes.length)
-		dA<-dA[dA['start']<=as.vector(chromosomes.length[as.character(dA[,'space'])]),]
-		dB<-dB[dB['start']<=as.vector(chromosomes.length[as.character(dB[,'space'])]),]
-		#remove if start > length of the corresponging chromosome	
-		#set end; for is easier :)
-		for (row in 1:dim(dA)[1])
-			if(dA[row,'end']>chromosomes.length[as.character(dA[row,'space'])])
-				dA[row,'end']=chromosomes.length[as.character(dA[row,'space'])]
-		for (row in 1:dim(dB)[1])
-			if(dB[row,'end']>chromosomes.length[as.character(dB[row,'space'])])
-				dB[row,'end']=chromosomes.length[as.character(dB[row,'space'])]
-		rd_query<-RangedData(dA)
-		rd_reference<-RangedData(dB)
+		que_ranges<-que_ranges %>% transform(end,pmin(end,chromosomes.length[space]))
+		ref_ranges<-ref_ranges %>% transform(end,pmin(end,chromosomes.length[space]))
 	}
 	
 	#the code romoves all the chromosomes with empty r and empty q
