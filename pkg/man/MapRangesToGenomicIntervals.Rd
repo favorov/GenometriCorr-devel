@@ -1,7 +1,9 @@
 % GenometriCorrelation project evaluating two interval markups genomewide independence. 
-% (c) 2010-2020 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
-%               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
-%               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
+% (c) 2010-2020 Alexander Favorov, Loris Mularoni, 
+%               Yulia Medvedeva, Harris A. Jaffee, 
+%               Ekaterina V. Zhuravleva, Veronica Busa,
+%               Leslie M. Cope, Andrey A. Mironov, 
+%               Vsevolod J. Makeev, Sarah J. Wheelan.
 %
 \name{MapRangesToGenomicIntervals}
 \alias{MapRangesToGenomicIntervals}
@@ -10,7 +12,7 @@
 MapRangesToGenomicIntervals
 }
 \description{
-MapRangesToGenomicIntervals is a function that maps a set of ranges represented by an \code{RangedData} or by \code{GRanges} object into a set of intervals (subgenome) (e.g. RefSeq) that is also represented by an \code{RangedData} or \code{GRanges}.
+MapRangesToGenomicIntervals is a function that maps a set of ranges represented by a \code{GRanges} object into a set of intervals (subgenome) (e.g. RefSeq) that is also represented by an \code{RangedData} or \code{GRanges}.
 
 The result is a \code{GRanges}. Each space in the output value corresponds to an interval from \code{where.to.map}, and the items in \code{what.to.map} have been transferred to the new coordinate system in each interval.
 
@@ -62,7 +64,7 @@ The value contains all those ranges from \code{what.to.map} that fall into an in
 %% ~put references to the literature/web site here ~
 \url{http://genometricorr.sourceforge.net/}
 }
-\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
+\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
 
 %\note{
 %}

@@ -1,8 +1,9 @@
 % GenometriCorrelation project evaluating two interval markups genomewide independence. 
-% (c) 2010-2020 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
-%               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
-%               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
-%
+% (c) 2010-2020 Alexander Favorov, Loris Mularoni, 
+%               Yulia Medvedeva, Harris A. Jaffee, 
+%               Ekaterina V. Zhuravleva, Veronica Busa,
+%               Leslie M. Cope, Andrey A. Mironov, 
+%               Vsevolod J. Makeev, Sarah J. Wheelan.
 \name{GenometriCorr}
 \alias{GenometriCorr}
 \alias{GenometriCorr-package}
@@ -13,7 +14,7 @@ GenometriCorr (Genometric Correlation) package
 \description{
 \code{GenometriCorr} evaluates the spatial correlation between two types of features (experimental or annotated) in genomic coordinates. Several different approaches are implemented, each intended to evaluate a different biologically relevant spatial relationship. The genomic features are split into intervals and correlations are evaluated as described in the package vignette. 
 
-Most standard genomic feature annotation file formats are accepted as input. Each feature type is given in a separate file, one used as a query and the other used as a reference. The statistical comparisons that are made are not symmetric; that is, they are sensitive to which file is the query and which is the reference, so we recommend running the comparisons twice, switching the status of the input files for the second run. This is intentional, as biological relationships can be asymmetric. Once the files are read, the annotations are stored as \code{\link{GRanges}}, \code{\link{RangedData}} or \code{\link{IRanges-class}} objects (\code{IRanges}, \code{GenomicRanges} packages).
+Most standard genomic feature annotation file formats are accepted as input. Each feature type is given in a separate file, one used as a query and the other used as a reference. The statistical comparisons that are made are not symmetric; that is, they are sensitive to which file is the query and which is the reference, so we recommend running the comparisons twice, switching the status of the input files for the second run. This is intentional, as biological relationships can be asymmetric. Once the files are read, the annotations are stored as \code{\link{GRanges}} objects from \code{\link{GenomicRanges}} package).
 
 There are two classes that are provided by the package. One of them, \code{\link{GenometriCorrConfig-class}} provide serialization into configuration file that describe a full run of the package that is intended to explore spatial correlations between two markups. The class also provide run.config method that open the input data files, read them, make all the calculations by applying the central \code{\link{GenometriCorrelation}} function to mapped or unmapped data (see below). The \code{\link{GenometriCorrelation}} function returns an instance of \code{\link{GenometriCorrResult-class}} that is based on a list with the results of the run and also contains the \code{\link{GenometriCorrConfig-class}} instance that describes the run as a slot. The \code{\link{GenometriCorrResult-class}} provides \code{\link{show}} method and two graphical representations: \code{\link{graphical.report}} and \code{\link{visualize}}. 
 
@@ -108,9 +109,9 @@ chromo.length<-c(3000000)
 
 names(chromo.length)<-c('the_chromosome')
 
-rquery<-RangedData(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),space='the_chromosome')
+rquery<-GRanges(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),seqlevels='the_chromosome')
 
-rref<-RangedData(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),space='the_chromosome')
+rref<-GRanges(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),seqlevels='the_chromosome')
 
 #create two features, they are randomly scattered in 1 000 000...2 000 000
 
@@ -121,7 +122,7 @@ unmapped_result<-GenometriCorrelation(rquery,rref,chromosomes.length=chromo.leng
 cat('Unmapped result:\n')
 print(unmapped_result)
 
-map_space<-RangedData(ranges=IRanges(start=c(1000000),end=c(2000000)),space='the_chromosome')
+map_space<-MapRanges(ranges=IRanges(start=c(1000000),end=c(2000000)),space='the_chromosome')
 
 mapped_rquery<-MapRangesToGenomicIntervals(what.to.map=rquery,where.to.map=map_space)
 

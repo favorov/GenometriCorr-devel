@@ -1,7 +1,9 @@
 % GenometriCorrelation project evaluating two interval markups genomewide independence. 
-% (c) 2010-2020 Alexander Favorov, Loris Mularoni, Yulia Medvedeva, 
-%               Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, 
-%               Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
+% (c) 2010-2020 Alexander Favorov, Loris Mularoni, 
+%               Yulia Medvedeva, Harris A. Jaffee, 
+%               Ekaterina V. Zhuravleva, Veronica Busa,
+%               Leslie M. Cope, Andrey A. Mironov, 
+%               Vsevolod J. Makeev, Sarah J. Wheelan.
 %
 \name{GenometriCorrelation}
 \alias{GenometriCorrelation}
@@ -23,7 +25,6 @@ The GenometriCorrelation function compares two interval annotations on a chromos
 		chromosomes.to.exclude.from.awhole=c(),
 		add.chr.as.prefix=FALSE,
 		awhole.only=FALSE,
-		space=NA,
 		map.to.half=TRUE,
 		showProgressBar=TRUE,
 		showTkProgressBar=FALSE,
@@ -45,13 +46,13 @@ The GenometriCorrelation function compares two interval annotations on a chromos
 
 \arguments{
   \item{query}{
-The \code{IRanges} or \code{RangedData} or \code{GRanges} object that contains the query interval set coordinates and spaces (generally, chromosomes). The \code{GenometriCorrelation} function tests whether it is positioned independently relative to the \code{reference} interval set.
+The \code{GRanges} object that contains the query interval set coordinates and spaces (generally, chromosomes). The \code{GenometriCorrelation} function tests whether it is positioned independently relative to the \code{reference} interval set.
 }
   \item{reference}{
-The \code{IRanges} or \code{RangedData} or \code{GRanges} object that contains the reference interval set coordinates and spaces. The \code{GenometriCorrelation} function tests whether \code{query} is positioned independently relative to \code{reference}.
+The \code{GRanges} object that contains the reference interval set coordinates and spaces. The \code{GenometriCorrelation} function tests whether \code{query} is positioned independently relative to \code{reference}.
 }
   \item{chromosomes.to.proceed}{
-This vector of strings contains the names of spaces (chromosomes) to analyze. If both \code{query} and \code{reference} are \code{RangedData} or \code{GRanges} if the parameter is not given (its default is c()), the initial list of spaces to proceed is the intersection of the space lists of query and reference names, if \code{chromosomes.to.proceed} is given, it restricts the list so that only those names from the intersection that are in \code{chromosomes.to.proceed} are analyzed. If one or both of the  \code{query} and \code{reference} is an IRange, only the first element of \code{chromosomes.to.proceed} is used. It actually overrides the \code{space} argument (see below for explanation). If both \code{chromosomes.to.proceed} and \code{space} are given and \code{space != chromosomes.to.proceed[1]}, an error is generated. If after parsing all arguments, less than \code{2} chromosomes are included in the analysis, the overall (awhole) statistics will not be produced.
+This vector of strings contains the names of spaces (chromosomes) to analyze. If both \code{query} and \code{reference} are \code{GRanges} if the parameter is not given (its default is c()), the initial list of spaces to proceed is the union of the space lists of query and reference names, if \code{chromosomes.to.proceed} is given, it restricts the list so that only those names from the intersection that are in \code{chromosomes.to.proceed} are analyzed. If one or both of the  \code{query} and \code{reference} is an IRange, only the first element of \code{chromosomes.to.proceed} is used. It actually overrides the \code{space} argument (see below for explanation). If both \code{chromosomes.to.proceed} and \code{space} are given and \code{space != chromosomes.to.proceed[1]}, an error is generated. If after parsing all arguments, less than \code{2} chromosomes are included in the analysis, the overall (awhole) statistics will not be produced.
 }
   \item{chromosomes.to.include.in.awhole}{
 This vector of strings contains the names of spaces to be included in the overall (awhole) statistics. Its default is c(), meaning that all the analysed genes are included.}
@@ -62,9 +63,6 @@ List of chromosomes (spaces) to be excluded from the overall statistics.
 }
   \item{awhole.only}{
 If \code{FALSE}, all the considered chromosomes statistics and the summary (awhole) information are returned (default). If \code{TRUE}, only the summary (awhole) information is returned. Useful for pipelines. The \code{TRUE} value is default that is posted by \code{run.config} if the data is processed through mapping.
-}
-  \item{space}{
-If both \code{query} and \code{reference} are \code{RangedData}, the parameter is not too useful. It works as \code{chromosomes.to.proceed} of length 1. If one of the two first paramtetesrs is \code{IRanges}, it shows what space from the other one is to be used in the procedure (only one can be used). If both are, it gives the name of the space to be shown in the result.
 }
   \item{map.to.half}{
 Some of the tests we use are besed on distances between a query point and the closest reference point. If map.to.half is TRUE (default) we look for the closest reference point upstream or downstream, if it is \code{FALSE}, we look only downstream (left). Useful if you are mapping to intervals and want to preserve directionality.
@@ -172,7 +170,7 @@ The additional values that are returned if \code{keep.distributions=TRUE}
 \url{http://genometricorr.sourceforge.net/}
 }
 
-\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
+\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
 
 %\note{
 %%  ~~further notes~~
