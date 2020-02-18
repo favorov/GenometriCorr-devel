@@ -29,7 +29,7 @@
 \title{GenometriCorr (Genometric Correlation): an R package for spatial correlation of genome-wide interval datasets}
 
 
-\author{Alexander Favorov\footnote{favorov@sensi.org}\ , Loris Mularoni, Yulia Medvedeva,\\Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope,\\Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
+\author{Alexander Favorov\footnote{favorov@sensi.org}\ , Loris Mularoni, Yulia Medvedeva,\\Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope,\\Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
 
 \maketitle
 
@@ -166,7 +166,7 @@ The package {\tt GenometriCorr} provides functions to load interval data from a 
 
 \subsection{R objects that {\tt GenometriCorr} understands}
 
-The interval sets are represented by the {\tt IRanges} or {\tt GRanges} objects, which are interval data representation classes defined by {\tt IRanges } package.  {\tt IRanges} is a set of intervals in one space (chromosome). {\tt GRanges} is a set of intervals defined over different chromosomes (AKA spaces), so it is suitable for encoding a full-genome annotation. It also contains the chromosome length information and ensures that operations do not return intervals beyond the length of the chromosomes.
+The interval sets are represented by the {\tt GRanges} objects, which are interval data representation classes defined by {\tt GenomicRanges } package. {\tt GRanges} is a set of intervals defined over different chromosomes (AKA spaces), so it is suitable for encoding a full-genome annotation. It also contains the chromosome length information and ensures that operations do not return intervals beyond the length of the chromosomes.
 
 \subsection{Code loading}
 Load the package:
