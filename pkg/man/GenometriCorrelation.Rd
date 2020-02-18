@@ -29,7 +29,6 @@ The GenometriCorrelation function compares two interval annotations on a chromos
 		showTkProgressBar=FALSE,
 		chromosomes.length=c(),
 		suppress.evaluated.length.warning=FALSE,
-		cut.all.over.length=FALSE,
 		permut.number=100,
 		ecdf.area.permut.number=permut.number,
 		mean.distance.permut.number=permut.number,
@@ -81,8 +80,6 @@ A vector of lengths of the chromosomes to be tested; each chromosome is given a 
 }
 	\item{suppress.evaluated.length.warning}{
 If there is a chromosome that is included in the evaluation but its length is not given in \code{chromosome.length}, the length of the chromosome is calculated as the maximal position mentioned in the data. If this parameter is \code{FALSE}, this will generate a warning, which is suppressed when the parameter is \code{TRUE}. The default is \code{FALSE}.
-}
-	\item{cut.all.over.length}{If the chromosome is shorter than a position given in the interval data, an error is posted, except if this argument is \code{TRUE}, in which case the position is replaced by the length of the chromosome, or removed altogether. The default is \code{FALSE}.
 }
 	\item{permut.number}{
 It is the common default for \code{ecdf.area.permut.number}, \code{mean.distance.permut.number}, and \code{jaccard.measure.permut.number}. \code{permut.number=0} defaults all the permutations to off.
