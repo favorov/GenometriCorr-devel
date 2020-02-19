@@ -7,7 +7,8 @@
 #
 # GenomertiCorrelation is the main function of the package
 
-#'@import IRanges GenomicRanges GenomicFeatures plyranges methods 
+#'@import IRanges GenomicRanges GenomicFeatures methods
+#'@importFrom plyranges filter
 #'@importFrom gtools mixedsort
 #'@importFrom tcltk tkProgressBar setTkProgressBar getTkProgressBar
 #'@importFrom GenomeInfoDb seqlevels seqlevels<- seqlengths
@@ -117,7 +118,7 @@ GenometriCorrelation <- function(
 	#showProgressBar whether to show a progress indicator
 	#showTkProgressBar whether to show a Tk progress indicator; work only if tcltk is loaded
 	#chromosomes.length is an array of length of chromosomes, names are the names of chromosomes
-	#suppress.evaluated.length.warning suppresses the warning that a chromosome lenght is eveluated rather then given. The evaluation is just the rightmost coord in all the intervals, it is used is the length is NA.
+	#suppress.evaluated.length.warning suppresses the warning that a chromosome length is eveluated rather then given. The evaluation is just the rightmost coord in all the intervals, it is used is the length is NA.
 	#ecdf.area.permut.number is number of permutations for ecdf area method
 	#permut.number is the common default for all the permutation parameters
 	#mean.distance.permut.number is the same thing about the mean ref-to-query distance
@@ -167,26 +168,26 @@ GenometriCorrelation <- function(
 	}
 	
 	all_seqnames<-union(seqlevels(query),seqlevels(reference))
-	all_seq_lenght<-rep(NA,length(all_seqnames))
-	names(all_seq_lenght)<-all_seqnames
+	all_seq_length<-rep(NA,length(all_seqnames))
+	names(all_seq_length)<-all_seqnames
 
 	inQ<-all_seqnames[all_seqnames %in% seqlevels(query)]
 	inQ<-inQ[!is.na(seqlevels(query)[inQ])]
-	all_seq_lenght[inQ]<-seqlengths(query)[inQ]
+	all_seq_length[inQ]<-seqlengths(query)[inQ]
 	
 	inR<-all_seqnames[all_seqnames %in% seqlevels(reference)]
 	inR<-inR[!is.na(seqlevels(reference)[inR])]
-	all_seq_lenght[inR]<-seqlengths(reference)[inR]
+	all_seq_length[inR]<-seqlengths(reference)[inR]
 	#we converged seqlength info from query and reference
 	
 	inchr<-all_seqnames[all_seqnames %in% names(chromosomes.length)]
 	inchr<-inchr[!is.na(chromosomes.length[inchr])]
-	all_seq_lenght[inchr]<-chromosomes.lenght[inchr]
+	all_seq_length[inchr]<-chromosomes.length[inchr]
 	#and from chromlegthts
 
-	seqlengths(query)<-seqlengths(reference)<-chromosomes.length<-all_seq_lenght	
+	seqlengths(query)<-seqlengths(reference)<-chromosomes.length<-all_seq_length	
 
-	if (lenghts(chromosomes.to.proceed)>0) {
+	if (lengths(chromosomes.to.proceed)>0) {
 		query<-query %>% filter(seqnames %in% chromosomes.to.proceed)
 		reference<-reference %>% filter(seqnames %in% chromosomes.to.proceed)
 	}
