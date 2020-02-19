@@ -181,10 +181,10 @@ GenometriCorrelation <- function(
 	
 	inchr<-all_seqnames[all_seqnames %in% names(chromosomes.length)]
 	inchr<-inchr[!is.na(chromosomes.length[inchr])]
-	all_seq_lenght[inchr]<-chromosomes.lenghts[inchr]
+	all_seq_lenght[inchr]<-chromosomes.lenght[inchr]
 	#and from chromlegthts
 
-	seqlengths(query)<-seqlengths(reference)<-chromosomes.lenghts<-all_seq_lenght	
+	seqlengths(query)<-seqlengths(reference)<-chromosomes.length<-all_seq_lenght	
 
 	if (lenghts(chromosomes.to.proceed)>0) {
 		query<-query %>% filter(seqnames %in% chromosomes.to.proceed)
