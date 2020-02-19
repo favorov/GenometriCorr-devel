@@ -39,7 +39,7 @@ VisualiseTwoGRanges is a function that displays the markups that are contatined 
 The \code{\link{GenometriCorr}} documentation and vignette.
 }
 \author{
-Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
+Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 }
 \concept{GenometriCorr 2-range visualisations}
 \keyword{hplot}
