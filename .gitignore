@@ -11,3 +11,5 @@
 pkg.Rcheck
 ./*.tar.gz
 .Rproj.user
+.bkp
+.bak
