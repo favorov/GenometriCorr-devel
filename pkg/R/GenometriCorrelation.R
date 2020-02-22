@@ -80,9 +80,10 @@ add.chr.prefix.to.names<-function(namelist)
 
 
 #' GenometriCorrelation
-#' @aliases GenometricCorrelation
+#'
 #' The GenometriCorrelation function compares two interval annotations on a chromosome, set of chromosomes or on an entire genome, and performs various statistical tests to determine whether the two interval sets are independent or are positioned nonrandomly with respect to each other. For a complete description of the tests, refer to the \href{../doc/GenometriCorr.pdf}{the package vignette}.
 #'
+#' @aliases GenometricCorrelation
 #' @param query GRanges object that contains the query interval set coordinates and spaces (generally, chromosomes). The \code{GenometriCorrelation} function tests whether it is positioned independently relative to the \code{reference} interval set.
 #' @param reference The \code{GRanges} object that contains the reference interval set coordinates and spaces. The \code{GenometriCorrelation} function tests whether \code{query} is positioned independently relative to \code{reference}.
 #' @param chromosomes.to.proceed This vector of strings contains the names of spaces (chromosomes) to analyze. If both \code{query} and \code{reference} are \code{GRanges} if the parameter is not given (its default is c()), the initial list of spaces to proceed is the intersection of the space lists of query and reference names, and a warning is rasied if the lists are different. if \code{chromosomes.to.proceed} is given, it restricts the list so that only those names from the intersection that are in \code{chromosomes.to.proceed} are analyzed. If it is a subset of the \code{query} and \code{reference} chromosone lists intersection, the warning that the lists are different is not raised.
@@ -107,7 +108,7 @@ add.chr.prefix.to.names<-function(namelist)
 #' @param reference.representing.point.function The same thing as the \code{representing.point.function}, but the representation point calculation is overloaded only for query intervals.
 #' @param supress.evaluated.length.warning It was a typo for \code{suppress.evaluated.length.warning}. Now obsoleted, use \code{suppress.evaluated.length.warning}
 #' @return The result is an instance of the \code{\link{GenometriCorrResult-class}} that describes the run parameters in its \code{\link{GenometriCorrResult-class}} \code{@config} slot and that extends a \code{\linkS4class{namedList}} list (created originally with a \code{list()} call with the results of the run.  Each element of the list is also a list that describes results for a space (chromosome); one of them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole, all others are named the same as the chromosomes and describe the chromosomewise statistics.  The elements of the 'awhole' and chromosomewise lists are statistical measures and some datasets. The statistical measures are described in the \code{\link{GenometriCorr}} package help.  For further explanation, see the \href{../doc/GenometriCorr.pdf}{the package vignette}. 
-
+#'
 #' Below is the description of the values of the list returned for each chromosome. 
 #' \item{query.population}{Query points used in the comparisons.}
 #' \item{reference.population}{Reference points used in the comparisons.}
@@ -135,6 +136,29 @@ add.chr.prefix.to.names<-function(namelist)
 #' \item{scaled.absolute.min.distance.sum}{The value of the sum (i.e. mean) of scaled absolute distances}
 #' \item{scaled.absolute.min.distance.sum.null.list}{The null distribution for the scaled absolute distances}
 #' \item{jaccard.measure.null.list}{The null distribution of Jaccard measures in permutations}
+#' @references \url{http://genometricorr.sourceforge.net/}
+#' @author Alexander Favorov \email{favorov@@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
+#' @references \href{http://genometricorr.sourceforge.net/}{GenometriCorr home}
+#' @seealso The \code{\link{GenometriCorr}} documentation and vignette.
+#' @examples
+#' library('rtracklayer')
+#' library('GenometriCorr')
+#' library('TxDb.Hsapiens.UCSC.hg19.knownGene')
+#' 
+#' refseq<-transcripts(TxDb.Hsapiens.UCSC.hg19.knownGene)
+#' cpgis<-import(system.file("extdata", "UCSCcpgis_hg19.bed", package = "GenometriCorr"))
+#' seqinfo(cpgis)<-seqinfo(TxDb.Hsapiens.UCSC.hg19.knownGene)[seqnames(seqinfo(cpgis))]
+#' 
+#' pn.area<-10
+#' pn.dist<-10
+#' pn.jacc<-10
+#' 
+#' cpgi_to_genes<-GenometriCorrelation(cpgis,refseq,chromosomes.to.proceed=c('chr1','chr2','chr3'),ecdf.area.permut.number=pn.area,mean.distance.permut.number=pn.dist,jaccard.measure.permut.number=pn.jacc,keep.distributions=FALSE,showProgressBar=FALSE)
+#' 
+#' print(cpgi_to_genes)
+
+#' @keywords multivariate
+
 #' @export
 
 GenometriCorrelation <- function(
