@@ -13,20 +13,20 @@
 #'
 #'VisualiseTwoIRanges is a function that displays the intervals of two IRanges, one above the other, in different colors, along a chromosome or subset of a chromosome. The intent is to show large-scale relationships between the two IRanges.
 #'
-#'@param irA First \code{IRanges} object to be vsualised.
-#'@param irB Second \code{IRanges} object to be vsualised.
-#'@param start Start of the visualisation band.
-#'@param end End of the visualisation band.
-#'@param nameA Name of \code{irA}, default is 'RangesA'
-#'@param nameB Name of \code{irB}, default is 'RangesB'
-#'@param chrom_length The length of the chromosome spanned by \code{irA} and \code{irB}
-#'@param title Title, printed at the top of the plot.
-#'@param pdf Name of a file to which the image should be written. If \code{pdf=""} the filename is constructed from \code{nameA} and \code{nameB}. The suffix ".pdf" will be appended if not included. If \code{NULL}, no pdf is opened and an x11 window is raised up as by \code{plot}. 
-#'@param close.device Whether to close the plot device after writing the image. A \code{FALSE} setting allows multiple images to be written to the same pdf file, but then eventually closing the device is up to the user. Default is \code{NULL} that means: close an x11, do not close a pdf.
-#'@author Alexander Favorov \email{favorov@@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
-#'@references \href{http://genometricorr.sourceforge.net/}{GenometriCorr home}
-#'@seealso The \code{\link{GenometriCorr}} documentation and vignette.
-#'@examples
+#' @param irA First \code{IRanges} object to be vsualised.
+#' @param irB Second \code{IRanges} object to be vsualised.
+#' @param start Start of the visualisation band.
+#' @param end End of the visualisation band.
+#' @param nameA Name of \code{irA}, default is 'RangesA'
+#' @param nameB Name of \code{irB}, default is 'RangesB'
+#' @param chrom_length The length of the chromosome spanned by \code{irA} and \code{irB}
+#' @param title Title, printed at the top of the plot.
+#' @param pdf Name of a file to which the image should be written. If \code{pdf=""} the filename is constructed from \code{nameA} and \code{nameB}. The suffix ".pdf" will be appended if not included. If \code{NULL}, no pdf is opened and an x11 window is raised up as by \code{plot}. 
+#' @param close.device Whether to close the plot device after writing the image. A \code{FALSE} setting allows multiple images to be written to the same pdf file, but then eventually closing the device is up to the user. Default is \code{NULL} that means: close an x11, do not close a pdf.
+#' @author Alexander Favorov \email{favorov@@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
+#' @references \href{http://genometricorr.sourceforge.net/}{GenometriCorr home}
+#' @seealso The \code{\link{GenometriCorr}} documentation and vignette.
+#' @examples
 #'
 #' library('rtracklayer')
 #' library('plyranges')
@@ -50,9 +50,9 @@
 #' 	title="CpGIslands and RefGenes on chr1, hg19",
 #' 	pdf='CpGi_vs_RefSeq_genes_chr1_hg19')
 #'
-#'@family GenometriCorr 2-range visualisation
-#'@keywords hplot
-#'@export
+#' @family GenometriCorr 2-range visualisation
+#' @keywords hplot
+#' @export
 
 
 VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB='RangesB',
@@ -241,19 +241,19 @@ VisualiseTwoIRanges<-function(irA, irB, start=1, end=NA, nameA='RangesA', nameB=
 #'
 #'VisualiseTwoGRanges is a function that displays the markups that are contatined two GRanges, in a multi-page pdf, page per chromosome, by \code{\link{VisualiseTwoIRanges}} for aech chromosome. The intent is to show large-scale relationships between the two markups. All the chromosome lenght data is provided by the GRanges.
 #'
-#'@param grA First \code{GRanges} object to be vsualised.
-#'@param grB Second \code{GRanges} object to be vsualised.
-#'@param nameA Name of \code{grA}, default is 'RangesA'
-#'@param nameB Name of \code{grB}, default is 'RangesB'
-#'@param title Title, printed at the top of the plot.
-#'@param pdf Name of a file to which the image should be written. If \code{pdf=""} the filename is constructed from \code{nameA} and \code{nameB}. The suffix ".pdf" will be appended if not included. If \code{NULL}, no pdf is opened and an x11 window is raised up as by \code{plot}. 
-#'@param close.device Whether to close the plot device after writing the image. A \code{FALSE} setting allows multiple images to be written to the same pdf file, but then eventually closing the device is up to the user. Default is \code{NULL} that means: close an x11, do not close a pdf.
-#'@author Alexander Favorov \email{favorov@@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
-#'@references \href{http://genometricorr.sourceforge.net/}{GenometriCorr home}
-#'@seealso The \code{\link{GenometriCorr}} documentation and vignette.
-#'@family GenometriCorr 2-range visualisations
-#'@keywords hplot
-#'@export
+#' @param grA First \code{GRanges} object to be vsualised.
+#' @param grB Second \code{GRanges} object to be vsualised.
+#' @param nameA Name of \code{grA}, default is 'RangesA'
+#' @param nameB Name of \code{grB}, default is 'RangesB'
+#' @param title Title, printed at the top of the plot.
+#' @param pdf Name of a file to which the image should be written. If \code{pdf=""} the filename is constructed from \code{nameA} and \code{nameB}. The suffix ".pdf" will be appended if not included. If \code{NULL}, no pdf is opened and an x11 window is raised up as by \code{plot}. 
+#' @param close.device Whether to close the plot device after writing the image. A \code{FALSE} setting allows multiple images to be written to the same pdf file, but then eventually closing the device is up to the user. Default is \code{NULL} that means: close an x11, do not close a pdf.
+#' @author Alexander Favorov \email{favorov@@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
+#' @references \href{http://genometricorr.sourceforge.net/}{GenometriCorr home}
+#' @seealso The \code{\link{GenometriCorr}} documentation and vignette.
+#' @family GenometriCorr 2-range visualisations
+#' @keywords hplot
+#' @export
  
 VisualiseTwoGRanges<-function(grA, grB, nameA='RangesA', nameB='RangesB', title=NA, pdf=NULL, close.device=NULL)
 {
