@@ -186,33 +186,6 @@ GenometriCorrelation <- function(
 	supress.evaluated.length.warning
 	)
 {
-	#query and reference are two data sets that are under analysis
-	#each of them is IRanges or GRanges 
-	#If the lists of chromosomes in the query an in the reference differ,
-	#we procced only the intersection
-	#chromosomes.to.proceed is list of chromosomes to proceed
-	#chromosomes.to.include.in.awhole is a list of chromosomes to include in 'whole genome', default is all chromosomes.to.proceed()
-	#chromosomes.to.exclude.from.awhole excludes some chromosome from the list 
-	#add.chr.as.prefix adds 'chr' prefix to all chromosome spaces if there is no 'Chr', 'chr', etc prefix at any of the names of the names array; all the prefixes like 'CHR', 'chr' etc are lowercased to 'chr'
-	#space  provides tha chromosome name if we compare IRanges,
-	#or it takes one name from the list exactly like if give one name in chromosomes.to.proceed()
-	#map.to.half is whether to calculate relative distances in [0,0.5] or in [0,1]
-	#showProgressBar whether to show a progress indicator
-	#showTkProgressBar whether to show a Tk progress indicator; work only if tcltk is loaded
-	#chromosomes.length is an array of length of chromosomes, names are the names of chromosomes
-	#suppress.evaluated.length.warning suppresses the warning that a chromosome length is eveluated rather then given. The evaluation is just the rightmost coord in all the intervals, it is used is the length is NA.
-	#ecdf.area.permut.number is number of permutations for ecdf area method
-	#permut.number is the common default for all the permutation parameters
-	#mean.distance.permut.number is the same thing about the mean ref-to-query distance
-	#jaccard.measure.permut.number is the same for Jaccard measure,
-	#awhole.space.name is the space name for this operation
-	#keep.distributions if TRUE, the result list includes a the distributions that were used to obtain p-valies
-	#representing.point.function is the function that calculates the representing point for any interval 
-	#the default is mitl (calculates the middle),
-	#the function is to look like mitl<-function(start,end,chromosome.length,space); the additional parameters that do not depend on chrom, etc are in ..
-	#query.representing.point.function=representing.point.function for query
-	#reference.representing.point.function=representing.point.function for reference
-	#supress.evaluated.length.warning is a historical typo
 
 	#fixing typo
 	if('supress.evaluated.length.warning' %in% names(as.list(match.call())))
@@ -240,41 +213,45 @@ GenometriCorrelation <- function(
 
 	#they both are  GRanges if we are here
 
-	common_seqs<-intersect(seqlevels(query),seqlevels(reference))
 	if (!setequal(seqlevels(query),seqlevels(reference))) {
-		if (!all(chromosomes.to.proceed %in% common_seqs)) {
+		if ( length(chromosomes.to.proceed)==0 || !all(chromosomes.to.proceed %in% common_seqs)) {
 			warning("Query and referance has different chromosome lists.")
 		}
+		common_seqinfo<-intersect(seqinfo(query),seqifo(reference))
+		common_seqs<-seqnames(seqinfo)
+		query<-query %>% filter(seqnames %in% common_seqs)
+		reference<-reference %>% filter(seqnames %in% common_seqs)
+		seqinfo(reference)<-common_seqinfo
+		seqinfo(query)<-common_seqinfo
+	} else {
+		common_seqs<-seqlevels(query) #they are equal, so quary and reference is the same
 	}
-	
-	if(!all(seqlengths(query)[common_seqs]==seqlengths(reference)[common_seqs],na.rm=TRUE)) {
-		stop("At least one conmmon chromosome has different length in query and reference")
-	}
-	
-	all_seqnames<-union(seqlevels(query),seqlevels(reference))
-	all_seq_length<-rep(NA,length(all_seqnames))
-	names(all_seq_length)<-all_seqnames
 
-	inQ<-all_seqnames[all_seqnames %in% seqlevels(query)]
-	inQ<-inQ[!is.na(seqlevels(query)[inQ])]
-	all_seq_length[inQ]<-seqlengths(query)[inQ]
+	if ( length(chromosomes.to.proceed)>0 ){common_seqs<-intersect(common_seqs,chromosomes.to.proceed)}
+	#now, we see only sequences that are in both annotations and in chrosomes.to.proceed
+
+	if(!all(seqlengths(query)[common_seqs]==seqlengths(reference)[common_seqs],na.rm=TRUE)) {
+		stop("At least one chromosome that we are going to work with has different length in query and reference")
+	}
 	
-	inR<-all_seqnames[all_seqnames %in% seqlevels(reference)]
-	inR<-inR[!is.na(seqlevels(reference)[inR])]
-	all_seq_length[inR]<-seqlengths(reference)[inR]
+	#we leave only common in the annotations
+
+	common_seq_length<-rep(NA,length(common_seqs))
+	names(common_seq_length)<-common_seqs
+
+	inQ<-common_seqs[!is.na(seqlevels(query)[common_seqs])]
+	common_seq_length[inQ]<-seqlengths(query)[inQ]
+	
+	inR<-common_seqs[!is.na(seqlevels(reference)[common_seqs])]
+	common_seq_length[inR]<-seqlengths(reference)[inR]
 	#we converged seqlength info from query and reference
 	
-	inchr<-all_seqnames[all_seqnames %in% names(chromosomes.length)]
-	inchr<-inchr[!is.na(chromosomes.length[inchr])]
-	all_seq_length[inchr]<-chromosomes.length[inchr]
+	inchr<-common_seqs[!is.na(chromosomes.length[common_seqs])]
+	common_seq_length[inchr]<-chromosomes.length[inchr]
 	#and from chromlegthts
 
-	seqlengths(query)<-seqlengths(reference)<-chromosomes.length<-all_seq_length	
-
-	if (lengths(chromosomes.to.proceed)>0) {
-		query<-query %>% filter(seqnames %in% chromosomes.to.proceed)
-		reference<-reference %>% filter(seqnames %in% chromosomes.to.proceed)
-	}
+	seqlengths(query)<-seqlengths(reference)<-chromosomes.length<-common_seq_length	
+	#we converged the lengths from query, ref and from chrom.lentgth
 
 	if (add.chr.as.prefix)
 	{
@@ -324,7 +301,6 @@ GenometriCorrelation <- function(
 	# not in intersection of spacesA and spacesB;
 	# if we have information in chromosomes.length, we do not care
 	# about what was given in seqlengths of A and B
-	cat("###\n")
 	result<-.GRangesGenometricsCorrelation(
 			query=query,
 			reference=reference,
@@ -397,7 +373,7 @@ GenometriCorrelation <- function(
 
 	#the thing actually calculates everything
 	#it is to called from GenomertiCorrelation
-	#rg_query,rg_reference are two GRanges that are under analysis
+	#query,reference are two GRanges that are under analysis
 	#list.of.spaces is list of spaces to work with
 	#map.to.half is whether to calculate relative distances in [0,0.5] or in [0,1]
 	#showProgressBar whether to show a progress indicator
