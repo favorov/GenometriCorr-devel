@@ -7,9 +7,7 @@
 #
 # GenomertiCorrelation is the main function of the package
 
-#' @import IRanges GenomicRanges GenomicFeatures methods
-#' @importFrom plyranges filter
-#' @importFrom dabta.table %>%
+#' @import methods plyranges GenomicRanges GenomicFeatures
 #' @importFrom gtools mixedsort
 #' @importFrom tcltk tkProgressBar setTkProgressBar getTkProgressBar
 #' @importFrom GenomeInfoDb seqlevels seqlevels<- seqlengths
