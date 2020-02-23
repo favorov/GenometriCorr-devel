@@ -215,7 +215,7 @@ GenometriCorrelation <- function(
 
 	if (!setequal(seqlevels(query),seqlevels(reference))) {
 		common_seqinfo<-intersect(seqinfo(query),seqinfo(reference))
-		common_seqs<-seqnames(seqinfo)
+		common_seqs<-seqnames(common_seqinfo)
 		if ( length(chromosomes.to.proceed)==0 || !all(chromosomes.to.proceed %in% common_seqs)) {
 			warning("Query and referance has different chromosome lists.")
 		}
