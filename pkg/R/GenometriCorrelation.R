@@ -232,28 +232,6 @@ GenometriCorrelation <- function(
 	if ( length(chromosomes.to.proceed)>0 ){common_seqs<-intersect(common_seqs,chromosomes.to.proceed)}
 	#now, we see only sequences that are in both annotations and in chrosomes.to.proceed
 
-	if(!all(seqlengths(query)[common_seqs]==seqlengths(reference)[common_seqs],na.rm=TRUE)) {
-		stop("At least one chromosome that we are going to work with has different length in query and reference")
-	}
-	
-	#we leave only common in the annotations
-
-	common_seq_length<-rep(NA,length(common_seqs))
-	names(common_seq_length)<-common_seqs
-
-	inQ<-common_seqs[!is.na(seqlevels(query)[common_seqs])]
-	common_seq_length[inQ]<-seqlengths(query)[inQ]
-	
-	inR<-common_seqs[!is.na(seqlevels(reference)[common_seqs])]
-	common_seq_length[inR]<-seqlengths(reference)[inR]
-	#we converged seqlength info from query and reference
-	
-	inchr<-common_seqs[!is.na(chromosomes.length[common_seqs])]
-	common_seq_length[inchr]<-chromosomes.length[inchr]
-	#and from chromlegthts
-
-	seqlengths(query)<-seqlengths(reference)<-chromosomes.length<-common_seq_length	
-	#we converged the lengths from query, ref and from chrom.lentgth
 
 	if (add.chr.as.prefix)
 	{
@@ -380,7 +358,7 @@ GenometriCorrelation <- function(
 	#map.to.half is whether to calculate relative distances in [0,0.5] or in [0,1]
 	#showProgressBar whether to show a progress indicator
 	#showTkProgressBar whether to show a Tk progress indicator; work only if tcltk is loaded
-	#chromosomes.length is an array of length of chromosomes, names are the names of chromosomes
+	#chromosomes.length is an array of length of chromosomes, names are the names of chromosomes (we use it historically)
 	#ecdf.area.permut.number is number of permutations for ecdf area method
 	#mean.distance.permut.number is the same thing about the mean ref-to-query distance
 	#awhole.chromosomes is list of chromosomes to be included in whole-genome calculation
@@ -435,16 +413,29 @@ GenometriCorrelation <- function(
 	#we need to know all the chrom lengths or at least to mark it as NA
 	for ( space in list.of.spaces )
 	{
-		que_ranges<-ranges(gr_query %>% filter(seqnames==space))
-		ref_ranges<-ranges(gr_reference %>% filter(seqnames==space))
-		if (! space %in% names(chromosomes.length))
-			chromosomes.length[space]=NA
-		if ( is.na(chromosomes.length[space]) ) #if it was absent, now it is NA as well as if it was NA
+		my_space_length<-NA
+		if (!is.na(seqlengths(query)[space])){
+			my_space_length=seqlengths(query)[space]
+		}
+		if (!is.na(seqlengths(reference)[space])){
+			if (!is.na(my_space_length) && my_space_length != seqlengths(reference)[space]) {
+				stop(sprintf("Different length in query and reference for chromosone %s.\n",space),call.=FALSE)
+			}
+			my_space_length=seqlengths(reference)[space]
+		}
+		
+		if (space %in% names(chromosomes.length))
+			my_space_length=chromosomes.length[space]
+	
+		if ( is.na(my_space_length) )
 		{	
-			chromosomes.length[space]=chromosomes.length.eval(que_ranges,ref_ranges)
+			que_ranges<-ranges(query %>% filter(seqnames==space))
+			ref_ranges<-ranges(reference %>% filter(seqnames==space))
+			my_space_length<-chromosomes.length.eval(que_ranges,ref_ranges)
 			if (! (suppress.evaluated.length.warning))
 				warning(paste0("Length for chromosome ",space," is evaluated as ",as.character(chromosomes.length[space])," rather than pre-given."))
 		}
+		chromosomes.length[space]=my_space_length
 		#here, we tested ends not to stick put, but now -- it is GRanges, it is already tested
 	}	
 	
