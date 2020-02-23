@@ -79,7 +79,7 @@ GenometriCorrelation(
 \item{supress.evaluated.length.warning}{It was a typo for \code{suppress.evaluated.length.warning}. Now obsoleted, use \code{suppress.evaluated.length.warning}}
 }
 \value{
-The result is an instance of the \code{\link{GenometriCorrResult-class}} that describes the run parameters in its \code{\link{GenometriCorrResult-class}} \code{@config} slot and that extends a \code{\linkS4class{namedList}} list (created originally with a \code{list()} call with the results of the run.  Each element of the list is also a list that describes results for a space (chromosome); one of them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole, all others are named the same as the chromosomes and describe the chromosomewise statistics.  The elements of the 'awhole' and chromosomewise lists are statistical measures and some datasets. The statistical measures are described in the \code{\link{GenometriCorr}} package help.  For further explanation, see the \href{../doc/GenometriCorr.pdf}{the package vignette}. 
+The result is an instance of the \code{\link{GenometriCorrResult-class}} that describes the run parameters in its \code{\link{GenometriCorrResult-class}} \code{@config} slot and that extends a \code{\linkS4class{namedList}} list (created originally with a \code{list()} call with the results of the run.  Each element of the list is also a list that describes results for a space (chromosome); one of them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole, all others are named the same as the chromosomes and describe the chromosomewise statistics.  The elements of the 'awhole' and chromosomewise lists are statistical measures and some datasets. The statistical measures are described in the \code{\link{GenometriCorr}} package help.  For further explanation, see the the package vignette. 
 
 Below is the description of the values of the list returned for each chromosome. 
 \item{query.population}{Query points used in the comparisons.}
@@ -110,7 +110,7 @@ The additional values that are returned if \code{keep.distributions=TRUE}
 \item{jaccard.measure.null.list}{The null distribution of Jaccard measures in permutations}
 }
 \description{
-The GenometriCorrelation function compares two interval annotations on a chromosome, set of chromosomes or on an entire genome, and performs various statistical tests to determine whether the two interval sets are independent or are positioned nonrandomly with respect to each other. For a complete description of the tests, refer to the \href{../doc/GenometriCorr.pdf}{the package vignette}.
+The GenometriCorrelation function compares two interval annotations on a chromosome, set of chromosomes or on an entire genome, and performs various statistical tests to determine whether the two interval sets are independent or are positioned nonrandomly with respect to each other. For a complete description of the tests, refer to the the package vignette.
 }
 \examples{
 library('rtracklayer')

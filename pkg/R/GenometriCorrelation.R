@@ -12,7 +12,7 @@
 #' @importFrom GenomeInfoDb seqlevels seqlevels<- seqlengths
 #' @importFrom stats ecdf integrate ks.test pbinom punif runif 
 #' @importFrom utils getTxtProgressBar head packageDescription read.table setTxtProgressBar tail txtProgressBar 
-#' @import dplyr plyranges GenomicRanges GenomicFeatures methods
+#' @import BiocGenerics magrittr GenomicRanges GenomicFeatures methods plyranges
 
 epsilon=1e-6
 integr_rel_tol=0.01
@@ -218,8 +218,8 @@ GenometriCorrelation <- function(
 		if ( length(chromosomes.to.proceed)==0 || !all(chromosomes.to.proceed %in% common_seqs)) {
 			warning("Query and referance has different chromosome lists.")
 		}
-		query<-query %>% plyranges::filter(seqnames %in% common_seqs)
-		reference<-reference %>% plyranges::filter(seqnames %in% common_seqs)
+		query<-plyranges::filter(query,seqnames %in% common_seqs)
+		reference<-plyranges::filter(reference, seqnames %in% common_seqs)
 		#actually, we just set seqinfo to common_seqinfo, but....
 		query<-GRanges(seqnames=as.character(query@seqnames),ranges=query@ranges,
 					strand=query@strand,mcols=mcols(query),seqinfo = common_seqinfo)
@@ -334,7 +334,7 @@ GenometriCorrelation <- function(
 }
 
 
-.space_ranges<-function(granges,space){(granges %>% plyranges::filter(seqnames==space))@ranges}
+.space_ranges<-function(granges,space){(plyranges::filter(granges, seqnames==space))@ranges}
 
 .GRangesGenometricsCorrelation<-function(
 	query,reference,
@@ -435,8 +435,8 @@ GenometriCorrelation <- function(
 	
 		if ( is.na(my_space_length) )
 		{
-			que_ranges<-ranges(query %>% plyranges::filter(seqnames==space))
-			ref_ranges<-ranges(reference %>% plyranges::filter(seqnames==space))
+			que_ranges<-ranges(plyranges::filter(query, seqnames==space))
+			ref_ranges<-ranges(plyranges::filter(reference, seqnames==space))
 			my_space_length<-chromosomes.length.eval(que_ranges,ref_ranges)
 			if (! (suppress.evaluated.length.warning))
 				warning(paste0("Length for chromosome ",space," is evaluated as ",as.character(chromosomes.length[space])," rather than pre-given."))
@@ -528,12 +528,11 @@ GenometriCorrelation <- function(
 	for (space in list.of.spaces) #calculate everything nonpermutted for each chromosomes
 	{
 		qu<-sorted.representing.points(
-			ranges=ranges(query %>% plyranges::filter(as.character(seqnames)==space)),
+			ranges=ranges(plyranges::filter(query, seqnames==space)),
 			representing.point.function=query.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space
 		)
-		cat("###");cat(space);cat("###\n")
 		#HERE
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
@@ -545,7 +544,7 @@ GenometriCorrelation <- function(
 		}
 
 		ref<-sorted.representing.points(
-			ranges=ranges(reference %>% plyranges::filter(seqnames==space)),
+			ranges=ranges(plyranges::filter(reference, seqnames==space)),
 			representing.point.function=reference.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space		)
