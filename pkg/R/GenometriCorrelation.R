@@ -220,8 +220,11 @@ GenometriCorrelation <- function(
 		}
 		query<-query %>% filter(seqnames %in% common_seqs)
 		reference<-reference %>% filter(seqnames %in% common_seqs)
-		seqinfo(reference)<-common_seqinfo
-		seqinfo(query)<-common_seqinfo
+		#actually, we just set seqinfo to common_seqinfo, but....
+		query<-GRanges(seqnames=as.character(query@seqnames),ranges=query@ranges,
+					strand=query@strand,mcols=mcols(query),seqinfo = common_seqinfo)
+		reference<-GRanges(seqnames=as.character(reference@seqnames),ranges=reference@ranges,
+					strand=reference@strand,mcols=mcols(reference),seqinfo = common_seqinfo)
 	} else {
 		common_seqs<-seqlevels(query) #they are equal, so quary and reference is the same
 	}
