@@ -16,7 +16,7 @@ MapRangesToGenomicIntervals is a function that maps a set of ranges represented 
 
 The result is a \code{GRanges}. Each space in the output value corresponds to an interval from \code{where.to.map}, and the items in \code{what.to.map} have been transferred to the new coordinate system in each interval.
 
-The function is extremely useful if two features are spatially restricted in the genome. See more in the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vignette}.  
+The function is extremely useful if two features are spatially restricted in the genome. See more in the GenometriCorr package vignette.  
 
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }

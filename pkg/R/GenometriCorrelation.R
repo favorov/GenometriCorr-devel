@@ -7,12 +7,12 @@
 #
 # GenomertiCorrelation is the main function of the package
 
-#' @import methods plyranges GenomicRanges GenomicFeatures
 #' @importFrom gtools mixedsort
 #' @importFrom tcltk tkProgressBar setTkProgressBar getTkProgressBar
 #' @importFrom GenomeInfoDb seqlevels seqlevels<- seqlengths
 #' @importFrom stats ecdf integrate ks.test pbinom punif runif 
 #' @importFrom utils getTxtProgressBar head packageDescription read.table setTxtProgressBar tail txtProgressBar 
+#' @import dplyr plyranges GenomicRanges GenomicFeatures methods
 
 epsilon=1e-6
 integr_rel_tol=0.01
@@ -80,7 +80,7 @@ add.chr.prefix.to.names<-function(namelist)
 
 #' GenometriCorrelation
 #'
-#' The GenometriCorrelation function compares two interval annotations on a chromosome, set of chromosomes or on an entire genome, and performs various statistical tests to determine whether the two interval sets are independent or are positioned nonrandomly with respect to each other. For a complete description of the tests, refer to the \href{../doc/GenometriCorr.pdf}{the package vignette}.
+#' The GenometriCorrelation function compares two interval annotations on a chromosome, set of chromosomes or on an entire genome, and performs various statistical tests to determine whether the two interval sets are independent or are positioned nonrandomly with respect to each other. For a complete description of the tests, refer to the the package vignette.
 #'
 #' @aliases GenometricCorrelation
 #' @param query GRanges object that contains the query interval set coordinates and spaces (generally, chromosomes). The \code{GenometriCorrelation} function tests whether it is positioned independently relative to the \code{reference} interval set.
@@ -106,7 +106,7 @@ add.chr.prefix.to.names<-function(namelist)
 #' @param query.representing.point.function The same thing as the \code{representing.point.function}, but the representation point calculation is overloaded only for query intervals.
 #' @param reference.representing.point.function The same thing as the \code{representing.point.function}, but the representation point calculation is overloaded only for query intervals.
 #' @param supress.evaluated.length.warning It was a typo for \code{suppress.evaluated.length.warning}. Now obsoleted, use \code{suppress.evaluated.length.warning}
-#' @return The result is an instance of the \code{\link{GenometriCorrResult-class}} that describes the run parameters in its \code{\link{GenometriCorrResult-class}} \code{@config} slot and that extends a \code{\linkS4class{namedList}} list (created originally with a \code{list()} call with the results of the run.  Each element of the list is also a list that describes results for a space (chromosome); one of them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole, all others are named the same as the chromosomes and describe the chromosomewise statistics.  The elements of the 'awhole' and chromosomewise lists are statistical measures and some datasets. The statistical measures are described in the \code{\link{GenometriCorr}} package help.  For further explanation, see the \href{../doc/GenometriCorr.pdf}{the package vignette}. 
+#' @return The result is an instance of the \code{\link{GenometriCorrResult-class}} that describes the run parameters in its \code{\link{GenometriCorrResult-class}} \code{@config} slot and that extends a \code{\linkS4class{namedList}} list (created originally with a \code{list()} call with the results of the run.  Each element of the list is also a list that describes results for a space (chromosome); one of them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole, all others are named the same as the chromosomes and describe the chromosomewise statistics.  The elements of the 'awhole' and chromosomewise lists are statistical measures and some datasets. The statistical measures are described in the \code{\link{GenometriCorr}} package help.  For further explanation, see the the package vignette. 
 #'
 #' Below is the description of the values of the list returned for each chromosome. 
 #' \item{query.population}{Query points used in the comparisons.}
@@ -218,8 +218,8 @@ GenometriCorrelation <- function(
 		if ( length(chromosomes.to.proceed)==0 || !all(chromosomes.to.proceed %in% common_seqs)) {
 			warning("Query and referance has different chromosome lists.")
 		}
-		query<-query %>% filter(seqnames %in% common_seqs)
-		reference<-reference %>% filter(seqnames %in% common_seqs)
+		query<-query %>% plyranges::filter(seqnames %in% common_seqs)
+		reference<-reference %>% plyranges::filter(seqnames %in% common_seqs)
 		#actually, we just set seqinfo to common_seqinfo, but....
 		query<-GRanges(seqnames=as.character(query@seqnames),ranges=query@ranges,
 					strand=query@strand,mcols=mcols(query),seqinfo = common_seqinfo)
@@ -229,7 +229,10 @@ GenometriCorrelation <- function(
 		common_seqs<-seqlevels(query) #they are equal, so quary and reference is the same
 	}
 
-	if ( length(chromosomes.to.proceed)>0 ){common_seqs<-intersect(common_seqs,chromosomes.to.proceed)}
+	if ( length(chromosomes.to.proceed)>0 ){chromosomes.to.proceed<-intersect(common_seqs,chromosomes.to.proceed)}
+	else {
+		chromosomes.to.proceed<-common_seqs
+	}
 	#now, we see only sequences that are in both annotations and in chrosomes.to.proceed
 
 
@@ -243,8 +246,11 @@ GenometriCorrelation <- function(
 		reference<-add.chr.prefix.to.names(reference)
 	}
 
-	list.of.spaces<-mixedsort(union(as.character(query@seqnames),as.character(reference@seqnames)))
+	list.of.nonempty.spaces<-mixedsort(union(as.character(query@seqnames),as.character(reference@seqnames)))
+	
 	#to get here, chr is to have at least one represetative anywhere
+	list.of.spaces<-intersect(list.of.nonempty.spaces,chromosomes.to.proceed)
+
 
 	# now, list.of.spaces is what we will really proceed	
 	if (length(intersect(as.character(query@seqnames),as.character(reference@seqnames)))==0)
@@ -328,7 +334,7 @@ GenometriCorrelation <- function(
 }
 
 
-.space_ranges<-function(granges,space){(granges %>% filter(seqnames==space))@ranges}
+.space_ranges<-function(granges,space){(granges %>% plyranges::filter(seqnames==space))@ranges}
 
 .GRangesGenometricsCorrelation<-function(
 	query,reference,
@@ -424,22 +430,22 @@ GenometriCorrelation <- function(
 			my_space_length=seqlengths(reference)[space]
 		}
 		
-		if (space %in% names(chromosomes.length))
+		if (space %in% names(chromosomes.length) && !is.na(chromosomes.length[space]))
 			my_space_length=chromosomes.length[space]
 	
 		if ( is.na(my_space_length) )
-		{	
-			que_ranges<-ranges(query %>% filter(seqnames==space))
-			ref_ranges<-ranges(reference %>% filter(seqnames==space))
+		{
+			que_ranges<-ranges(query %>% plyranges::filter(seqnames==space))
+			ref_ranges<-ranges(reference %>% plyranges::filter(seqnames==space))
 			my_space_length<-chromosomes.length.eval(que_ranges,ref_ranges)
 			if (! (suppress.evaluated.length.warning))
 				warning(paste0("Length for chromosome ",space," is evaluated as ",as.character(chromosomes.length[space])," rather than pre-given."))
 		}
 		chromosomes.length[space]=my_space_length
 		#here, we tested ends not to stick put, but now -- it is GRanges, it is already tested
+
 	}	
 	
-
 	#initialise it all
 	result<-list()
 	
@@ -521,14 +527,13 @@ GenometriCorrelation <- function(
 
 	for (space in list.of.spaces) #calculate everything nonpermutted for each chromosomes
 	{
-		ir_query<-ranges(query %>% filter(seqnames==space));
-		ir_reference_ranges<-ranges(reference %>% filter(seqnames==space));
 		qu<-sorted.representing.points(
-			ranges=,
+			ranges=ranges(query %>% plyranges::filter(as.character(seqnames)==space)),
 			representing.point.function=query.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space
 		)
+		cat("###");cat(space);cat("###\n")
 		#HERE
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
@@ -540,7 +545,7 @@ GenometriCorrelation <- function(
 		}
 
 		ref<-sorted.representing.points(
-			ranges=ranges(reference %>% filter(seqnames==space)),
+			ranges=ranges(reference %>% plyranges::filter(seqnames==space)),
 			representing.point.function=reference.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space		)

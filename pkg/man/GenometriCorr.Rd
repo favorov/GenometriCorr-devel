@@ -55,23 +55,22 @@ The package also provides the \code{\link{VisualiseTwoIRanges}} function that cr
 Package: \tab GenometriCorr\cr
 Type: \tab Package\cr
 Title: \tab Genometric Correlation package \cr
-Version: \tab 1.1.21\cr
-Date: \tab 2019-08-28\cr
+Version: \tab 1.1.23\cr
+Date: \tab 2020-02-20\cr
 License: \tab Artistic-2.0\cr
 LazyLoad: \tab yes\cr
 biocViews: \tab Annotation, Genetics, Infrastructure, DataRepresentation, Bioinformatics, StatisticalMethod\cr
 URL: \tab http://genometricorr.sourceforge.net/ \cr
 }}
 
-\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
+\author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
 
 \references{
 \url{http://genometricorr.sourceforge.net/}
 }
 \keyword{ package }
-\seealso{
-	The {../doc/GenometriCorr.pdf}{GenometriCorr package vignette}.
-}
+\seealso{ See the GenometriCorr package vignette.}
+
 \examples{
 library('rtracklayer')
 library('GenometriCorr')

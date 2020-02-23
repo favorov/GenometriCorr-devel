@@ -64,8 +64,7 @@ Class \code{"\linkS4class{vector}"}, by class "namedList", distance 3.
 \author{Alexander Favorov \email{favorov@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan}
 
 \seealso{
-	The \code{\link{GenometriCorrResult-class}} class; the \code{\link{GenometriCorr}} documentation and the \href{../doc/GenometriCorr.pdf}{GenometriCorr package vignette}.
-}
+	The \code{\link{GenometriCorrResult-class}} class; the \code{\link{GenometriCorr}} documentation and the GenometriCorr package vignette.}
 
 \examples{
 
