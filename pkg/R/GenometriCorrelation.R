@@ -9,6 +9,7 @@
 
 #' @import IRanges GenomicRanges GenomicFeatures methods
 #' @importFrom plyranges filter
+#' @importFrom dabta.table %>%
 #' @importFrom gtools mixedsort
 #' @importFrom tcltk tkProgressBar setTkProgressBar getTkProgressBar
 #' @importFrom GenomeInfoDb seqlevels seqlevels<- seqlengths
