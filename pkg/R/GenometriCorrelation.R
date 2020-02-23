@@ -214,11 +214,11 @@ GenometriCorrelation <- function(
 	#they both are  GRanges if we are here
 
 	if (!setequal(seqlevels(query),seqlevels(reference))) {
+		common_seqinfo<-intersect(seqinfo(query),seqifo(reference))
+		common_seqs<-seqnames(seqinfo)
 		if ( length(chromosomes.to.proceed)==0 || !all(chromosomes.to.proceed %in% common_seqs)) {
 			warning("Query and referance has different chromosome lists.")
 		}
-		common_seqinfo<-intersect(seqinfo(query),seqifo(reference))
-		common_seqs<-seqnames(seqinfo)
 		query<-query %>% filter(seqnames %in% common_seqs)
 		reference<-reference %>% filter(seqnames %in% common_seqs)
 		seqinfo(reference)<-common_seqinfo
