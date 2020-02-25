@@ -528,7 +528,7 @@ GenometriCorrelation <- function(
 	for (space in list.of.spaces) #calculate everything nonpermutted for each chromosomes
 	{
 		qu<-sorted.representing.points(
-			ranges=.space_ranges(query,space),
+			iranges=.space_ranges(query,space),
 			representing.point.function=query.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space
@@ -544,10 +544,11 @@ GenometriCorrelation <- function(
 		}
 
 		ref<-sorted.representing.points(
-			ranges=.space_ranges(reference, seqnames==space),
+			iranges=.space_ranges(reference, seqnames==space),
 			representing.point.function=reference.representing.point.function,
 			chromosome.length=chromosomes.length[space],
-			space=space		)
+			space=space
+		)
 
 		if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
 
@@ -1210,13 +1211,9 @@ GenometriCorrelation <- function(
 }
 
 
-
-
-sorted.representing.points<-function(ranges,representing.point.function,chromosome.length,space)
+sorted.representing.points<-function(iranges,representing.point.function,chromosome.length,space)
 {
-	#ranges is IRanges
-	qq12<-ranges
-	cat("in func -- copied here\n")
+	#iranges is IRanges
 	mids<-representing.point.function(start(ranges),end(ranges),chromosome.length,space)
 	return(mids[order(mids)])
 }
