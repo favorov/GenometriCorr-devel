@@ -16,7 +16,7 @@ MapRangesToGenomicIntervals<-function(
 	unmapped.range.warning=FALSE,
 	nonnormalised.mapping.warning=TRUE
 )
-#subgenome and rd are suppose to be RangedData or GRanges
+#subgenome and are suppose to be GRanges
 #in the second case, we test the lenthg equivalence
 {
 	is.where.gr<-inherits(where.to.map,"GRanges")
@@ -24,14 +24,12 @@ MapRangesToGenomicIntervals<-function(
 		stop("where.to.map is not GRanges. It's all lost!\n")	
 	chromosome.names.where<-NA
 	chromosome.names.where<-as.character(unique(seqnames(where.to.map)))
-	where.to.map<-as(where.to.map,'RangedData')
 
 	is.what.gr<-inherits(what.to.map,"GRanges")
 	if (is.what.gr)
 		stop("what.to.map is not GRanges. It's all lost!\n")	
 	chromosome.names.what<-NA
 	chromosome.names.what<-as.character(unique(seqnames(what.to.map)))
-	what.to.map<-as(what.to.map,'RangedData')
 	#seqnames<-c()
 	#seqleninfo<-c()
 	#start=c()

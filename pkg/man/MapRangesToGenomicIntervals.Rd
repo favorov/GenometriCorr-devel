@@ -12,7 +12,7 @@
 MapRangesToGenomicIntervals
 }
 \description{
-MapRangesToGenomicIntervals is a function that maps a set of ranges represented by a \code{GRanges} object into a set of intervals (subgenome) (e.g. RefSeq) that is also represented by an \code{RangedData} or \code{GRanges}.
+MapRangesToGenomicIntervals is a function that maps a set of ranges represented by a \code{GRanges} object into a set of intervals (subgenome) (e.g. RefSeq) that is also represented by a \code{GRanges}.
 
 The result is a \code{GRanges}. Each space in the output value corresponds to an interval from \code{where.to.map}, and the items in \code{what.to.map} have been transferred to the new coordinate system in each interval.
 
@@ -82,8 +82,8 @@ The value contains all those ranges from \code{what.to.map} that fall into an in
 \examples{
 library('GenometriCorr')
 
-intervals<-RangedData(ranges=IRanges(c(1,10001,1,10001),width=c(1000)),space=c('chr1','chr1','chr2','chr2'))
-ranges=RangedData(ranges=IRanges(c(10,110,10101,100000,500,550,1055),width=c(10)),space=c(rep('chr1',4),rep('chr2',3)))
+intervals<-GRanges(ranges=IRanges(c(1,10001,1,10001),width=c(1000)),seqnames=c('chr1','chr1','chr2','chr2'),seqlength=c('chr1'=300000,'chr2'=300000))
+ranges=GRanges(ranges=IRanges(c(10,110,10101,100000,500,550,1055),width=c(10)),seqnames=c(rep('chr1',4),rep('chr2',3)),seqlength=c('chr1'=300000,'chr2'=300000))
 
 mapped<-MapRangesToGenomicIntervals(where.to.map=intervals,what.to.map=ranges)
 

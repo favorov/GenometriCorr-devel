@@ -435,8 +435,8 @@ GenometriCorrelation <- function(
 	
 		if ( is.na(my_space_length) )
 		{
-			que_ranges<-ranges(plyranges::filter(query, seqnames==space))
-			ref_ranges<-ranges(plyranges::filter(reference, seqnames==space))
+			que_ranges<-.space_ranges(query,space)
+			ref_ranges<-.space_ranges(reference, space)
 			my_space_length<-chromosomes.length.eval(que_ranges,ref_ranges)
 			if (! (suppress.evaluated.length.warning))
 				warning(paste0("Length for chromosome ",space," is evaluated as ",as.character(chromosomes.length[space])," rather than pre-given."))
@@ -528,7 +528,7 @@ GenometriCorrelation <- function(
 	for (space in list.of.spaces) #calculate everything nonpermutted for each chromosomes
 	{
 		qu<-sorted.representing.points(
-			ranges=ranges(plyranges::filter(query, seqnames==space)),
+			ranges=.space_ranges(query,space),
 			representing.point.function=query.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space
@@ -544,7 +544,7 @@ GenometriCorrelation <- function(
 		}
 
 		ref<-sorted.representing.points(
-			ranges=ranges(plyranges::filter(reference, seqnames==space)),
+			ranges=.space_ranges(reference, seqnames==space),
 			representing.point.function=reference.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space		)
@@ -1215,6 +1215,8 @@ GenometriCorrelation <- function(
 sorted.representing.points<-function(ranges,representing.point.function,chromosome.length,space)
 {
 	#ranges is IRanges
+	qq12<-ranges
+	cat("in func -- copied here\n")
 	mids<-representing.point.function(start(ranges),end(ranges),chromosome.length,space)
 	return(mids[order(mids)])
 }

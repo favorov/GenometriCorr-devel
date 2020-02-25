@@ -45,7 +45,8 @@ The Jaccard test compares the length of the union of all query and reference fea
 This is the permutation-based evaluation of the \emph{p-value} for the Jaccard measure; the \code{jaccard.measure.lower.tail} is \code{TRUE} if there are fewer overlaps than expected (less overlap) ond \code{FALSE} otherwise.
 }
 
-When both query and reference features are restricted to genomic subsets, or when we want to compare their relationship only within smaller genomic intervals (e.g. genes), we can remap the intervals of interest onto pseudochromosomes and use the \code{\link{MapRangesToGenomicIntervals}} provided by the package. Each mapping result is a \code{\link{RangedData}} object. The pseudochromosomes can now be treated as usual by \code{\link{GenometriCorrelation}} to test the correlations of interest.
+When both query and reference features are restricted to genomic subsets, or when we want to compare their relationship only within smaller genomic intervals (e.g. genes), we can remap the intervals of interest onto pseudochromosomes and use the \code{\link{MapRangesToGenomicIntervals}} provided by the package. Each mapping result is a \code{\link{GRanges}} object. The pseudochromosomes can now be treated as usual by \code{\link{GenometriCorrelation}} to test the correlations of interest.
+
 
 The package also provides the \code{\link{VisualiseTwoIRanges}} function that creates a very high-level graphic overview of a pair of annotations on a chromosome (space).
 
