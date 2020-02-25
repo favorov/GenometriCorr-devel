@@ -543,7 +543,7 @@ GenometriCorrelation <- function(
 		}
 
 		ref<-sorted.representing.points(
-			iranges=.space_ranges(reference, space),
+			iranges=.space_ranges(reference,space),
 			representing.point.function=reference.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space
