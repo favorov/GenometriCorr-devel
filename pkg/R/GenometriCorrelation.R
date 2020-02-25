@@ -543,7 +543,7 @@ GenometriCorrelation <- function(
 		}
 
 		ref<-sorted.representing.points(
-			iranges=.space_ranges(reference, seqnames==space),
+			iranges=.space_ranges(reference, space),
 			representing.point.function=reference.representing.point.function,
 			chromosome.length=chromosomes.length[space],
 			space=space
@@ -1213,7 +1213,7 @@ GenometriCorrelation <- function(
 sorted.representing.points<-function(iranges,representing.point.function,chromosome.length,space)
 {
 	#iranges is IRanges
-	mids<-representing.point.function(start(ranges),end(ranges),chromosome.length,space)
+	mids<-representing.point.function(start(iranges),end(iranges),chromosome.length,space)
 	return(mids[order(mids)])
 }
 
