@@ -334,7 +334,7 @@ GenometriCorrelation <- function(
 }
 
 
-.space_ranges<-function(granges,space){(plyranges::filter(granges, seqnames==space))@ranges}
+.space_ranges<-function(granges,seqname){(plyranges::filter(granges, seqnames==seqname))@ranges}
 
 .GRangesGenometricsCorrelation<-function(
 	query,reference,
