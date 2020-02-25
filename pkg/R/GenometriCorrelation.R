@@ -356,7 +356,6 @@ GenometriCorrelation <- function(
 	reference.representing.point.function
 )
 {
-
 	#the thing actually calculates everything
 	#it is to called from GenomertiCorrelation
 	#query,reference are two GRanges that are under analysis
