@@ -14,7 +14,7 @@
 #' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "mapped"
 #' @param out_chain_name The name of a chain file to be written in the local directory. Default is "", is calls a tmp file creation. In this case, the file will be unlinked before the function returns.
 #' @param verbose Output updates while the function is running. Default FALSE
-#' @param chromosomes.length is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a GRanges.
+#' @param chromosomes_length is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a GRanges.
 #' @return a Chain object that maps all the chromosomes according to GRanges
 # this ia code by Veronica Busa with some modification s by Alexander Favorov
 
@@ -23,7 +23,7 @@
 GRangesMappingToChainViaFile<-function(ranges_to_map_to,
                                     chrom_suffix = "_mapped",
                                     out_chain_name= "",
-                                    chromosomes.length=c(),
+                                    chromosomes_length=c(),
 																		verbose=FALSE
 {
   #confirm GRanges doesn't have any overlapping intervals
@@ -123,12 +123,14 @@ MapRangesToGenomicIntervals<-function(
 		if(length(unmapped_chroms)>0) warning(paste0("Some chromosomes, e.g. ",unmapped_chroms[1]," has no mapping,"))
 	}
 	
-	return
-	(
-		GRanges(
-			seqnames=seqnames,
-			ranges=IRanges(start=start,end=end),
-			seqlengths=seqlengths)
+	chain<-GRangesMappingToChainViaFile(
+		ranges_to_map_to=where.to.map,
+		chrom_suffix=chrom.suffix,
+		#debug line
+		out_chain_name="mapchain",
+		chromosomes_length=chromosomes.length
 	)
+
+	return liftOver(what.to.map,chain)
 }
 
