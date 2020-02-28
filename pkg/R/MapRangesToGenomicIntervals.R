@@ -27,7 +27,7 @@ GRangesMappingToChainFile<-function(input_GRanges,
 																		verbose=FALSE
 {
   #confirm GRanges doesn't have any overlapping intervals
-  if(length(input_GRanges) - length(intersect(input_GRanges, input_GRanges)) > 0){
+  if(! identical(input_GRanges,reduce(input_GRanges))){
     stop("GRanges object includes overlapping intervals. This will cause errors when trying to use the chain object.")
   }
   #create seqinfo object for all chromosomes to get lengths
