@@ -77,15 +77,13 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
   if(verbose == TRUE){print("Creating chain object")}
   format_chrom_chains<-apply(chrom_chains, 1, paste, collapse = "\t")
   format_chrom_chains<-gsub("\t\t", "", format_chrom_chains)
-  tmp<-""
   if(out_chain_name == ""){
     out_chain_name<-tempfile(pattern = "", fileext = ".chain")
-    tmp<-out_chain_name
   } else{if(verbose == TRUE){print("Saving chain object")}}
   writeLines(format_chrom_chains, con=out_chain_name)
   # have to write intermediate file to inport chain object
   chain<-import.chain(out_chain_name)
-  unlink(tmp)
+  unlink(out_chain_name)
   return(chain)
 }
 
@@ -178,7 +176,3 @@ MapRangesToGenomicIntervals<-function(
 	)
 }
 
-
-#'@export
-WriteChainFromGRanges<-function(where.to.mao,chainfile) {
-}
