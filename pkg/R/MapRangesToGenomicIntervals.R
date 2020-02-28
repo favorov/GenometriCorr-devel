@@ -21,15 +21,13 @@
 #' @import plyranges
 #' @import rtracklayer
 GRangesMappingToChainViaFile<-function(ranges_to_map_to,
-                                    chrom_suffix = "",
+                                    chrom_suffix = "_mapped",
                                     out_chain_name= "",
                                     chromosomes.length=c(),
 																		verbose=FALSE
 {
   #confirm GRanges doesn't have any overlapping intervals
-  if(! identical(ranges_to_map_to,reduce(ranges_to_map_to))){
-    stop("GRanges object includes overlapping intervals. This will cause errors when trying to use the chain object.")
-  }
+  ranges_to_map_to<-reduce(ranges_to_map_to)
   #chromosomes to get lengths
 	chrom_length<-seqlengths(ranges_to_map_to)
 	for (name in as.character(ranges_to_map_to@seqnames)) {
@@ -87,13 +85,13 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
   return(chain)
 }
 
-
-#'@export
+#' @param chrom.suffix The suffix to be appended to all the sestination chromosome names in the mapping; default is "mapped"
+#' @export
 MapRangesToGenomicIntervals<-function(
 	where.to.map, what.to.map,
+	chrom.suffix,
 	chromosomes.to.proceed=NA,
 	unmapped.chromosome.warning=TRUE,
-	unmapped.range.warning=FALSE,
 	nonnormalised.mapping.warning=TRUE
 )
 #subgenome and are suppose to be GRanges
@@ -108,65 +106,23 @@ MapRangesToGenomicIntervals<-function(
 	is.what.gr<-inherits(what.to.map,"GRanges")
 	if (is.what.gr)
 		stop("what.to.map is not GRanges. It's all lost!\n")	
-	chromosome.names.what<-NA
-	chromosome.names.what<-as.character(unique(seqnames(what.to.map)))
-	#seqnames<-c()
-	#seqleninfo<-c()
-	#start=c()
-	#end=c()
-	for (chr in chromosome.names.what)
-	{
-		if (!is.na(chromosomes.to.proceed) && ! chr %in% chromosomes.to.proceed) next;
-		if (! chr %in% chromosome.names.where )
-		{
-			if (unmapped.chromosome.warning) 
-				warning(paste("The chromosome",chr,"has no space to be mapped to."))
-			next;
-		}
-		whereranges<-sort(ranges(where.to.map)[[chr]])
+	
+	#we are here, they are granges
+	if (!is.na(chromosomes.to.proceed)) {
+		where.to.map <- where.to.map %>% filter(seqnames %in% chromosomes.to.proceed)
+		what.to.map <- what.to.map %>% filter(seqnames %in% chromosomes.to.proceed)
+	}
+	
+	if(! identical(where.to.map,reduce(where.to.map))){
+    if (nonnormalised.mapping.warning) {warning("GRanges object to map to includes overlapping intervals. Normalised.")}
+		where.to.map<-reduce(where.to.map)
+  }
 
-		if (! isNormal(whereranges))
-		{
-			if (nonnormalised.mapping.warning) 
-				warning(paste("The chromosome",chr,"is not normalised in where.to.map; I do it for you."))
-			whereranges <- asNormalIRanges(whereranges)
-		}
-	
-		whatranges<-sort(ranges(what.to.map)[[chr]])
-		# 1.22 code
-		#mapping.mat<-as.matrix(findOverlaps(whatranges,whereranges))
-		
-		#map.result<-apply(mapping.mat,1,
-		#	function(hit){
-		#		ind.what<-hit[1]
-		#		ind.where<-hit[2]
-		#		start<-max(1,start(whatranges)[ind.what]-start(whereranges)[ind.where]+1)
-		#		end<-min(end(whatranges)[ind.what]-start(whereranges)[ind.where]+1,width(whereranges)[ind.where])
-		#		seqnames<-paste0(chr,':',start(whereranges)[ind.where],'-',end(whereranges)[ind.where])
-		#		c(seqnames=seqnames,end=end,start=start)
-		#	}
-		#)
-	
-		#seqnames<-c(seqnames,map.result['seqnames',])
-		#start<-c(start,as.integer(map.result['start',]))
-		#end<-c(end,as.integer(map.result['end',]))
+	if(unmapped.chromosome.warning) {
+		unmapped_chroms<-setdiff(what.to.map@seqnames,where.to.map@seqnqmes)
+		if(length(unmapped_chroms)>0) warning(paste0("Some chromosomes, e.g. ",unmapped_chroms[1]," has no mapping,"))
 	}
-	if(unmapped.range.warning && ( length(space(what.to.map)) > length(result) ))
-		warning("Some ranges remained unmapped.\n")
-	if (length(seqnames)==0)
-	{
-		warning("Empty mapping result.\n");
-		return (GRanges())
-	}
-	#prepare seqlength info
-	seqlenames<-unique(seqnames)
-	seqlengths<-sapply(as.vector(strsplit(seqlenames,':')), #list, we need
-		function(splt){
-			startend<-as.integer(strsplit(splt[2],'-')[[1]])
-			startend[2]-startend[1]+1	
-		}
-	)
-	names(seqlengths)<-seqlenames
+	
 	return
 	(
 		GRanges(
