@@ -10,47 +10,50 @@
 #' GRangesMappingToChainViaFile creates a \code{Chain} object based on intervals from a \code{GRanges} object. The mapping by this \code{Chain} will collapse chromosomes of the annotation into pseudogenome that are combined from tiled intervals of the \code{GRanges} object. 
 #' 
 #' 
-#' @param input_GRanges A GRanges file with non-overlapping intervals that will be converted to a chain file. Required.
+#' @param ranges_to_map_to A GRanges file with non-overlapping intervals that will be converted to a chain file. Required.
 #' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "mapped"
 #' @param out_chain_name The name of a chain file to be written in the local directory. Default is "", is calls a tmp file creation. In this case, the file will be unlinked before the function returns.
 #' @param verbose Output updates while the function is running. Default FALSE
-#' @param chromosomes.lengths is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a GRanges.
+#' @param chromosomes.length is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a GRanges.
 #' @return a Chain object that maps all the chromosomes according to GRanges
 # this ia code by Veronica Busa with some modification s by Alexander Favorov
 
 #' @import plyranges
 #' @import rtracklayer
-GRangesMappingToChainFile<-function(input_GRanges,
+GRangesMappingToChainViaFile<-function(ranges_to_map_to,
                                     chrom_suffix = "",
                                     out_chain_name= "",
                                     chromosomes.length=c(),
 																		verbose=FALSE
 {
   #confirm GRanges doesn't have any overlapping intervals
-  if(! identical(input_GRanges,reduce(input_GRanges))){
+  if(! identical(ranges_to_map_to,reduce(ranges_to_map_to))){
     stop("GRanges object includes overlapping intervals. This will cause errors when trying to use the chain object.")
   }
-  #create seqinfo object for all chromosomes to get lengths
-  seqinf<-as(seqinft[nchar(rownames(seqinft))<6,],"Seqinfo")
-  # write chain file chromosome-by-chromosome
-  if(sum(input_GRanges@seqnames %in% seqinf@seqnames) == 0){
-    input_GRanges@seqnames<-paste0("chr", input_GRanges@seqnames) %>% Rle()
-    if(sum(input_GRanges@seqnames %in% seqinf@seqnames) == 0){
-      stop("GTF chromosomes do not resemble UCSC chromosome names. Suggested format: 'chr#' or just # for chromosome name, e.g. chr1 chr10 chrM")
-    }
-  }
+  #chromosomes to get lengths
+	chrom_length<-seqlengths(ranges_to_map_to)
+	for (name in as.character(ranges_to_map_to@seqnames)) {
+		if (is.na(seqlengths(ranges_to_map_to)[name])){ 
+			if(!is.na(chromosomes.length[name])) {
+				seqlengths(ranges_to_map_to)[name] <- chromosomes.length[name]
+			} else {
+				seqlengths(ranges_to_map_to)[name] <- max(end(ranges_to_map_to %>% filter(seqnames==name)))
+			}
+		}
+	}
+	
   
   row<-1
   interval<-1
-  chrom_chains<-matrix(NA, ncol=3, nrow=(length(input_GRanges)))
+  chrom_chains<-matrix(NA, ncol=3, nrow=(length(ranges_to_map_to)))
   
   # make a chain for each chromosome in the genome
-  for(chr in seqinf@seqnames){
+  for(chr in as.character(ranges_to_map_to@seqnames)){
     if(verbose==TRUE){print(paste("Chromosome", chr, "starting"))}
-    gtf_hold<-input_GRanges %>% filter(seqnames==chr)
+    gtf_hold<-ranges_to_map_to %>% filter(seqnames==chr)
     if(length(gtf_hold@ranges)==0){next} # in case of chromosomes without data
     length_chr<-sum(gtf_hold@ranges@width)
-    first_line<-c(paste0("chain 42 ", chr, " ", seqinf@seqlengths[which(seqinf@seqnames==chr)], 
+    first_line<-c(paste0("chain 42 ", chr, " ", seqlengths(ranges_to_map_to)[name], 
                          " * ", gtf_hold@ranges@start[1], " ", 
                          gtf_hold@ranges@start[length(gtf_hold@ranges@start)]+gtf_hold@ranges@width[length(gtf_hold@ranges@width)]-1,
                          " ", chr, chrom_suffix, " ", length_chr, " * 1 ", 
