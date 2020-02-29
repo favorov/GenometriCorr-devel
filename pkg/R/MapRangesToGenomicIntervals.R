@@ -132,9 +132,9 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
   chrom_chains<-matrix(NA, ncol=3, nrow=(length(ranges_to_map_to)))
   
   # make a chain for each chromosome in the genome
-  for(chr in as.character(ranges_to_map_to@seqnames)){
+  for(chr in as.character(ranges_to_map_to@seqinfo@seqnames)){
     if(verbose==TRUE){print(paste("Chromosome", chr, "starting"))}
-    gtf_hold<-ranges_to_map_to %>% filter(seqnames==chr)
+    gtf_hold<<-ranges_to_map_to %>% filter(seqnames==chr)
     if(length(gtf_hold@ranges)==0){next} # in case of chromosomes without data
     length_chr<-sum(gtf_hold@ranges@width)
     first_line<-c(paste0("chain 42 ", chr, " ", seqlengths(ranges_to_map_to)[name], 
