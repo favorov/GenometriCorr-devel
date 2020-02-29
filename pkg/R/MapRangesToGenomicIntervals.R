@@ -104,7 +104,7 @@ MapRangesToGenomicIntervals<-function(
 #' @param verbose Output updates while the function is running. Default FALSE
 #' @param chromosomes_length is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a GRanges.
 #' @return a Chain object that maps all the chromosomes according to GRanges
-
+#' @export
 # this ia code by Veronica Busa with some modification s by Alexander Favorov
 GRangesMappingToChainViaFile<-function(ranges_to_map_to,
                                     chrom_suffix = "_mapped",

@@ -15,7 +15,7 @@ GRangesMappingToChainViaFile(
 \arguments{
 \item{ranges_to_map_to}{A GRanges file with non-overlapping intervals that will be converted to a chain file. Required.}
 
-\item{chrom_suffix}{The suffix to be appended to all the sestination chromosome names in the mapping "default is "mapped"}
+\item{chrom_suffix}{The suffix to be appended to all the sestination chromosome names in the mapping "default is "_mapped"}
 
 \item{out_chain_name}{The name of a chain file to be written in the local directory. Default is "", is calls a tmp file creation. In this case, the file will be unlinked before the function returns.}
 

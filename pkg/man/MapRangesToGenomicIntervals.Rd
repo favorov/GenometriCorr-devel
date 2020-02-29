@@ -7,7 +7,7 @@
 MapRangesToGenomicIntervals(
   where.to.map,
   what.to.map,
-  chrom.suffix,
+  chrom.suffix = "_mapped",
   chromosomes.to.proceed = NA,
   chromosomes.length = c(),
   unmapped.chromosome.warning = TRUE,
@@ -19,7 +19,7 @@ MapRangesToGenomicIntervals(
 
 \item{what.to.map}{The set of ranges that we map.}
 
-\item{chrom.suffix}{The suffix to be appended to all the sestination chromosome names in the mapping; default is "mapped".}
+\item{chrom.suffix}{The suffix to be appended to all the sestination chromosome names in the mapping; default is "_mapped".}
 
 \item{chromosomes.to.proceed}{The default set of chromosomes to map is the intersection of the chromosomes in where.to.map and what.to.map. If we want to restrict the set, we can do it with this parameter.}
 
