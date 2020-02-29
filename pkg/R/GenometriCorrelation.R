@@ -135,7 +135,6 @@ add.chr.prefix.to.names<-function(namelist)
 #' \item{scaled.absolute.min.distance.sum}{The value of the sum (i.e. mean) of scaled absolute distances}
 #' \item{scaled.absolute.min.distance.sum.null.list}{The null distribution for the scaled absolute distances}
 #' \item{jaccard.measure.null.list}{The null distribution of Jaccard measures in permutations}
-#' @references \url{http://genometricorr.sourceforge.net/}
 #' @author Alexander Favorov \email{favorov@@sensi.org}, Loris Mularoni, Yulia Medvedeva, Harris A. Jaffee, Ekaterina V. Zhuravleva, Veronica Busa, Leslie M. Cope, Andrey A. Mironov, Vsevolod J. Makeev, Sarah J. Wheelan.
 #' @references \href{http://genometricorr.sourceforge.net/}{GenometriCorr home}
 #' @seealso The \code{\link{GenometriCorr}} documentation and vignette.
@@ -157,9 +156,7 @@ add.chr.prefix.to.names<-function(namelist)
 #' print(cpgi_to_genes)
 
 #' @keywords multivariate
-
 #' @export
-
 GenometriCorrelation <- function(
 	query,reference,
 	chromosomes.to.proceed=c(),

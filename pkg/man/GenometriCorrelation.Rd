@@ -130,8 +130,6 @@ cpgi_to_genes<-GenometriCorrelation(cpgis,refseq,chromosomes.to.proceed=c('chr1'
 print(cpgi_to_genes)
 }
 \references{
-\url{http://genometricorr.sourceforge.net/}
-
 \href{http://genometricorr.sourceforge.net/}{GenometriCorr home}
 }
 \seealso{
