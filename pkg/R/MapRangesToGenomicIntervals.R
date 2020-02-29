@@ -14,7 +14,7 @@
 #'
 #' @param where.to.map	The set of genomic intervals we map to.
 #' @param what.to.map  The set of ranges that we map.
-#' @param chrom.suffix The suffix to be appended to all the sestination chromosome names in the mapping; default is "mapped".
+#' @param chrom.suffix The suffix to be appended to all the sestination chromosome names in the mapping; default is "_mapped".
 #' @param chromosomes.to.proceed The default set of chromosomes to map is the intersection of the chromosomes in where.to.map and what.to.map. If we want to restrict the set, we can do it with this parameter.
 #' @param chromosomes.length is an alternative to seqingo() ot the GRanges of where.to.map way to pass the lengths of chromosomes to the mapping routine
 #' @param unmapped.chromosome.warning For each chromosome that is represented in \code{what.to.map} and that is included in \code{chromosomes.to.proceed} if it is given and that is not represented in \code{where.to.map}, a warning is generated if \code{unmapped.chromosome.warning} is \code{TRUE}. The default is \code{TRUE}.
@@ -47,7 +47,7 @@
 #' @import rtracklayer plyranges
 MapRangesToGenomicIntervals<-function(
 	where.to.map, what.to.map,
-	chrom.suffix,
+	chrom.suffix="_mapped",
 	chromosomes.to.proceed=NA,
 	chromosomes.length=c(),
 	unmapped.chromosome.warning=TRUE,
@@ -99,7 +99,7 @@ MapRangesToGenomicIntervals<-function(
 #' GRangesMappingToChainViaFile creates a \code{Chain} object based on intervals from a \code{GRanges} object. The mapping by this \code{Chain} will collapse chromosomes of the annotation into pseudogenome that are combined from tiled intervals of the \code{GRanges} object. 
 #' 
 #' @param ranges_to_map_to A GRanges file with non-overlapping intervals that will be converted to a chain file. Required.
-#' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "mapped"
+#' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "_mapped"
 #' @param out_chain_name The name of a chain file to be written in the local directory. Default is "", is calls a tmp file creation. In this case, the file will be unlinked before the function returns.
 #' @param verbose Output updates while the function is running. Default FALSE
 #' @param chromosomes_length is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a GRanges.
