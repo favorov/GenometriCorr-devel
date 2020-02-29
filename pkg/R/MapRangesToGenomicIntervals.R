@@ -118,8 +118,8 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
 	chrom_length<-seqlengths(ranges_to_map_to)
 	for (name in as.character(ranges_to_map_to@seqnames)) {
 		if (is.na(seqlengths(ranges_to_map_to)[name])){ 
-			if(!is.na(chromosomes.length[name])) {
-				seqlengths(ranges_to_map_to)[name] <- chromosomes.length[name]
+			if(length(chromosomes_length)>0 && !is.na(chromosomes_length[name])) {
+				seqlengths(ranges_to_map_to)[name] <- chromosomes_length[name]
 			} else {
 				seqlengths(ranges_to_map_to)[name] <- max(end(ranges_to_map_to %>% filter(seqnames==name)))
 			}
