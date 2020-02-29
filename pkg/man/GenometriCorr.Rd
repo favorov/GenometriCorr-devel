@@ -109,9 +109,9 @@ chromo.length<-c(3000000)
 
 names(chromo.length)<-c('the_chromosome')
 
-rquery<-GRanges(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),seqlevels='the_chromosome')
+rquery<-GRanges(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),seqnames='the_chromosome')
 
-rref<-GRanges(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),seqlevels='the_chromosome')
+rref<-GRanges(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),seqnames='the_chromosome')
 
 #create two features, they are randomly scattered in 1 000 000...2 000 000
 
@@ -122,7 +122,7 @@ unmapped_result<-GenometriCorrelation(rquery,rref,chromosomes.length=chromo.leng
 cat('Unmapped result:\n')
 print(unmapped_result)
 
-map_space<-MapRanges(ranges=IRanges(start=c(1000000),end=c(2000000)),space='the_chromosome')
+map_space<-GRanges(ranges=IRanges(start=c(1000000),end=c(2000000)),seqname='the_chromosome')
 
 mapped_rquery<-MapRangesToGenomicIntervals(what.to.map=rquery,where.to.map=map_space)
 

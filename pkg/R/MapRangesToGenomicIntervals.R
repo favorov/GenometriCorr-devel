@@ -16,6 +16,7 @@
 #' @param what.to.map  The set of ranges that we map.
 #' @param chrom.suffix The suffix to be appended to all the sestination chromosome names in the mapping; default is "mapped".
 #' @param chromosomes.to.proceed The default set of chromosomes to map is the intersection of the chromosomes in where.to.map and what.to.map. If we want to restrict the set, we can do it with this parameter.
+#' @param chromosomes.length is an alternative to seqingo() ot the GRanges of where.to.map way to pass the lengths of chromosomes to the mapping routine
 #' @param unmapped.chromosome.warning For each chromosome that is represented in \code{what.to.map} and that is included in \code{chromosomes.to.proceed} if it is given and that is not represented in \code{where.to.map}, a warning is generated if \code{unmapped.chromosome.warning} is \code{TRUE}. The default is \code{TRUE}.
 #' @param nonnormalised.mapping.warning	If the input mapping space is not normalised (e.g. contains overlapping intervals), it is normalised before the mapping. A warning is generated if \code{nonnormalised.mapping.warning} is \code{TRUE}. The default is \code{TRUE}.
 #' @return GRanges object that is a liftover of \code{what.to.map} to subgenome covered by \code{where.to.map}  
@@ -24,8 +25,8 @@
 #' @seealso The \code{\link{GenometriCorr}} documentation and vignette.
 #' @examples
 #' library('GenometriCorr')
-#' intervals<-GRanges(ranges=IRanges(c(1,10001,1,10001),width=c(1000)),seqnames=c('chr1','chr1','chr2','chr2'),seqlength=c('chr1'=300000,'chr2'=300000))
-#' ranges=GRanges(ranges=IRanges(c(10,110,10101,100000,500,550,1055),width=c(10)),seqnames=c(rep('chr1',4),rep('chr2',3)),seqlength=c('chr1'=300000,'chr2'=300000))
+#' intervals<-GRanges(ranges=IRanges(c(1,10001,1,10001),width=c(1000)),seqnames=c('chr1','chr1','chr2','chr2'),seqlengths=c('chr1'=300000,'chr2'=300000))
+#' ranges=GRanges(ranges=IRanges(c(10,110,10101,100000,500,550,1055),width=c(10)),seqnames=c(rep('chr1',4),rep('chr2',3)),seqlengths=c('chr1'=300000,'chr2'=300000))
 #' mapped<-MapRangesToGenomicIntervals(where.to.map=intervals,what.to.map=ranges)
 #the result is:
 #GRanges with 5 ranges and 0 elementMetadata values
@@ -48,6 +49,7 @@ MapRangesToGenomicIntervals<-function(
 	where.to.map, what.to.map,
 	chrom.suffix,
 	chromosomes.to.proceed=NA,
+	chromosomes.length=c(),
 	unmapped.chromosome.warning=TRUE,
 	nonnormalised.mapping.warning=TRUE
 )
@@ -61,7 +63,7 @@ MapRangesToGenomicIntervals<-function(
 	chromosome.names.where<-as.character(unique(seqnames(where.to.map)))
 
 	is.what.gr<-inherits(what.to.map,"GRanges")
-	if (is.what.gr)
+	if (!is.what.gr)
 		stop("what.to.map is not GRanges. It's all lost!\n")	
 	
 	#we are here, they are granges
@@ -76,10 +78,10 @@ MapRangesToGenomicIntervals<-function(
   }
 
 	if(unmapped.chromosome.warning) {
-		unmapped_chroms<-setdiff(what.to.map@seqnames,where.to.map@seqnqmes)
+		unmapped_chroms<-setdiff(what.to.map@seqnames,where.to.map@seqnames)
 		if(length(unmapped_chroms)>0) warning(paste0("Some chromosomes, e.g. ",unmapped_chroms[1]," has no mapping,"))
 	}
-	
+
 	chain<-GRangesMappingToChainViaFile(
 		ranges_to_map_to=where.to.map,
 		chrom_suffix=chrom.suffix,
