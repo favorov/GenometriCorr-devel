@@ -116,7 +116,7 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
   ranges_to_map_to<-reduce(ranges_to_map_to)
   #chromosomes to get lengths
 	chrom_length<-seqlengths(ranges_to_map_to)
-	for (name in as.character(ranges_to_map_to@seqnames)) {
+	for (name in as.character(ranges_to_map_to@seqinfo@seqnames)) {
 		if (is.na(seqlengths(ranges_to_map_to)[name])){ 
 			if(length(chromosomes_length)>0 && !is.na(chromosomes_length[name])) {
 				seqlengths(ranges_to_map_to)[name] <- chromosomes_length[name]
@@ -129,11 +129,12 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
   
   row<-1
   interval<-1
-  chrom_chains<-matrix(NA, ncol=3, nrow=(length(ranges_to_map_to)))
+  chrom_chains<-matrix(NA, ncol=3, nrow=(length(ranges_to_map_to)+2*length(ranges_to_map_to@seqinfo))) 
+	#two lines per chromosome (open chain and close chain + a line per range
   
   # make a chain for each chromosome in the genome
   for(chr in as.character(ranges_to_map_to@seqinfo@seqnames)){
-    if(verbose==TRUE){print(paste("Chromosome", chr, "starting"))}
+    if(verbose==TRUE){cat(paste("Chromosome", chr, "starting..."))}
     gtf_hold<<-ranges_to_map_to %>% filter(seqnames==chr)
     if(length(gtf_hold@ranges)==0){next} # in case of chromosomes without data
     length_chr<-sum(gtf_hold@ranges@width)
@@ -142,6 +143,7 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
                          gtf_hold@ranges@start[length(gtf_hold@ranges@start)]+gtf_hold@ranges@width[length(gtf_hold@ranges@width)]-1,
                          " ", chr, chrom_suffix, " ", length_chr, " * 1 ", 
                          length_chr," ", interval), "", "")
+    if(verbose==TRUE){cat(" first line" )}
     interval<-interval + 1
     chrom<-matrix(NA, nrow=length(gtf_hold@ranges@start), ncol=3)
     chrom[,1]<-gtf_hold@ranges@width
@@ -152,18 +154,21 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
       chrom[,3]<-0
       chrom[nrow(chrom),3]<-""
       } 
+    if(verbose==TRUE){cat(" tab lines" )}
     chrom_chains[row,]<-first_line
     chrom_chains[(row+1):(row+nrow(chrom)),]<-chrom
     chrom_chains[row+nrow(chrom)+1,]<-c("", "", "")
     row<-row+nrow(chrom)+2
+    if(verbose==TRUE){cat(" done\n" )}
   }
-  chrom_chains<-na.omit(chrom_chains)
+  chrom_chains<<-na.omit(chrom_chains)
   if(verbose == TRUE){print("Creating chain object")}
   format_chrom_chains<-apply(chrom_chains, 1, paste, collapse = "\t")
   format_chrom_chains<-gsub("\t\t", "", format_chrom_chains)
   if(out_chain_name == ""){
     out_chain_name<-tempfile(pattern = "", fileext = ".chain")
   } else {
+		out_chain_name<-paste0(out_chain_name, ".chain")
 		if(verbose == TRUE) print("Saving chain object")
 	}
   writeLines(format_chrom_chains, con=out_chain_name)
