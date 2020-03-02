@@ -250,7 +250,7 @@ GenometriCorrelation <- function(
 
 
 	# now, list.of.spaces is what we will really proceed	
-	if (length(intersect(as.character(query@seqnames),as.character(reference@seqnames)))==0)
+	if (length(intersect(as.character(query@seqinfo@seqnames),as.character(reference@seqinfo@seqnames)))==0)
 		stop("There is no intersection between input set of common\n  chromosome names of query and reference and chromosomes.to.proceed.\n  It's all lost!")
 
 	#if the awhole include list is empty, it is set to whole list
