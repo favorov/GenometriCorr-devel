@@ -149,34 +149,38 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
 		chain_text<-c(chain_text,first_line)
     if(verbose==TRUE){cat(" first line" )}
     chain_id<-chain_id + 1
+		if (len>1) {
 		for (interval_index in 1:len) {
-			if (interval_index==len) { #the last
-				chain_text<-c(chain_text,paste0(gtf_hold@ra))
-			}
+			chain_text<-c(chain_text,
+				sprinft("%i %i %i",width(chr_ranges)[len],start(chr_ranges)[len+1]-end(chr_ranges)[len],0)
+			)
 		}
+		#the last line
+		chain_text<-c(chain_text,paste0(width(chr_ranges)[len]))
+		chain_text<-c(chain_text,"")
 
     #chrom<-matrix(NA, nrow=length(gtf_hold@ranges@start), ncol=3)
 
-    chrom[,1]<-gtf_hold@ranges@width
-    if(length(gtf_hold@ranges@width)>1){ #for cases where there is only 1 interval in a chromosome
-      chrom[,2]<-c(gtf_hold@ranges@start[2:length(gtf_hold@ranges@start)]-
-                  (gtf_hold@ranges@width[1:(length(gtf_hold@ranges@width)-1)]+
-                  gtf_hold@ranges@start[1:(length(gtf_hold@ranges@width)-1)])-1, "")
-      chrom[,3]<-0
-      chrom[nrow(chrom),3]<-""
+    #chrom[,1]<-gtf_hold@ranges@width
+    #if(length(gtf_hold@ranges@width)>1){ #for cases where there is only 1 interval in a chromosome
+    #  chrom[,2]<-c(gtf_hold@ranges@start[2:length(gtf_hold@ranges@start)]-
+    #              (gtf_hold@ranges@width[1:(length(gtf_hold@ranges@width)-1)]+
+    #              gtf_hold@ranges@start[1:(length(gtf_hold@ranges@width)-1)])-1, "")
+    #  chrom[,3]<-0
+    #  chrom[nrow(chrom),3]<-""
       } 
-    if(verbose==TRUE){cat(" tab lines" )}
-    chrom_chains[row,]<-first_line
-    chrom_chains[(row+1):(row+nrow(chrom)),]<-chrom
-    chrom_chains[row+nrow(chrom)+1,]<-c("", "", "")
-    row<-row+nrow(chrom)+2
+    #if(verbose==TRUE){cat(" tab lines" )}
+    #chrom_chains[row,]<-first_line
+    #chrom_chains[(row+1):(row+nrow(chrom)),]<-chrom
+    #chrom_chains[row+nrow(chrom)+1,]<-c("", "", "")
+    #row<-row+nrow(chrom)+2
     if(verbose==TRUE){cat(" done\n" )}
   }
-	chr_c<<-chrom_chain
-  chrom_chains<<-na.omit(chrom_chains)
-  if(verbose == TRUE){print("Creating chain object")}
-  format_chrom_chains<-apply(chrom_chains, 1, paste, collapse = "\t")
-  format_chrom_chains<-gsub("\t\t", "", format_chrom_chains)
+	#chr_c<<-chrom_chain
+  #chrom_chains<<-na.omit(chrom_chains)
+  if(verbose == TRUE){print("Creating chain file")}
+  #format_chrom_chains<-apply(chrom_chains, 1, paste, collapse = "\t")
+  #format_chrom_chains<-gsub("\t\t", "", format_chrom_chains)
   if(out_chain_name == ""){
     out_chain_name<-tempfile(pattern = "", fileext = ".chain")
   } else {
@@ -185,6 +189,7 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
 	}
   writeLines(format_chrom_chains, con=out_chain_name)
   # have to write intermediate file to inport chain object
+  if(verbose == TRUE){print("Creating chain object")}
   chain<-import.chain(out_chain_name)
   unlink(out_chain_name)
   return(chain)
