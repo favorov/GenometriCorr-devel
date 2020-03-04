@@ -138,24 +138,25 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
     if(verbose==TRUE){cat(paste("Chromosome", chr, "starting..."))}
     chr_ranges<-ranges(ranges_to_map_to %>% filter(seqnames==chr))
 		len<-length(chr_ranges)
-    if(len==0){next} # in case of chromosomes without data
+    if(len==0){cat(" passed \n");next;} # in case of chromosomes without data
     length_mapped_chr<-sum(chr_ranges@width)
-    first_line<-paste0("chain 42 ", chr, " ", seqlengths(ranges_to_map_to)[name], 
+    first_line<-paste0("chain 42 ", chr, " ", seqlengths(ranges_to_map_to)[chr], 
                          " * ", chr_ranges@start[1], " ", 
                          #chr_ranges@start[length(gtf_hold@ranges@start)]+gtf_hold@ranges@width[length(gtf_hold@ranges@width)]-1,
-												 seqlengths[ranges_to_map_to][chr],
+												 end(chr_ranges)[len],
                          " ", chr, chrom_suffix, " ", length_mapped_chr, " * 1 ", 
                          length_mapped_chr," ", chain_id)
 		chain_text<-c(chain_text,first_line)
-    if(verbose==TRUE){cat(" first line" )}
+    if(verbose==TRUE){cat(" first line done ",len," " )}
     chain_id<-chain_id + 1
 		if (len>1) {
-		for (interval_index in 1:len) {
-			chain_text<-c(chain_text,
-				sprinft("%i %i %i",width(chr_ranges)[len],start(chr_ranges)[len+1]-end(chr_ranges)[len],0)
-			)
+			for (i in 1:len-1) { #is is the index of interval inside the chromosome
+				chain_text<-c(chain_text,
+					sprintf("%i %i %i",width(chr_ranges)[i],start(chr_ranges)[i+1]-end(chr_ranges)[i],0)
+				)
+			}
 		}
-		#the last line
+		#the last line, i==len
 		chain_text<-c(chain_text,paste0(width(chr_ranges)[len]))
 		chain_text<-c(chain_text,"")
 
@@ -168,7 +169,7 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
     #              gtf_hold@ranges@start[1:(length(gtf_hold@ranges@width)-1)])-1, "")
     #  chrom[,3]<-0
     #  chrom[nrow(chrom),3]<-""
-      } 
+    #  } 
     #if(verbose==TRUE){cat(" tab lines" )}
     #chrom_chains[row,]<-first_line
     #chrom_chains[(row+1):(row+nrow(chrom)),]<-chrom
@@ -178,7 +179,7 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
   }
 	#chr_c<<-chrom_chain
   #chrom_chains<<-na.omit(chrom_chains)
-  if(verbose == TRUE){print("Creating chain file")}
+  if(verbose == TRUE){print("Creating chafilee")}
   #format_chrom_chains<-apply(chrom_chains, 1, paste, collapse = "\t")
   #format_chrom_chains<-gsub("\t\t", "", format_chrom_chains)
   if(out_chain_name == ""){
@@ -187,7 +188,7 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
 		out_chain_name<-paste0(out_chain_name, ".chain")
 		if(verbose == TRUE) print("Saving chain object")
 	}
-  writeLines(format_chrom_chains, con=out_chain_name)
+  writeLines(chain_text, con=out_chain_name)
   # have to write intermediate file to inport chain object
   if(verbose == TRUE){print("Creating chain object")}
   chain<-import.chain(out_chain_name)
