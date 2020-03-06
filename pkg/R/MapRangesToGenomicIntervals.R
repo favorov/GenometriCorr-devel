@@ -94,6 +94,7 @@ MapRangesToGenomicIntervals<-function(
 }
 
 
+
 #' GRangesMappingToChainViaFile
 #' 
 #' GRangesMappingToChainViaFile creates a \code{Chain} object based on intervals from a \code{GRanges} object. The mapping by this \code{Chain} will collapse chromosomes of the annotation into pseudogenome that are combined from tiled intervals of the \code{GRanges} object. 
@@ -141,10 +142,10 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
     if(len==0){cat(" passed \n");next;} # in case of chromosomes without data
     length_mapped_chr<-sum(chr_ranges@width)
     first_line<-paste0("chain 42 ", chr, " ", seqlengths(ranges_to_map_to)[chr], 
-                         " * ", chr_ranges@start[1], " ", 
+                         " * ", chr_ranges@start[1]-1, " ", 
                          #chr_ranges@start[length(gtf_hold@ranges@start)]+gtf_hold@ranges@width[length(gtf_hold@ranges@width)]-1,
 												 end(chr_ranges)[len],
-                         " ", chr, chrom_suffix, " ", length_mapped_chr, " * 1 ", 
+                         " ", chr, chrom_suffix, " ", length_mapped_chr, " * 0 ", 
                          length_mapped_chr," ", chain_id)
 		chain_text<-c(chain_text,first_line)
     if(verbose==TRUE){cat(" first line done ",len," " )}
@@ -152,7 +153,7 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
 		if (len>1) {
 			for (i in 1:len-1) { #is is the index of interval inside the chromosome
 				chain_text<-c(chain_text,
-					sprintf("%i %i %i",width(chr_ranges)[i],start(chr_ranges)[i+1]-end(chr_ranges)[i],0)
+					sprintf("%i\t%i\t%i",width(chr_ranges)[i],start(chr_ranges)[i+1]-end(chr_ranges)[i],0)
 				)
 			}
 		}
