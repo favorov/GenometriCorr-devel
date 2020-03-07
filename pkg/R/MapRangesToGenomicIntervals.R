@@ -82,12 +82,9 @@ MapRangesToGenomicIntervals<-function(
 		if(length(unmapped_chroms)>0) warning(paste0("Some chromosomes, e.g. ",unmapped_chroms[1]," has no mapping,"))
 	}
 
-	chain<-GRangesMappingToChainViaFile(
+	chain<-GRangesMappingToChain(
 		ranges_to_map_to=where.to.map,
-		chrom_suffix=chrom.suffix,
-		#debug line
-		out_chain_name="mapchain",
-		chromosomes_length=chromosomes.length
+		chrom_suffix=chrom.suffix
 	)
 
 	return(liftOver(what.to.map,chain))
@@ -101,28 +98,16 @@ MapRangesToGenomicIntervals<-function(
 #' @param ranges_to_map_to A \code{GRanges} file with non-overlapping intervals that will be converted to a chain file. Required.
 #' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "_mapped"
 #' @param verbose Output updates while the function is running. Default FALSE
-#' @param chromosomes_length is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a \code{GRanges}.
 #' @return a \code{Chain} object that maps all the chromosomes according to GRanges; the 
 #' @export
 # this ia code by Veronica Busa and Alexander Favorov
 GRangesMappingToChain<-function(ranges_to_map_to,
                                     chrom_suffix = "_mapped",
-                                    chromosomes_length=c(),
 																		verbose=FALSE)
 {
   #confirm GRanges doesn't have any overlapping intervals
   ranges_to_map_to<-reduce(ranges_to_map_to)
   #chromosomes to get lengths
-	chrom_length<-seqlengths(ranges_to_map_to)
-	for (name in as.character(ranges_to_map_to@seqinfo@seqnames)) {
-		if (is.na(seqlengths(ranges_to_map_to)[name])){ 
-			if(length(chromosomes_length)>0 && !is.na(chromosomes_length[name])) {
-				seqlengths(ranges_to_map_to)[name] <- chromosomes_length[name]
-			} else {
-				seqlengths(ranges_to_map_to)[name] <- max(end(ranges_to_map_to %>% filter(seqnames==name)))
-			}
-		}
-	}
 	
   
 	chain<-new('Chain')
