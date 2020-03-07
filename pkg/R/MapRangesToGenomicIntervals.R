@@ -94,22 +94,19 @@ MapRangesToGenomicIntervals<-function(
 }
 
 
-
-#' GRangesMappingToChainViaFile
+#' GRangesMappingToChain
 #' 
-#' GRangesMappingToChainViaFile creates a \code{Chain} object based on intervals from a \code{GRanges} object. The mapping by this \code{Chain} will collapse chromosomes of the annotation into pseudogenome that are combined from tiled intervals of the \code{GRanges} object. 
+#' GRangesMappingToChain creates a \code{Chain} object based on intervals from a \code{GRanges} object. The mapping by this \code{Chain} will collapse chromosomes of the annotation into pseudogenome that are combined from tiled intervals of the \code{GRanges} object. 
 #' 
-#' @param ranges_to_map_to A GRanges file with non-overlapping intervals that will be converted to a chain file. Required.
+#' @param ranges_to_map_to A \code{GRanges} file with non-overlapping intervals that will be converted to a chain file. Required.
 #' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "_mapped"
-#' @param out_chain_name The name of a chain file to be written in the local directory. Default is "", is calls a tmp file creation. In this case, the file will be unlinked before the function returns.
 #' @param verbose Output updates while the function is running. Default FALSE
-#' @param chromosomes_length is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a GRanges.
-#' @return a Chain object that maps all the chromosomes according to GRanges
+#' @param chromosomes_length is sequinfo of the mapping object is not enough for the chromosome lengths, the additional info is provided here. Default is c(). The foemat is like the seqlengths() result for a \code{GRanges}.
+#' @return a \cose{Chain} object that maps all the chromosomes according to GRanges; the 
 #' @export
-# this ia code by Veronica Busa with some modification s by Alexander Favorov
-GRangesMappingToChainViaFile<-function(ranges_to_map_to,
+# this ia code by Veronica Busa and Alexander Favorov
+GRangesMappingToChain<-function(ranges_to_map_to,
                                     chrom_suffix = "_mapped",
-                                    out_chain_name= "",
                                     chromosomes_length=c(),
 																		verbose=FALSE)
 {
@@ -128,72 +125,53 @@ GRangesMappingToChainViaFile<-function(ranges_to_map_to,
 	}
 	
   
-  row<-1
-  chain_id<-1
-	chain_text=c()
-  #chrom_chains<-matrix(NA, ncol=3, nrow=(length(ranges_to_map_to)+2*length(ranges_to_map_to@seqinfo))) 
-	#two lines per chromosome (open chain and close chain + a line per range
-  
+	chain<-new('Chain')
   # make a chain for each chromosome in the genome
+	#Chain is an inner rtraclyaer class, here we try to explain it
+	#it is list of ChainBlock -- one per chromosome in 'from' genome, the chromosome name is the index in the list,
+	#names() give you all the chromosome names
+	#each ChainBlick defines all the chains (in terms of liftover) that map from the chromosome
+	#slot @ranges is a stack of all the ranges involved in the mapping
+	#slot @offset is the shift in mapping for each chorosome
+	#all the other slots are 'packed', I mean, thay could be given in vectors of the same length as the @ranges,
+	#one item per range, and in this case the last slot, @length, is rep(1,lenght(@ranges)), 
+	#and @score, @space and @revesed have the same length lenght(@ranges)
+	#but actually, the equal values are joined, the length is how many times each value is repeated,
+	#and @score, @space and @revesed have the same length lenght(@length)
+	#each value - one per chain in terms of liftover
+	#slot @score is chain score
+	#slot @space is where it maps (what chromosome in targed genome)
+	#slot @reversed is boolean -- whether is goes reversed (complemntary chain)
+	#slot @length is a vector od letghs of liftover chains (how many intervals are involde in each of them)
+
+	#in our simple case, each ChainBlock carries on chain, so all the last 4 slots are 1-element vectors 
+
   for(chr in as.character(ranges_to_map_to@seqinfo@seqnames)){
+		#preparing ChainBlock, one per this chromosome
     if(verbose==TRUE){cat(paste("Chromosome", chr, "starting..."))}
     chr_ranges<-ranges(ranges_to_map_to %>% filter(seqnames==chr))
 		len<-length(chr_ranges)
-    if(len==0){cat(" passed \n");next;} # in case of chromosomes without data
-    length_mapped_chr<-sum(chr_ranges@width)
-    first_line<-paste0("chain 42 ", chr, " ", seqlengths(ranges_to_map_to)[chr], 
-                         " * ", chr_ranges@start[1]-1, " ", 
-                         #chr_ranges@start[length(gtf_hold@ranges@start)]+gtf_hold@ranges@width[length(gtf_hold@ranges@width)]-1,
-												 end(chr_ranges)[len],
-                         " ", chr, chrom_suffix, " ", length_mapped_chr, " * 0 ", 
-                         length_mapped_chr," ", chain_id)
-		chain_text<-c(chain_text,first_line)
-    if(verbose==TRUE){cat(" first line done ",len," " )}
-    chain_id<-chain_id + 1
+    if(len==0){cat(" empty \n");next;} # in case of chromosomes without data
+		shift<-rep(as.integer(NA),len)
+		#prepare the shifts
+		shift[1]<-c(1-start(chr_ranges)[1])
+		#first shift -- now, the first mapped interval starts the mapped-to chromosome
 		if (len>1) {
-			for (i in 1:len-1) { #is is the index of interval inside the chromosome
-				chain_text<-c(chain_text,
-					sprintf("%i\t%i\t%i",width(chr_ranges)[i],start(chr_ranges)[i+1]-end(chr_ranges)[i],0)
-				)
+			for (i in 2:len) { #is is the index of interval inside the chromosome
+					shift[i]<-shift[i-1]+1-start(chr_ranges)[i]+end(chr_ranges)[i-1]
+					#accumutale left shift, the (start[i]-end[i-1]-1) left (e.g. negative) 
+					#is what the i-th region acquired in addition to (i-1)-th 
 			}
 		}
-		#the last line, i==len
-		chain_text<-c(chain_text,paste0(width(chr_ranges)[len]))
-		chain_text<-c(chain_text,"")
-
-    #chrom<-matrix(NA, nrow=length(gtf_hold@ranges@start), ncol=3)
-
-    #chrom[,1]<-gtf_hold@ranges@width
-    #if(length(gtf_hold@ranges@width)>1){ #for cases where there is only 1 interval in a chromosome
-    #  chrom[,2]<-c(gtf_hold@ranges@start[2:length(gtf_hold@ranges@start)]-
-    #              (gtf_hold@ranges@width[1:(length(gtf_hold@ranges@width)-1)]+
-    #              gtf_hold@ranges@start[1:(length(gtf_hold@ranges@width)-1)])-1, "")
-    #  chrom[,3]<-0
-    #  chrom[nrow(chrom),3]<-""
-    #  } 
-    #if(verbose==TRUE){cat(" tab lines" )}
-    #chrom_chains[row,]<-first_line
-    #chrom_chains[(row+1):(row+nrow(chrom)),]<-chrom
-    #chrom_chains[row+nrow(chrom)+1,]<-c("", "", "")
-    #row<-row+nrow(chrom)+2
-    if(verbose==TRUE){cat(" done\n" )}
-  }
-	#chr_c<<-chrom_chain
-  #chrom_chains<<-na.omit(chrom_chains)
-  if(verbose == TRUE){print("Creating chafilee")}
-  #format_chrom_chains<-apply(chrom_chains, 1, paste, collapse = "\t")
-  #format_chrom_chains<-gsub("\t\t", "", format_chrom_chains)
-  if(out_chain_name == ""){
-    out_chain_name<-tempfile(pattern = "", fileext = ".chain")
-  } else {
-		out_chain_name<-paste0(out_chain_name, ".chain")
-		if(verbose == TRUE) print("Saving chain object")
+		chain[[chr]]<-new("ChainBlock",
+			ranges=chr_ranges,
+			offset=shift,
+			score=c(42),
+			space=c(paste0(chr,chrom_suffix)),
+			reversed=c(FALSE),
+			length=c(len)
+		)
 	}
-  writeLines(chain_text, con=out_chain_name)
-  # have to write intermediate file to inport chain object
-  if(verbose == TRUE){print("Creating chain object")}
-  chain<-import.chain(out_chain_name)
-  unlink(out_chain_name)
   return(chain)
 }
 
