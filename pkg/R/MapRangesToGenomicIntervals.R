@@ -87,7 +87,7 @@ MapRangesToGenomicIntervals<-function(
 		chrom_suffix=chrom.suffix
 	)
 
-	return(liftOver(what.to.map,chain))
+	return(unlist(liftOver(what.to.map,chain)))
 }
 
 
