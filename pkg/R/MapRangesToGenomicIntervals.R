@@ -124,10 +124,10 @@ GRangesMappingToChain<-function(ranges_to_map_to,
 	#but actually, the equal values are joined, the length is how many times each value is repeated,
 	#and @score, @space and @revesed have the same length lenght(@length)
 	#each value - one per chain in terms of liftover
-	#slot @score is chain score
-	#slot @space is where it maps (what chromosome in targed genome)
-	#slot @reversed is boolean -- whether is goes reversed (complemntary chain)
-	#slot @length is a vector od letghs of liftover chains (how many intervals are involde in each of them)
+	#slot @score is chain score integer()
+	#slot @space is where it maps (what chromosome in targed genome) character()
+	#slot @reversed is boolean -- whether is goes reversed (complemntary chain) boolean()
+	#slot @length is a vector od letghs of liftover chains (how many intervals are involde in each of them) integer()
 
 	#in our simple case, each ChainBlock carries on chain, so all the last 4 slots are 1-element vectors 
 
@@ -150,8 +150,8 @@ GRangesMappingToChain<-function(ranges_to_map_to,
 		}
 		chain[[chr]]<-new("ChainBlock",
 			ranges=chr_ranges,
-			offset=shift,
-			score=c(42),
+			offset=as.integer(shift),
+			score=as.integer(c(42)),
 			space=c(paste0(chr,chrom_suffix)),
 			reversed=c(FALSE),
 			length=c(len)
