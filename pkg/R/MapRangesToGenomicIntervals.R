@@ -82,7 +82,7 @@ MapRangesToGenomicIntervals<-function(
 		if(length(unmapped_chroms)>0) warning(paste0("Some chromosomes, e.g. ",unmapped_chroms[1]," has no mapping,"))
 	}
 
-	mapping<-GRangesMappingToChain(
+	mapping<-GRangesToMapping(
 		ranges_to_map_to=where.to.map,
 		chrom_suffix=chrom.suffix
 	)
@@ -93,9 +93,9 @@ MapRangesToGenomicIntervals<-function(
 }
 
 
-#' GRangesMappingToChain
+#' GRangesToMapping
 #' 
-#' GRangesMappingToChain creates a \code{Chain} object based on intervals from a \code{GRanges} object. The mapping by this \code{Chain} will collapse chromosomes of the annotation into pseudogenome that are combined from tiled intervals of the \code{GRanges} object. 
+#' GRangesToMapping creates an list that contain a \cose{chain}, which is a \code{Chain} that descritbes a \code{liftOver} based on the intevals of the \code{ranges_to_map_to} parameter and a \code{seqlengths} that contain the lengths of the target (mapped) chromosomes. The mapping is from original chromosomes to the mapped chromosomes that are sticked intevals of the \code{ranges_to_map_to} per chromosome. 
 #' 
 #' @param ranges_to_map_to A \code{GRanges} file with non-overlapping intervals that will be converted to a chain file. Required.
 #' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "_mapped"
