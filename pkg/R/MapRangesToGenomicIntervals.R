@@ -98,26 +98,26 @@ MapRangesToGenomicIntervals<-function(
 #' @param ranges_to_map_to A \code{GRanges} file with non-overlapping intervals that will be converted to a chain file. Required.
 #' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "_mapped"
 #' @param verbose Output updates while the function is running. Default FALSE
-#' @return a \code{Chain} object that maps all the chromosomes according to GRanges; the 
+#' @return a list with two objects: \code{chain} is a \code{Chain} object for \code{liftOver} to map all the chromosomes according to GRanges; the \code{seqlegths} are the lenghthes of the mapped chromosomes
 #' @export
 # this ia code by Veronica Busa and Alexander Favorov
-GRangesMappingToChain<-function(ranges_to_map_to,
+GRangesToMapping<-function(ranges_to_map_to,
                                     chrom_suffix = "_mapped",
 																		verbose=FALSE)
 {
   #confirm GRanges doesn't have any overlapping intervals
   ranges_to_map_to<-reduce(ranges_to_map_to)
-  #chromosomes to get lengths
-	
-  
-	chain<-new('Chain')
+  #chromosomes to get lengths	
+ 	mapping<-list() 
+	mapping$chain<-new('Chain')
   # make a chain for each chromosome in the genome
+	mapping$seqlengths<-c()
 	#Chain is an inner rtraclyaer class, here we try to explain it
 	#it is list of ChainBlock -- one per chromosome in 'from' genome, the chromosome name is the index in the list,
 	#names() give you all the chromosome names
 	#each ChainBlick defines all the chains (in terms of liftover) that map from the chromosome
 	#slot @ranges is a stack of all the ranges involved in the mapping
-	#slot @offset is the shift in mapping for each chorosome
+	#slot @offset is the shift in mapping for each interval, it is positive if the mapped space has higher position than the original
 	#all the other slots are 'packed', I mean, thay could be given in vectors of the same length as the @ranges,
 	#one item per range, and in this case the last slot, @length, is rep(1,lenght(@ranges)), 
 	#and @score, @space and @revesed have the same length lenght(@ranges)
@@ -130,7 +130,6 @@ GRangesMappingToChain<-function(ranges_to_map_to,
 	#slot @length is a vector od letghs of liftover chains (how many intervals are involde in each of them) integer()
 
 	#in our simple case, each ChainBlock carries on chain, so all the last 4 slots are 1-element vectors 
-
   for(chr in as.character(ranges_to_map_to@seqinfo@seqnames)){
 		#preparing ChainBlock, one per this chromosome
     if(verbose==TRUE){cat(paste("Chromosome", chr, "starting..."))}
@@ -139,23 +138,25 @@ GRangesMappingToChain<-function(ranges_to_map_to,
     if(len==0){cat(" empty \n");next;} # in case of chromosomes without data
 		shift<-rep(as.integer(NA),len)
 		#prepare the shifts
-		shift[1]<-c(1-start(chr_ranges)[1])
+		shift[1]<-c(start(chr_ranges)[1]-1)
 		#first shift -- now, the first mapped interval starts the mapped-to chromosome
 		if (len>1) {
 			for (i in 2:len) { #is is the index of interval inside the chromosome
-					shift[i]<-shift[i-1]+1-start(chr_ranges)[i]+end(chr_ranges)[i-1]
+					shift[i]<-shift[i-1]+start(chr_ranges)[i]-end(chr_ranges)[i-1]-1
 					#accumutale left shift, the (start[i]-end[i-1]-1) left (e.g. negative) 
 					#is what the i-th region acquired in addition to (i-1)-th 
 			}
 		}
-		chain[[chr]]<-new("ChainBlock",
+		mapped_chr<-paste0(chr,chrom_suffix)
+		mapping$chain[[chr]]<-new("ChainBlock",
 			ranges=chr_ranges,
 			offset=as.integer(shift),
 			score=as.integer(c(42)),
-			space=c(paste0(chr,chrom_suffix)),
+			space=c(mapped_chr),
 			reversed=c(FALSE),
 			length=c(len)
 		)
+		mapping$seqlengths[mapped_chr]<-sum(width(chr_ranges))
 	}
   return(chain)
 }
