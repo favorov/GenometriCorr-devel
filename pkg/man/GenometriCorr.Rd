@@ -109,9 +109,9 @@ chromo.length<-c(3000000)
 
 names(chromo.length)<-c('the_chromosome')
 
-rquery<-GRanges(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),seqnames='the_chromosome')
+rquery<-GRanges(ranges=IRanges(start=runif(population,1000001,2000000-9),width=c(10)),seqnames='the_chromosome')
 
-rref<-GRanges(ranges=IRanges(start=runif(population,1000000,2000000-10),width=c(10)),seqnames='the_chromosome')
+rref<-GRanges(ranges=IRanges(start=runif(population,1000001,2000000-9),width=c(10)),seqnames='the_chromosome')
 
 #create two features, they are randomly scattered in 1 000 000...2 000 000
 
@@ -122,13 +122,13 @@ unmapped_result<-GenometriCorrelation(rquery,rref,chromosomes.length=chromo.leng
 cat('Unmapped result:\n')
 print(unmapped_result)
 
-map_space<-GRanges(ranges=IRanges(start=c(1000000),end=c(2000000)),seqname='the_chromosome')
+map_space<-GRanges(ranges=IRanges(start=c(1000001),end=c(2000000)),seqname='the_chromosome')
 
 mapped_rquery<-MapRangesToGenomicIntervals(what.to.map=rquery,where.to.map=map_space)
 
 mapped_rref<-MapRangesToGenomicIntervals(what.to.map=rref,where.to.map=map_space)
 
-#map them into 1 000 000...2 000 000
+#map them into 1 000 001...2 000 000
 
 mapped_result<-GenometriCorrelation(mapped_rquery,mapped_rref,permut.number=permut.number,keep.distributions=FALSE,showProgressBar=FALSE)
 
