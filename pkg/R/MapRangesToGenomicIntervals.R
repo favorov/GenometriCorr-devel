@@ -82,12 +82,14 @@ MapRangesToGenomicIntervals<-function(
 		if(length(unmapped_chroms)>0) warning(paste0("Some chromosomes, e.g. ",unmapped_chroms[1]," has no mapping,"))
 	}
 
-	chain<-GRangesMappingToChain(
+	mapping<-GRangesMappingToChain(
 		ranges_to_map_to=where.to.map,
 		chrom_suffix=chrom.suffix
 	)
-
-	return(unlist(liftOver(what.to.map,chain)))
+	
+	mapped<-unlist(liftOver(what.to.map,mapping$chain))
+	seqlegths(mapped)<-mapping$seqlegths
+	return(mapped)
 }
 
 
@@ -158,6 +160,6 @@ GRangesToMapping<-function(ranges_to_map_to,
 		)
 		mapping$seqlengths[mapped_chr]<-sum(width(chr_ranges))
 	}
-  return(chain)
+  return(mapping)
 }
 
