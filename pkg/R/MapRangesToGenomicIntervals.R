@@ -102,7 +102,6 @@ MapRangesToGenomicIntervals<-function(
 #' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "_mapped"
 #' @param verbose Output updates while the function is running. Default FALSE
 #' @return a list with two objects: \code{chain} is a \code{Chain} object for \code{liftOver} to map all the chromosomes according to GRanges; the \code{seqlegths} are the lenghthes of the mapped chromosomes
-#' @export
 # this ia code by Veronica Busa and Alexander Favorov
 GRangesToMapping<-function(ranges_to_map_to,
                                     chrom_suffix = "_mapped",
