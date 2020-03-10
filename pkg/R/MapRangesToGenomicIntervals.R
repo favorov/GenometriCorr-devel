@@ -86,16 +86,17 @@ MapRangesToGenomicIntervals<-function(
 		ranges_to_map_to=where.to.map,
 		chrom_suffix=chrom.suffix
 	)
-	
+	#ranges	
 	mapped<-unlist(liftOver(what.to.map,mapping$chain))
-	seqlegths(mapped)<-mapping$seqlegths
+	#seqlength
+	seqlengths(mapped)<-mapping$seqlengths
 	return(mapped)
 }
 
 
 #' GRangesToMapping
 #' 
-#' GRangesToMapping creates an list that contain a \cose{chain}, which is a \code{Chain} that descritbes a \code{liftOver} based on the intevals of the \code{ranges_to_map_to} parameter and a \code{seqlengths} that contain the lengths of the target (mapped) chromosomes. The mapping is from original chromosomes to the mapped chromosomes that are sticked intevals of the \code{ranges_to_map_to} per chromosome. 
+#' GRangesToMapping creates an list that contain a \code{chain}, which is a \code{Chain} that descritbes a \code{liftOver} based on the intevals of the \code{ranges_to_map_to} parameter and a \code{seqlengths} that contain the lengths of the target (mapped) chromosomes. The mapping is from original chromosomes to the mapped chromosomes that are sticked intevals of the \code{ranges_to_map_to} per chromosome. 
 #' 
 #' @param ranges_to_map_to A \code{GRanges} file with non-overlapping intervals that will be converted to a chain file. Required.
 #' @param chrom_suffix The suffix to be appended to all the sestination chromosome names in the mapping "default is "_mapped"
