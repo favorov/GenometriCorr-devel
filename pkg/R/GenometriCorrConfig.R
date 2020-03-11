@@ -433,9 +433,6 @@ setMethod('run.config', signature(conf='GenometriCorrConfig'),
 			#the typo was in old versions
 		}
 
-		if (!is.null(conf$options$cut.all.over.length))
-			todo<-paste(todo,',cut.all.over.length=',conf$options$cut.all.over.length,sep='')
-		
 		if (!is.null(conf$tests$permut.number))
 			todo<-paste(todo,',permut.number=',conf$tests$permut.number,sep='')
 	
