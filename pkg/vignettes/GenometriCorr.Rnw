@@ -25,6 +25,7 @@
 %\usepackage{graphicx}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 \title{GenometriCorr (Genometric Correlation): an R package for spatial correlation of genome-wide interval datasets}
 
@@ -364,7 +365,7 @@ In the first test, the query and reference appear to be correlated, and all of t
 <<mapping_example_random,cache=TRUE>>=
 population<-1000
 
-chrom.length<-c('the_chromosome'=3000000)
+chromo.length<-c('the_chromosome'=3000000)
 
 names(chromo.length)<-c('the_chromosome')
 
