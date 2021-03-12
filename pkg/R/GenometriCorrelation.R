@@ -100,7 +100,7 @@ add.chr.prefix.to.names<-function(namelist)
 #' @param mean.distance.permut.number The number of permutations to ascribe \emph{p-value} to minimal query-reference distance averaged over all query points.
 #' @param jaccard.measure.permut.number The number of permutations for Jaccard measure \emph{p-value} estimation. 
 #' @param jaccard.permut.is.rearrangement If \code{TRUE}, the permutations of the reference for the Jaccard test retain the lengths of all intervals and gaps in the query. All the permuted queries will mirror the original, so the \emph{p-value} is overestimated. If \code{FALSE} (the default), the permutation is a random resampling of starts of the query intervals.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less". You can specify just the initial letter.
+#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided", "attraction" (default) or "repulsion". You can specify just the initial letter.
 #' @param awhole.space.name The name of the pseudo-space that describes the overall genome statistics. Default is 'awhole'.
 #' @param keep.distributions It this is true, the procedure returns all points in th distributions calculated for comparison. This is useful for making figures. Default is \code{FALSE}.
 #' @param representing.point.function By default, the midpoint of each interval is used as the surrogate for the position of the interval. To force the program to use something other than the midpoint, define the function to use to return comparison points. The function must take the same parameters as the default \code{mitl} that returns the middle points. The function is to be passed as the \code{representing.point.function} parameter. The default for the parameter is: \code{mitl<-function(start,end,chromosome.length,space){return ((as.integer(start)+as.integer(end))/2)}} 
@@ -116,15 +116,15 @@ add.chr.prefix.to.names<-function(namelist)
 #' \item{relative.distances.ecdf.deviation.area.p.value}{\emph{p-value} for local independence obtained by the permutation test for relative distances. }
 #' \item{relative.distances.ecdf.area.correlation}{Has the same sign with the relative distance-based local correlation. }
 #' \item{projection.test.p.value}{\emph{p-value} for chromosome-scale independence obtained by the projection test. }
-#' \item{projection.test.lower.tail}{If TRUE, projection test shows negative correlation, real overlap is lessthan the expectation.}
+#' \item{projection.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 #' \item{projection.test.obs.to.exp}{To measure the effect size, the observed to expected ratio for the projection test statistics that is the number of query characteristic points (by default, midpoints) that fell into a reference features.}
 #' \item{scaled.absolute.min.distance.sum.p.value}{\emph{p-value} for chromosome-scale null hypothesis as obtained by the permutations of the query points and the mean of the distances to the two closest reference points.}
-#' \item{scaled.absolute.min.distance.sum.lower.tail}{If TRUE, the query points are closer to the reference points than expected (the absolute distance is lower than the expectation). }
+#' \item{scaled.absolute.min.distance.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 #' \item{query.reference.intersection}{Intersection of reference and query, in bases.}
 #' \item{query.reference.union}{Union of reference and query, in bases.}
 #' \item{jaccard.measure}{Jaccard measure of query and reference overlap.}
 #' \item{jaccard.measure.p.value}{The permutation-based evaluation of the \emph{p-value} for the obtained Jaccard measure, given the null hypothesis of independence.}
-#' \item{jaccard.measure.lower.tail}{If \code{TRUE}, then Jaccard measure is lower that the expectation (overlap less than expected)}
+#' \item{jaccard.measure.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 #'
 #' The additional values that are returned if \code{keep.distributions=TRUE}
 #' \item{relative.distances.data}{The original relative distances}

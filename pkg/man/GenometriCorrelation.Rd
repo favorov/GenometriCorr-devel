@@ -77,6 +77,8 @@ GenometriCorrelation(
 \item{reference.representing.point.function}{The same thing as the \code{representing.point.function}, but the representation point calculation is overloaded only for query intervals.}
 
 \item{supress.evaluated.length.warning}{It was a typo for \code{suppress.evaluated.length.warning}. Now obsoleted, use \code{suppress.evaluated.length.warning}}
+
+\item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided", "attraction" (default) or "repulsion". You can specify just the initial letter.}
 }
 \value{
 The result is an instance of the \code{\link{GenometriCorrResult-class}} that describes the run parameters in its \code{\link{GenometriCorrResult-class}} \code{@config} slot and that extends a \code{\linkS4class{namedList}} list (created originally with a \code{list()} call with the results of the run.  Each element of the list is also a list that describes results for a space (chromosome); one of them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole, all others are named the same as the chromosomes and describe the chromosomewise statistics.  The elements of the 'awhole' and chromosomewise lists are statistical measures and some datasets. The statistical measures are described in the \code{\link{GenometriCorr}} package help.  For further explanation, see the the package vignette. 
@@ -88,15 +90,15 @@ Below is the description of the values of the list returned for each chromosome.
 \item{relative.distances.ecdf.deviation.area.p.value}{\emph{p-value} for local independence obtained by the permutation test for relative distances. }
 \item{relative.distances.ecdf.area.correlation}{Has the same sign with the relative distance-based local correlation. }
 \item{projection.test.p.value}{\emph{p-value} for chromosome-scale independence obtained by the projection test. }
-\item{projection.test.lower.tail}{If TRUE, projection test shows negative correlation, real overlap is lessthan the expectation.}
+\item{projection.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 \item{projection.test.obs.to.exp}{To measure the effect size, the observed to expected ratio for the projection test statistics that is the number of query characteristic points (by default, midpoints) that fell into a reference features.}
 \item{scaled.absolute.min.distance.sum.p.value}{\emph{p-value} for chromosome-scale null hypothesis as obtained by the permutations of the query points and the mean of the distances to the two closest reference points.}
-\item{scaled.absolute.min.distance.sum.lower.tail}{If TRUE, the query points are closer to the reference points than expected (the absolute distance is lower than the expectation). }
+\item{scaled.absolute.min.distance.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 \item{query.reference.intersection}{Intersection of reference and query, in bases.}
 \item{query.reference.union}{Union of reference and query, in bases.}
 \item{jaccard.measure}{Jaccard measure of query and reference overlap.}
 \item{jaccard.measure.p.value}{The permutation-based evaluation of the \emph{p-value} for the obtained Jaccard measure, given the null hypothesis of independence.}
-\item{jaccard.measure.lower.tail}{If \code{TRUE}, then Jaccard measure is lower that the expectation (overlap less than expected)}
+\item{jaccard.measure.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 
 The additional values that are returned if \code{keep.distributions=TRUE}
 \item{relative.distances.data}{The original relative distances}
