@@ -308,6 +308,7 @@ GenometriCorrelation <- function(
 			mean.distance.permut.number=mean.distance.permut.number,
 			jaccard.measure.permut.number=jaccard.measure.permut.number,
 			jaccard.permut.is.rearrangement=jaccard.permut.is.rearrangement,
+			alternative=alt,
 			awhole.chromosomes=awhole.chromosomes,
 			awhole.space.name=awhole.space.name,
 			awhole.only=awhole.only,
@@ -333,6 +334,7 @@ GenometriCorrelation <- function(
 	if (awhole.space.name!="awhole") result@config$options$awhole.space.name=awhole.space.name
 	result@config$tests=list()
 	result@config$tests$permut.number=permut.number
+	result@config@tests@alternative=alternative
 	if (ecdf.area.permut.number!=permut.number) result@config$tests$ecdf.area.permut.number=ecdf.area.permut.number
 	if (mean.distance.permut.number!=permut.number) result@config$tests$mean.distance.permut.number=mean.distance.permut.number
 	if (jaccard.measure.permut.number!=permut.number) result@config$tests$jaccard.measure.permut.number=jaccard.measure.permut.number
