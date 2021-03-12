@@ -23,6 +23,7 @@ GenometriCorrelation(
   mean.distance.permut.number = permut.number,
   jaccard.measure.permut.number = permut.number,
   jaccard.permut.is.rearrangement = FALSE,
+  alternative = "attraction",
   awhole.space.name = "awhole",
   keep.distributions = FALSE,
   representing.point.function = mitl,
@@ -66,6 +67,8 @@ GenometriCorrelation(
 
 \item{jaccard.permut.is.rearrangement}{If \code{TRUE}, the permutations of the reference for the Jaccard test retain the lengths of all intervals and gaps in the query. All the permuted queries will mirror the original, so the \emph{p-value} is overestimated. If \code{FALSE} (the default), the permutation is a random resampling of starts of the query intervals.}
 
+\item{alternative}{a character string specifying the alternative hypothesis, must be one of \code{"two.sided"}, \code{"attraction"} (default) or \code{"repulsion"}. You can specify just the initial letter.}
+
 \item{awhole.space.name}{The name of the pseudo-space that describes the overall genome statistics. Default is 'awhole'.}
 
 \item{keep.distributions}{It this is true, the procedure returns all points in th distributions calculated for comparison. This is useful for making figures. Default is \code{FALSE}.}
@@ -77,8 +80,6 @@ GenometriCorrelation(
 \item{reference.representing.point.function}{The same thing as the \code{representing.point.function}, but the representation point calculation is overloaded only for query intervals.}
 
 \item{supress.evaluated.length.warning}{It was a typo for \code{suppress.evaluated.length.warning}. Now obsoleted, use \code{suppress.evaluated.length.warning}}
-
-\item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided", "attraction" (default) or "repulsion". You can specify just the initial letter.}
 }
 \value{
 The result is an instance of the \code{\link{GenometriCorrResult-class}} that describes the run parameters in its \code{\link{GenometriCorrResult-class}} \code{@config} slot and that extends a \code{\linkS4class{namedList}} list (created originally with a \code{list()} call with the results of the run.  Each element of the list is also a list that describes results for a space (chromosome); one of them is 'awhole' (or other \code{awhole.space.name} if given) that describes the genome awhole, all others are named the same as the chromosomes and describe the chromosomewise statistics.  The elements of the 'awhole' and chromosomewise lists are statistical measures and some datasets. The statistical measures are described in the \code{\link{GenometriCorr}} package help.  For further explanation, see the the package vignette. 

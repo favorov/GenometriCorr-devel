@@ -8,6 +8,7 @@
 # GenomertiCorrelation is the main function of the package
 
 #' @importFrom gtools mixedsort
+#' @importFrom stringr str_detect str_c
 #' @importFrom tcltk tkProgressBar setTkProgressBar getTkProgressBar
 #' @importFrom GenomeInfoDb seqlevels seqlevels<- seqlengths
 #' @importFrom stats ecdf integrate ks.test pbinom punif runif 
@@ -100,7 +101,7 @@ add.chr.prefix.to.names<-function(namelist)
 #' @param mean.distance.permut.number The number of permutations to ascribe \emph{p-value} to minimal query-reference distance averaged over all query points.
 #' @param jaccard.measure.permut.number The number of permutations for Jaccard measure \emph{p-value} estimation. 
 #' @param jaccard.permut.is.rearrangement If \code{TRUE}, the permutations of the reference for the Jaccard test retain the lengths of all intervals and gaps in the query. All the permuted queries will mirror the original, so the \emph{p-value} is overestimated. If \code{FALSE} (the default), the permutation is a random resampling of starts of the query intervals.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided", "attraction" (default) or "repulsion". You can specify just the initial letter.
+#' @param alternative a character string specifying the alternative hypothesis, must be one of \code{"two.sided"}, \code{"attraction"} (default) or \code{"repulsion"}. You can specify just the initial letter.
 #' @param awhole.space.name The name of the pseudo-space that describes the overall genome statistics. Default is 'awhole'.
 #' @param keep.distributions It this is true, the procedure returns all points in th distributions calculated for comparison. This is useful for making figures. Default is \code{FALSE}.
 #' @param representing.point.function By default, the midpoint of each interval is used as the surrogate for the position of the interval. To force the program to use something other than the midpoint, define the function to use to return comparison points. The function must take the same parameters as the default \code{mitl} that returns the middle points. The function is to be passed as the \code{representing.point.function} parameter. The default for the parameter is: \code{mitl<-function(start,end,chromosome.length,space){return ((as.integer(start)+as.integer(end))/2)}} 
@@ -175,6 +176,7 @@ GenometriCorrelation <- function(
 	mean.distance.permut.number=permut.number,
 	jaccard.measure.permut.number=permut.number,
 	jaccard.permut.is.rearrangement=FALSE,
+	alternative='attraction',
 	awhole.space.name="awhole",
 	keep.distributions=FALSE,
 	representing.point.function=mitl,
@@ -267,6 +269,14 @@ GenometriCorrelation <- function(
 	wrong_diff<-setdiff(chromosomes.to.exclude.from.awhole,chromosomes.to.include.in.awhole)
 	if (length(wrong_diff)>0)
 		stop("Some spaces are in chromosomes.to.exclude.from.awhole but they are not in the awhole inclusion list.\n  It's all lost!:\n",paste(wrong_diff,collapse="\n"), "\n")
+	
+	#alternative is to be initial substring of 'attraction', 'repulsion' or 'two.sided'
+	alt<-NA
+	for (test in c("attraction","repulsion","two.sided")) {
+		if (str_detect(test,str_c("^",alternative))) {alt<-test}
+	}
+
+	if(is.na(alt)) {stop("Alternative is not 'attraction' or 'repulsion' or 'double.sided'. \n  It's all lost!" )}
 
 	#now, everyting is cheched
 	awhole.chromosomes<-setdiff(chromosomes.to.include.in.awhole,chromosomes.to.exclude.from.awhole)
