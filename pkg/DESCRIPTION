@@ -36,6 +36,7 @@ Depends: IRanges,
 Imports: 
     GenomeInfoDb,
     rtracklayer,
+		plyranges,
     tcltk,
     grDevices,
     gplots,
