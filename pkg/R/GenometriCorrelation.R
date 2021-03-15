@@ -358,6 +358,7 @@ GenometriCorrelation <- function(
 	mean.distance.permut.number=100,
 	jaccard.measure.permut.number=100,
 	jaccard.permut.is.rearrangement=FALSE,
+	alternative="attraction",
 	awhole.chromosomes=c(),
 	awhole.space.name="awhole",
 	awhole.only=FALSE,
