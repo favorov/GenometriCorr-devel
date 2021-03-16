@@ -308,7 +308,7 @@ GenometriCorrelation <- function(
 			mean.distance.permut.number=mean.distance.permut.number,
 			jaccard.measure.permut.number=jaccard.measure.permut.number,
 			jaccard.permut.is.rearrangement=jaccard.permut.is.rearrangement,
-			alternative=alt,
+			alternative=alt, #alt is the result of the check of alternative
 			awhole.chromosomes=awhole.chromosomes,
 			awhole.space.name=awhole.space.name,
 			awhole.only=awhole.only,
@@ -334,7 +334,7 @@ GenometriCorrelation <- function(
 	if (awhole.space.name!="awhole") result@config$options$awhole.space.name=awhole.space.name
 	result@config$tests=list()
 	result@config$tests$permut.number=permut.number
-	result@config@tests@alternative=alternative
+	result@config@tests@alternative=alt #alt is the result of the check of alternative
 	if (ecdf.area.permut.number!=permut.number) result@config$tests$ecdf.area.permut.number=ecdf.area.permut.number
 	if (mean.distance.permut.number!=permut.number) result@config$tests$mean.distance.permut.number=mean.distance.permut.number
 	if (jaccard.measure.permut.number!=permut.number) result@config$tests$jaccard.measure.permut.number=jaccard.measure.permut.number
@@ -682,26 +682,7 @@ GenometriCorrelation <- function(
 		result[[space]][['projection.test']]<-
 				  query.to.ref.projection.statistics(qu,.space_ranges(reference,space),TRUE,chromosomes.length[space])	
 				  
-		if(!qu_or_ref_is_empty) {	
-				  proj.p.value<-
-					  pbinom(
-						  result[[space]][['projection.test']][['query.hits']],
-						  result[[space]][['query.population']],
-						  result[[space]][['projection.test']][['reference.coverage']]/
-									 	result[[space]][['projection.test']][['space.length']]
-					  )
-
-				  if (proj.p.value<.5) # one-sided test
-				  {
-					  result[[space]][['projection.test.p.value']]<-proj.p.value
-					  result[[space]][['projection.test.lower.tail']] <- TRUE
-				  }
-				  else
-				  {
-					  result[[space]][['projection.test.p.value']]<- 1.-proj.p.value
-					  result[[space]][['projection.test.lower.tail']] <- FALSE
-				  }
-
+		if(!qu_or_ref_is_empty) {
 				  result[[space]][['projection.test.obs.to.exp']]<- 
 					  (	
 						  result[[space]][['projection.test']][['query.hits']]
@@ -713,9 +694,30 @@ GenometriCorrelation <- function(
 						  / 
 						  result[[space]][['projection.test']][['reference.coverage']]
 					  )
+				  
+					if(alternative == "two.tail") {
+						if (result[[space]][['projection.test.obs.to.exp']] < 1.) {#repulsion
+								result[[space]][['projection.test.direction']]<-"repulsion"
+						} else {
+								result[[space]][['projection.test.direction']]<-"attraction"
+						}
+					}	else {result[[space]][['projection.test.direction']]<-alternative}
+
+					proj.p.value<-
+					  pbinom(
+						  result[[space]][['projection.test']][['query.hits']],
+						  result[[space]][['query.population']],
+						  result[[space]][['projection.test']][['reference.coverage']]/
+									 	result[[space]][['projection.test']][['space.length']],
+							lower.tail = (result[[space]][['projection.test.direction']] == "repulsion")
+					  )
+					
+					if(alternative == "two.tail") {
+						 proj.p.value<- min(proj.p.value*2,1.)
+					}
 		} else {
 			result[[space]][['projection.test.p.value']] <- 1.
-			result[[space]][['projection.test.lower.tail']] <- FALSE
+			result[[space]][['projection.test.direction']] <- "undefined"
 			result[[space]][['projection.test.obs.to.exp']] <- 1.
 		}
 		
