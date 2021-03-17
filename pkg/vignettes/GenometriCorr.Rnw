@@ -260,7 +260,7 @@ In the last run, the {\tt alternative} was the default {\tt 'attraction'} all te
 
 <<test_chromosome_123_two_tails,cache=TRUE>>=
 
-cpgi_to_genes_two_tails<-GenometriCorrelation(cpgis,refseq,chromosomes.to.proceed=c('chr1','chr2','chr3'),permut.number=permut.number,keep.distributions=TRUE,showProgressBar=FALSE)
+cpgi_to_genes_two_tails<-GenometriCorrelation(cpgis,refseq,chromosomes.to.proceed=c('chr1','chr2','chr3'),permut.number=permut.number,keep.distributions=TRUE,showProgressBar=FALSE,alternative='two.tails')
 @
 
 The result is:
