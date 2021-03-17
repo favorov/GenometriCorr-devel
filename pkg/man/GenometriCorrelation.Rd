@@ -94,7 +94,7 @@ Below is the description of the values of the list returned for each chromosome.
 \item{projection.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 \item{projection.test.obs.to.exp}{To measure the effect size, the observed to expected ratio for the projection test statistics that is the number of query characteristic points (by default, midpoints) that fell into a reference features.}
 \item{scaled.absolute.min.distance.sum.p.value}{\emph{p-value} for chromosome-scale null hypothesis as obtained by the permutations of the query points and the mean of the distances to the two closest reference points.}
-\item{scaled.absolute.min.distance.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
+\item{scaled.absolute.min.distance.sum.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.tail", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 \item{query.reference.intersection}{Intersection of reference and query, in bases.}
 \item{query.reference.union}{Union of reference and query, in bases.}
 \item{jaccard.measure}{Jaccard measure of query and reference overlap.}
