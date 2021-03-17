@@ -334,7 +334,7 @@ GenometriCorrelation <- function(
 	if (awhole.space.name!="awhole") result@config$options$awhole.space.name=awhole.space.name
 	result@config$tests=list()
 	result@config$tests$permut.number=permut.number
-	result@config@tests@alternative=alt #alt is the result of the check of alternative
+	result@config$tests$alternative=alt #alt is the result of the check of alternative
 	if (ecdf.area.permut.number!=permut.number) result@config$tests$ecdf.area.permut.number=ecdf.area.permut.number
 	if (mean.distance.permut.number!=permut.number) result@config$tests$mean.distance.permut.number=mean.distance.permut.number
 	if (jaccard.measure.permut.number!=permut.number) result@config$tests$jaccard.measure.permut.number=jaccard.measure.permut.number
