@@ -1187,7 +1187,7 @@ GenometriCorrelation <- function(
 				}
 			}
 			result[[space]][['jaccard.measure.p.value']]<-p.value
-			result[[space]][['jaccard.measure..test.direction']] <- direction 
+			result[[space]][['jaccard.measure.test.direction']] <- direction 
 		}
 	}
 	if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
