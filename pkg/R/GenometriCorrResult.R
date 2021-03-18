@@ -295,7 +295,7 @@ setMethod('visualize',
 			mtext(paste("Jaccard p-value: ", data$jaccard.measure.p.value, sep=""), line=-6, cex=0.8, side=3)
 			if (!is.integer(data$jaccard.measure.p.value))
 			{
-				if (data$jaccard.measure.direction == 'attraction')
+				if (data$jaccard.measure.test.direction == 'attraction')
 				{
 					mtext(paste("Query and reference intervals overlap significantly more than expected by chance, by Jaccard"), line=-8, cex=0.8, side=3)
 				}
