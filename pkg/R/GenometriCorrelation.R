@@ -276,7 +276,7 @@ GenometriCorrelation <- function(
 		if (str_detect(test,str_c("^",alternative))) {alt<-test}
 	}
 
-	if(is.na(alt)) {stop("Alternative is not 'attraction' or 'repulsion' or 'double.sided'. \n  It's all lost!" )}
+	if(is.na(alt)) {stop("Alternative is not 'attraction' or 'repulsion' or 'two.sided'. \n  It's all lost!" )}
 
 	#now, everyting is cheched
 	awhole.chromosomes<-setdiff(chromosomes.to.include.in.awhole,chromosomes.to.exclude.from.awhole)
