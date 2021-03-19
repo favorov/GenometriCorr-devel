@@ -23,7 +23,7 @@ GenometriCorrelation(
   mean.distance.permut.number = permut.number,
   jaccard.measure.permut.number = permut.number,
   jaccard.permut.is.rearrangement = FALSE,
-  alternative = "attraction",
+  alternative = "two.sided",
   awhole.space.name = "awhole",
   keep.distributions = FALSE,
   representing.point.function = mitl,
@@ -67,7 +67,7 @@ GenometriCorrelation(
 
 \item{jaccard.permut.is.rearrangement}{If \code{TRUE}, the permutations of the reference for the Jaccard test retain the lengths of all intervals and gaps in the query. All the permuted queries will mirror the original, so the \emph{p-value} is overestimated. If \code{FALSE} (the default), the permutation is a random resampling of starts of the query intervals.}
 
-\item{alternative}{a character string specifying the alternative hypothesis, must be one of \code{"two.sided"}, \code{"attraction"} (default) or \code{"repulsion"}. You can specify just the initial letter.}
+\item{alternative}{a character string specifying the alternative hypothesis, must be one of \code{"two.sided"} (default), \code{"attraction"} or \code{"repulsion"}. You can specify just the initial letter.}
 
 \item{awhole.space.name}{The name of the pseudo-space that describes the overall genome statistics. Default is 'awhole'.}
 
