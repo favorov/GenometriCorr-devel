@@ -879,6 +879,7 @@ GenometriCorrelation <- function(
 					if(alternative == "two.sided") {
 						 proj.p.value<- min(proj.p.value*2,1.)
 					}
+					result[[space]][['projection.test.p.value']] <- proj.p.value 
 			} else {
 				result[[space]][['projection.test.p.value']] <- 1.
 				result[[space]][['projection.test.direction']] <- "undefined"
