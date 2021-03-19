@@ -702,7 +702,7 @@ GenometriCorrelation <- function(
 						}
 					}	else {result[[space]][['projection.test.direction']]<-alternative}
 
-					proj.p.value<-
+					result[[space]][['projection.test.p.value']]<-
 					  pbinom(
 						  result[[space]][['projection.test']][['query.hits']],
 						  result[[space]][['query.population']],
