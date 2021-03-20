@@ -115,6 +115,7 @@ add.chr.prefix.to.names<-function(namelist)
 #' \item{reference.population}{Reference points used in the comparisons.}
 #' \item{relative.distances.ks.p.value}{\emph{p-value} for local independence obtained by the Kolmogorov-Smirnov test for relative distances. }
 #' \item{relative.distances.ecdf.deviation.area.p.value}{\emph{p-value} for local independence obtained by the permutation test for relative distances. }
+#' \item{relative.distances.ecdf.deviation.area.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided", if shows the direction of the deviation; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
 #' \item{relative.distances.ecdf.area.correlation}{Has the same sign with the relative distance-based local correlation. }
 #' \item{projection.test.p.value}{\emph{p-value} for chromosome-scale independence obtained by the projection test. }
 #' \item{projection.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
@@ -1104,6 +1105,39 @@ GenometriCorrelation <- function(
 					p.value = paste("<",toString(1/ecdf.area.permut.number),sep='')
 			}
 			result[[space]][['relative.distances.ecdf.deviation.area.p.value']]<-p.value
+			# old end	-- er are wrong with right side???? ecdf. think
+			if ( result[[space]][['query.population']]==0 || result[[space]][['reference.population']]==0) {
+				p.value<-1.
+				direction<-"undefined"	
+			} else {
+				p.value<-
+					(ecdf(result[[space]][['scaled.absolute.min.distance.sum.null.list']]))(result[[space]][['scaled.absolute.min.distance.sum']]) #we treat only right side
+					
+				if('attraction'==alternative) { #it is for lower tail of distance 
+					direction<-'attraction'
+				} else if ('repulsion'==alternative) { #upper tail
+					direction <- 'repulsion'
+					p.value <- 1-p.value
+				} else { #two.sided
+					if (p.value<0.5) {
+						p.value <- p.value*2
+						direction <- 'attraction'
+					} else {
+						p.value <- (1-p.value)*2
+						direction <- 'repulsion'
+					}
+				}
+				if (p.value==0) {
+					if (alternative=='two.sided') {
+						p.value = paste("<",toString(2/mean.distance.permut.number),sep='')
+					} else {
+						p.value = paste("<",toString(1/mean.distance.permut.number),sep='')
+					}
+				}
+			}
+			result[[space]][['scaled.absolute.min.distance.sum.p.value']]<-p.value
+			result[[space]][['scaled.absolute.min.distance.sum.test.direction']] <- direction 
+
 		}
 	}
 	if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
