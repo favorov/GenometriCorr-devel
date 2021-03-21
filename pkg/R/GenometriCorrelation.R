@@ -113,20 +113,21 @@ add.chr.prefix.to.names<-function(namelist)
 #' Below is the description of the values of the list returned for each chromosome. 
 #' \item{query.population}{Query points used in the comparisons.}
 #' \item{reference.population}{Reference points used in the comparisons.}
+#' \item{alternative}{Shows the value of the \code{alternative} parameter passed.} 
 #' \item{relative.distances.ks.p.value}{\emph{p-value} for local independence obtained by the Kolmogorov-Smirnov test for relative distances. }
 #' \item{relative.distances.ecdf.deviation.area.p.value}{\emph{p-value} for local independence obtained by the permutation test for relative distances. }
-#' \item{relative.distances.ecdf.deviation.area.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided", if shows the direction of the deviation; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
+#' \item{relative.distances.ecdf.deviation.area.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided" (default), if shows the direction of the effect; if the parameter is {"attraction" or "repulsion"} it is not shown}
 #' \item{relative.distances.ecdf.area.correlation}{Has the same sign with the relative distance-based local correlation. }
 #' \item{projection.test.p.value}{\emph{p-value} for chromosome-scale independence obtained by the projection test. }
-#' \item{projection.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
+#' \item{projection.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided" (default), if shows the direction of the effect; if the parameter is {"attraction" or "repulsion"} it is not shown}
 #' \item{projection.test.obs.to.exp}{To measure the effect size, the observed to expected ratio for the projection test statistics that is the number of query characteristic points (by default, midpoints) that fell into a reference features.}
 #' \item{scaled.absolute.min.distance.sum.p.value}{\emph{p-value} for chromosome-scale null hypothesis as obtained by the permutations of the query points and the mean of the distances to the two closest reference points.}
-#' \item{scaled.absolute.min.distance.sum.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
+#' \item{scaled.absolute.min.distance.sum.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided" (default), if shows the direction of the effect; if the parameter is {"attraction" or "repulsion"} it is not shown}
 #' \item{query.reference.intersection}{Intersection of reference and query, in bases.}
 #' \item{query.reference.union}{Union of reference and query, in bases.}
 #' \item{jaccard.measure}{Jaccard measure of query and reference overlap.}
 #' \item{jaccard.measure.p.value}{The permutation-based evaluation of the \emph{p-value} for the obtained Jaccard measure, given the null hypothesis of independence.}
-#' \item{jaccard.measure.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided", if shows the direction of the obs/exp value; if the parameter is {"attraction" or "repulsion"} it just shows the direction of the test}
+#' \item{jaccard.measure.test.direction}{"attraction" or "repulsion". If the \code{alternative} parameter is "two.sided" (default), if shows the direction of the effect; if the parameter is {"attraction" or "repulsion"} it is not shown}
 #'
 #' The additional values that are returned if \code{keep.distributions=TRUE}
 #' \item{relative.distances.data}{The original relative distances}
@@ -1106,6 +1107,8 @@ GenometriCorrelation <- function(
 			}
 			result[[space]][['relative.distances.ecdf.deviation.area.p.value']]<-p.value
 			# old end	-- er are wrong with right side???? ecdf. think
+
+
 			if ( result[[space]][['query.population']]==0 || result[[space]][['reference.population']]==0) {
 				p.value<-1.
 				direction<-"undefined"	
