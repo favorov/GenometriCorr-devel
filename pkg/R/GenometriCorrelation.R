@@ -360,7 +360,7 @@ GenometriCorrelation <- function(
 	mean.distance.permut.number=100,
 	jaccard.measure.permut.number=100,
 	jaccard.permut.is.rearrangement=FALSE,
-	alternative="attraction",
+	alternative="two.sided",
 	awhole.chromosomes=c(),
 	awhole.space.name="awhole",
 	awhole.only=FALSE,
@@ -474,6 +474,7 @@ GenometriCorrelation <- function(
 
 		result[[awhole.space.name]][['query.population']]<-0
 		result[[awhole.space.name]][['reference.population']]<-0
+		result[[awhole.space.name]][['alternative']]<-alternative
 		result[[awhole.space.name]][['query.coverage']]<-0
 		result[[awhole.space.name]][['reference.coverage']]<-0
 		result[[awhole.space.name]][['projection.test']]<-c()
@@ -573,6 +574,8 @@ GenometriCorrelation <- function(
 		result[[space]][['query.population']]<-length(qu)
 
 		result[[space]][['reference.population']]<-length(ref)
+
+		result[[space]][['alternative']]<-alternative
 
 		result[[space]][['query.coverage']]<-sum(width(reduce(.space_ranges(query,space))))
 
@@ -684,39 +687,40 @@ GenometriCorrelation <- function(
 				  query.to.ref.projection.statistics(qu,.space_ranges(reference,space),TRUE,chromosomes.length[space])	
 				  
 		if(!qu_or_ref_is_empty) {
-				  result[[space]][['projection.test.obs.to.exp']]<- 
-					  (	
-						  result[[space]][['projection.test']][['query.hits']]
-						  /
-						  result[[space]][['query.population']]
-					  )*
-					  (
-						  result[[space]][['projection.test']][['space.length']] 
-						  / 
-						  result[[space]][['projection.test']][['reference.coverage']]
-					  )
-				  
-					if(alternative == "two.sided") {
-						if (result[[space]][['projection.test.obs.to.exp']] < 1.) {#repulsion
-								result[[space]][['projection.test.direction']]<-"repulsion"
-						} else {
-								result[[space]][['projection.test.direction']]<-"attraction"
-						}
-					}	else {result[[space]][['projection.test.direction']]<-alternative}
+			result[[space]][['projection.test.obs.to.exp']]<- 
+				(	
+					result[[space]][['projection.test']][['query.hits']]
+					/
+					result[[space]][['query.population']]
+				)*
+				(
+					result[[space]][['projection.test']][['space.length']] 
+					/ 
+					result[[space]][['projection.test']][['reference.coverage']]
+				)
+			
+			if(alternative == "two.sided") {
+				if (result[[space]][['projection.test.obs.to.exp']] < 1.) {#repulsion
+						direction<-"repulsion"
+				} else {
+						direction<-"attraction"
+				}
+			}	
+			else {direction<-alternative}
 
-					proj.p.value<-
-					  pbinom(
-						  result[[space]][['projection.test']][['query.hits']],
-						  result[[space]][['query.population']],
-						  result[[space]][['projection.test']][['reference.coverage']]/
-									 	result[[space]][['projection.test']][['space.length']],
-							lower.tail = (result[[space]][['projection.test.direction']] == "repulsion")
-					  )
-					
-					if(alternative == "two.sided") {
-						 proj.p.value<- min(proj.p.value*2,1.)
-					}
-					result[[space]][['projection.test.p.value']]<-proj.p.value
+			proj.p.value<-
+				pbinom(
+					result[[space]][['projection.test']][['query.hits']],
+					result[[space]][['query.population']],
+					result[[space]][['projection.test']][['reference.coverage']]/
+								result[[space]][['projection.test']][['space.length']],
+					lower.tail = direction == "repulsion")
+			
+			if(alternative == "two.sided") {
+				 proj.p.value<- min(proj.p.value*2,1.)
+				 result[[space]][['projection.test.direction']]<-direction
+			}
+			result[[space]][['projection.test.p.value']]<-proj.p.value
 		} else {
 			result[[space]][['projection.test.p.value']] <- 1.
 			result[[space]][['projection.test.direction']] <- "undefined"
@@ -848,40 +852,41 @@ GenometriCorrelation <- function(
 		
 		if ('projection.test' %in% the.names) #projection test for awhole genome
 		{
-		if(!qu_or_ref_is_empty) {
-				  result[[space]][['projection.test.obs.to.exp']]<- 
-					  (	
-						  result[[space]][['projection.test']][['query.hits']]
-						  /
-						  result[[space]][['query.population']]
-					  )*
-					  (
-						  result[[space]][['projection.test']][['space.length']] 
-						  / 
-						  result[[space]][['projection.test']][['reference.coverage']]
-					  )
-				  
-					if(alternative == "two.sided") {
-						if (result[[space]][['projection.test.obs.to.exp']] < 1.) {#repulsion
-								result[[space]][['projection.test.direction']]<-"repulsion"
-						} else {
-								result[[space]][['projection.test.direction']]<-"attraction"
-						}
-					}	else {result[[space]][['projection.test.direction']]<-alternative}
-
-					proj.p.value<-
-					  pbinom(
-						  result[[space]][['projection.test']][['query.hits']],
-						  result[[space]][['query.population']],
-						  result[[space]][['projection.test']][['reference.coverage']]/
-									 	result[[space]][['projection.test']][['space.length']],
-							lower.tail = (result[[space]][['projection.test.direction']] == "repulsion")
-					  )
-					
-					if(alternative == "two.sided") {
-						 proj.p.value<- min(proj.p.value*2,1.)
+			if(!qu_or_ref_is_empty) {
+				result[[space]][['projection.test.obs.to.exp']]<- 
+					(	
+						result[[space]][['projection.test']][['query.hits']]
+						/
+						result[[space]][['query.population']]
+					)*
+					(
+						result[[space]][['projection.test']][['space.length']] 
+						/ 
+						result[[space]][['projection.test']][['reference.coverage']]
+					)
+				
+				if(alternative == "two.sided") {
+					if (result[[space]][['projection.test.obs.to.exp']] < 1.) {#repulsion
+							direction<-"repulsion"
+					} else {
+							direction<-"attraction"
 					}
-					result[[space]][['projection.test.p.value']] <- proj.p.value 
+				}	
+				else {direction<-alternative}
+
+				proj.p.value<-
+					pbinom(
+						result[[space]][['projection.test']][['query.hits']],
+						result[[space]][['query.population']],
+						result[[space]][['projection.test']][['reference.coverage']]/
+									result[[space]][['projection.test']][['space.length']],
+						lower.tail = direction == "repulsion")
+				
+				if(alternative == "two.sided") {
+					 proj.p.value<- min(proj.p.value*2,1.)
+					 result[[space]][['projection.test.direction']]<-direction
+				}
+				result[[space]][['projection.test.p.value']]<-proj.p.value
 			} else {
 				result[[space]][['projection.test.p.value']] <- 1.
 				result[[space]][['projection.test.direction']] <- "undefined"
@@ -1095,18 +1100,19 @@ GenometriCorrelation <- function(
 	{
 		for (space in c(list.of.spaces,awhole.space.name))
 		{
-			if ( result[[space]][['query.population']]==0 || result[[space]][['reference.population']]==0) {
-				p.value<-1.
-			} else {
-				p.value<-
-					1-(ecdf(result[[space]][['relative.distances.ecdf.deviation.area.null.list']]))(
-						result[[space]][['relative.distances.ecdf.deviation.area']]
-					) #we treat only right side
-				if (p.value==0) 
-					p.value = paste("<",toString(1/ecdf.area.permut.number),sep='')
-			}
-			result[[space]][['relative.distances.ecdf.deviation.area.p.value']]<-p.value
-			# old end	-- er are wrong with right side???? ecdf. think
+			#if ( result[[space]][['query.population']]==0 || result[[space]][['reference.population']]==0) {
+			#	p.value<-1.
+			#} else {
+			#	p.value<-
+			#		1-(ecdf(result[[space]][['relative.distances.ecdf.deviation.area.null.list']]))(
+			#			result[[space]][['relative.distances.ecdf.deviation.area']]
+			#		) #we treat only right side
+			#	if (p.value==0) 
+			#		p.value = paste("<",toString(1/ecdf.area.permut.number),sep='')
+			#}
+			#result[[space]][['relative.distances.ecdf.deviation.area.p.value']]<-p.value
+			# old end	-- er are wrong with right side???? ecdf. think 
+			#we will remove it if the following works
 
 
 			if ( result[[space]][['query.population']]==0 || result[[space]][['reference.population']]==0) {
@@ -1114,7 +1120,8 @@ GenometriCorrelation <- function(
 				direction<-"undefined"	
 			} else {
 				p.value<-
-					(ecdf(result[[space]][['scaled.absolute.min.distance.sum.null.list']]))(result[[space]][['scaled.absolute.min.distance.sum']]) #we treat only right side
+					1 - (ecdf(result[[space]][['relative.distances.ecdf.deviation.area.null.list']]))(
+						result[[space]][['relative.distances.ecdf.deviation.area']]) #we treat only right side
 					
 				if('attraction'==alternative) { #it is for lower tail of distance 
 					direction<-'attraction'
@@ -1122,7 +1129,7 @@ GenometriCorrelation <- function(
 					direction <- 'repulsion'
 					p.value <- 1-p.value
 				} else { #two.sided
-					if (p.value<0.5) {
+				if (p.value<0.5) {
 						p.value <- p.value*2
 						direction <- 'attraction'
 					} else {
@@ -1138,9 +1145,8 @@ GenometriCorrelation <- function(
 					}
 				}
 			}
-			result[[space]][['scaled.absolute.min.distance.sum.p.value']]<-p.value
-			result[[space]][['scaled.absolute.min.distance.sum.test.direction']] <- direction 
-
+			result[[space]][['relative.distances.ecdf.deviation.area.p.value']]<-p.value
+			if('two.sided'==alternative) {result[[space]][['relative.distances.ecdf.deviation.area.test.direction']] <- direction}
 		}
 	}
 	if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
@@ -1187,7 +1193,7 @@ GenometriCorrelation <- function(
 				}
 			}
 			result[[space]][['scaled.absolute.min.distance.sum.p.value']]<-p.value
-			result[[space]][['scaled.absolute.min.distance.sum.test.direction']] <- direction 
+			if('two.sided'==alternative) {result[[space]][['scaled.absolute.min.distance.sum.test.direction']] <- direction} 
 		}
 	}
 	
@@ -1226,7 +1232,7 @@ GenometriCorrelation <- function(
 				}
 			}
 			result[[space]][['jaccard.measure.p.value']]<-p.value
-			result[[space]][['jaccard.measure.test.direction']] <- direction 
+			if('two.sided'==alternative) {result[[space]][['jaccard.measure.test.direction']] <- direction }
 		}
 	}
 	if (showProgressBar) setTxtProgressBar(txt_pb, getTxtProgressBar(txt_pb)[1]+1)
